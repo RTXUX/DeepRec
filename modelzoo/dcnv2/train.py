@@ -24,6 +24,7 @@ from tensorflow.python.client import timeline
 import json
 
 from tensorflow.python.ops import partitioned_variables
+from tensorflow.core.framework.embedding import config_pb2
 
 # Set to INFO for tracking training, default is WARN. ERROR for least messages
 tf.logging.set_verbosity(tf.logging.INFO)
@@ -92,6 +93,8 @@ EMBEDDING_DIMENSIONS = {
     'C25': 64,
     'C26': 128
 }
+
+MT_COLUMNS = set(('C3', 'C12', 'C16', 'C21'))
 
 
 class DCN():
@@ -464,7 +467,7 @@ def build_feature_columns():
                             # CBF-based feature filter
                             filter_option = tf.CBFFilter(
                                 filter_freq=3,
-                                max_element_size=2**30,
+                                max_element_size=2 ** 30,
                                 false_positive_probability=0.01,
                                 counter_type=tf.int64)
                         elif args.ev_filter == 'counter':
@@ -472,8 +475,15 @@ def build_feature_columns():
                             filter_option = tf.CounterFilter(filter_freq=3)
                         else:
                             filter_option = None
-                        ev_opt = tf.EmbeddingVariableOption(
-                            evict_option=evict_opt, filter_option=filter_option)
+                        if column_name not in MT_COLUMNS:
+                            ev_opt = tf.EmbeddingVariableOption(
+                                evict_option=evict_opt, filter_option=filter_option)
+                        else:
+                            storage_option = tf.StorageOption(storage_type=config_pb2.StorageType.DRAM_SSDHASH,
+                                                              storage_path=f"/tmp/ev/{column_name}", storage_size=[512])
+                            print(f"use mt ev for {column_name}")
+                            ev_opt = tf.EmbeddingVariableOption(
+                                evict_option=evict_opt, filter_option=filter_option, storage_option=storage_option)
 
                         if args.ev:
                             '''Embedding Variable Feature'''
@@ -540,7 +550,7 @@ def build_feature_columns():
                         # CBF-based feature filter
                         filter_option = tf.CBFFilter(
                             filter_freq=3,
-                            max_element_size=2**30,
+                            max_element_size=2 ** 30,
                             false_positive_probability=0.01,
                             counter_type=tf.int64)
                     elif args.ev_filter == 'counter':
@@ -548,8 +558,18 @@ def build_feature_columns():
                         filter_option = tf.CounterFilter(filter_freq=3)
                     else:
                         filter_option = None
-                    ev_opt = tf.EmbeddingVariableOption(
-                        evict_option=evict_opt, filter_option=filter_option)
+
+                    if column_name not in MT_COLUMNS:
+                        ev_opt = tf.EmbeddingVariableOption(
+                            evict_option=evict_opt, filter_option=filter_option)
+                    else:
+                        storage_option = tf.StorageOption(storage_type=config_pb2.StorageType.DRAM_SSDHASH,
+                                                          storage_path=f"/tmp/ev/{column_name}",
+                                                          storage_size=[32 * 1024 * 1024],
+                                                          cache_strategy=config_pb2.CacheStrategy.ProfiledLRU)
+                        print(f"use mt ev for {column_name}")
+                        ev_opt = tf.EmbeddingVariableOption(
+                            evict_option=evict_opt, filter_option=filter_option, storage_option=storage_option)
 
                     if args.ev:
                         '''Embedding Variable Feature'''

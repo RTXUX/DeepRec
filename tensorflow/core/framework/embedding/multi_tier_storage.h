@@ -54,24 +54,24 @@ public:
 
     TF_DISALLOW_COPY_AND_ASSIGN(MultiTierStorage);
 
-  void SetAllocLen(int64 value_len, int slot_num) override {
-    while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
-    // The start address of every slot should be aligned to 16 bytes,
-    // otherwise a coredump will happen in the ApplyOp.
-    Storage<K, V>::alloc_len_ = Storage<K, V>::ComputeAllocLen(value_len);
+    void SetAllocLen(int64 value_len, int slot_num) override {
+      while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
+      // The start address of every slot should be aligned to 16 bytes,
+      // otherwise a coredump will happen in the ApplyOp.
+      Storage<K, V>::alloc_len_ = Storage<K, V>::ComputeAllocLen(value_len);
 
-    int64 temp = Storage<K, V>::alloc_len_ * slot_num;
-    if (temp > Storage<K, V>::total_dims_) {
-      Storage<K, V>::total_dims_ = temp;
-      SetTotalDims(Storage<K, V>::total_dims_);
+      int64 temp = Storage<K, V>::alloc_len_ * slot_num;
+      if (temp > Storage<K, V>::total_dims_) {
+        Storage<K, V>::total_dims_ = temp;
+        SetTotalDims(Storage<K, V>::total_dims_);
 
-      cache_capacity_ = Storage<K, V>::storage_config_.size[0]
-                        / (Storage<K, V>::total_dims_ * sizeof(V));
-      ready_eviction_ = true;
-      LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_;
+        cache_capacity_ = Storage<K, V>::storage_config_.size[0]
+                          / (Storage<K, V>::total_dims_ * sizeof(V));
+        ready_eviction_ = true;
+        LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_;
+      }
+      Storage<K, V>::flag_.clear(std::memory_order_release);
     }
-    Storage<K, V>::flag_.clear(std::memory_order_release);
-  }
 
     int64 CacheSize() const override {
       return cache_capacity_;
@@ -129,16 +129,16 @@ public:
     embedding::Iterator *GetIterator() {
       LOG(FATAL) << "GetIterator isn't support by MultiTierStorage.";
       return nullptr;
-  }
+    }
 
-  void CopyEmbeddingsFromCPUToGPU(
-      int total, const K* keys,
-      const std::list<int64>& copyback_cursor,
-      V** memcpy_address, size_t value_len,
-      ValuePtr<V> **gpu_value_ptrs,
-      V* memcpy_buffer_gpu,
-      se::Stream* compute_stream,
-      EventMgr* event_mgr,
+    void CopyEmbeddingsFromCPUToGPU(
+            int total, const K *keys,
+            const std::list<int64> &copyback_cursor,
+            V **memcpy_address, size_t value_len,
+            ValuePtr<V> **gpu_value_ptrs,
+            V *memcpy_buffer_gpu,
+            se::Stream *compute_stream,
+            EventMgr *event_mgr,
       const DeviceBase::CpuWorkerThreads* worker_threads) override {
     LOG(FATAL) << "Unsupport CopyEmbeddingsFromCPUToGPU in MultiTierStorage.";
   };
