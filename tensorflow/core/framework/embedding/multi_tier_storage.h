@@ -26,6 +26,7 @@ limitations under the License.
 #include "tensorflow/core/framework/embedding/l2weight_shrink_policy.h"
 #include "tensorflow/core/framework/embedding/storage_config.h"
 #include "tensorflow/core/framework/embedding/storage.h"
+#include "tensorflow/core/framework/embedding/cache_profiler.h"
 
 #include "tensorflow/core/lib/core/threadpool.h"
 #include "tensorflow/core/lib/core/status.h"
@@ -42,16 +43,16 @@ struct SsdRecordDescriptor;
 
 namespace embedding {
 template<typename K, typename V>
-class MultiTierStorage : public Storage<K, V> {
- public:
-  MultiTierStorage(const StorageConfig& sc, const std::string& name)
-      : Storage<K, V>(sc), name_(name) {}
+class MultiTierStorage : public Storage<K, V>, public TunableCache {
+public:
+    MultiTierStorage(const StorageConfig &sc, const std::string &name)
+            : Storage<K, V>(sc), name_(name) {}
 
-  virtual ~MultiTierStorage() {
-    delete cache_;
-  }
+    virtual ~MultiTierStorage() {
+      delete cache_;
+    }
 
-  TF_DISALLOW_COPY_AND_ASSIGN(MultiTierStorage);
+    TF_DISALLOW_COPY_AND_ASSIGN(MultiTierStorage);
 
   void SetAllocLen(int64 value_len, int slot_num) override {
     while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
@@ -67,39 +68,67 @@ class MultiTierStorage : public Storage<K, V> {
       cache_capacity_ = Storage<K, V>::storage_config_.size[0]
                         / (Storage<K, V>::total_dims_ * sizeof(V));
       ready_eviction_ = true;
+      LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_;
     }
     Storage<K, V>::flag_.clear(std::memory_order_release);
   }
 
-  int64 CacheSize() const override {
-    return cache_capacity_;
-  }
+    int64 CacheSize() const override {
+      return cache_capacity_;
+    }
 
-  BatchCache<K>* Cache() override {
-    return cache_;
-  }
+    BatchCache<K> *Cache() override {
+      return cache_;
+    }
 
-  void InsertToDram(K key, ValuePtr<V>** value_ptr,
-              int64 alloc_len) override {
-    LOG(FATAL)<<"InsertToDram in MultiTierStorage shouldn't be called";
-  }
+    size_t GetCacheSize() const override {
+      return Storage<K, V>::storage_config_.size[0];
+    }
 
-  void InitCache(embedding::CacheStrategy cache_strategy) override {
-    cache_ = CacheFactory::Create<K>(cache_strategy, name_);
-    eviction_manager_ = EvictionManagerCreator::Create<K, V>();
-    eviction_manager_->AddStorage(this);
-    cache_thread_pool_ = CacheThreadPoolCreator::Create();
-  }
+    void SetCacheSize(size_t new_size) override {
+      // TODO: Implement cache size adjustment
+      while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
+      Storage<K, V>::storage_config_.size[0] = new_size;
+      cache_capacity_ = Storage<K, V>::storage_config_.size[0]
+                        / (Storage<K, V>::total_dims_ * sizeof(V));
+      ready_eviction_ = true;
+      Storage<K, V>::flag_.clear(std::memory_order_release);
+      LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_;
+    }
 
-  Status BatchCommit(const std::vector<K>& keys,
-      const std::vector<ValuePtr<V>*>& value_ptrs) override {
-    LOG(FATAL)<<"BatchCommit isn't supported by MultiTierStorage.";
-    return Status::OK();
-  }
+    size_t GetCacheEntrySize() const override {
+      return Storage<K, V>::total_dims_ * sizeof(V);
+    }
 
-  embedding::Iterator* GetIterator() {
-    LOG(FATAL)<<"GetIterator isn't support by MultiTierStorage.";
-    return nullptr;
+    void InsertToDram(K key, ValuePtr<V> **value_ptr,
+                      int64 alloc_len) override {
+      LOG(FATAL) << "InsertToDram in MultiTierStorage shouldn't be called";
+    }
+
+    void InitCache(embedding::CacheStrategy cache_strategy) override {
+      cache_ = CacheFactory::Create<K>(cache_strategy, name_, this);
+      eviction_manager_ = EvictionManagerCreator::Create<K, V>();
+      eviction_manager_->AddStorage(this);
+      cache_thread_pool_ = CacheThreadPoolCreator::Create();
+    }
+
+    double GetHitRate() const override {
+      return cache_->GetHitRate();
+    }
+
+    void ResetStat() override {
+      cache_->reset_status();
+    }
+
+    Status BatchCommit(const std::vector<K> &keys,
+                       const std::vector<ValuePtr<V> *> &value_ptrs) override {
+      LOG(FATAL) << "BatchCommit isn't supported by MultiTierStorage.";
+      return Status::OK();
+    }
+
+    embedding::Iterator *GetIterator() {
+      LOG(FATAL) << "GetIterator isn't support by MultiTierStorage.";
+      return nullptr;
   }
 
   void CopyEmbeddingsFromCPUToGPU(

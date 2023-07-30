@@ -34,10 +34,15 @@
 #endif //GOOGLE_CUDA
 
 #include <time.h>
+#include <memory>
 #include <sys/resource.h>
 #include "tensorflow/core/framework/embedding/kv_interface.h"
 #include "tensorflow/core/framework/embedding/cache.h"
+#include "tensorflow/core/framework/embedding/cache_profiler.h"
+#include "tensorflow/core/framework/embedding/cache_manager.h"
+#include "tensorflow/core/framework/embedding/profiled_cache.h"
 #include "tensorflow/core/kernels/kv_variable_ops.h"
+
 #ifdef TENSORFLOW_USE_JEMALLOC
 #include "jemalloc/jemalloc.h"
 #endif
@@ -1809,15 +1814,441 @@ TEST(EmbeddingVariableTest, TestLookupRemoveConcurrency) {
 
    var->Init(value, 1);
    int thread_num = 5;
-   std::vector<std::thread> insert_threads(thread_num);
-   for (size_t i = 0 ; i < thread_num - 1; i++) {
-     insert_threads[i] = std::thread(InsertKey, var, value_size);
-   }
-   insert_threads[thread_num - 1] = std::thread(RemoveKey, var);
-   for (auto &t : insert_threads) {
-     t.join();
-   }
- }
+std::vector<std::thread> insert_threads(thread_num);
+for (
+size_t i = 0;
+i<thread_num - 1; i++) {
+insert_threads[i] =
+std::thread(InsertKey, var, value_size
+);
+}
+insert_threads[thread_num - 1] =
+std::thread(RemoveKey, var
+);
+for (
+auto &t
+: insert_threads) {
+t.
+
+join();
+
+}
+}
+
+TEST(EmbeddingVariableTest, TestSamplingAETProfiler
+) {
+const int num_access = 10000;
+const int num_ids = 3;
+CacheMRCProfiler <uint64_t> *aet_profiler = new SamplingLRUAETProfiler<uint64_t>(
+        "test_cache",
+        1, num_access, 1
+);
+uint64_t ids[num_access] = {0};
+for (
+size_t i = 0;
+i<num_access;
+++i) {
+ids[i] = i %
+num_ids;
+aet_profiler->
+ReferenceKey(ids[i]);
+}
+std::vector<double> mrc = aet_profiler->GetMRC(1000);
+for (
+size_t i = 0;
+i<mrc.
+
+size();
+
+++i) {
+LOG(INFO) << "MR " <<  i << ": " << mrc[i];
+}
+
+delete
+aet_profiler;
+aet_profiler = nullptr;
+}
+
+TEST(EmbeddingVariableTest, TestSamplingAETProfilerFromTrace
+) {
+const char *trace_file = "/home/rtxux/DeepRec/td/ad_id.txt";
+const char *result_path = "/home/rtxux/DeepRec/td/mrc.txt";
+ASSERT_NE(trace_file,
+nullptr);
+ASSERT_NE(result_path,
+nullptr);
+
+std::vector<uint64_t> trace;
+{
+std::ifstream trace_input(trace_file);
+uint64_t id;
+while (trace_input >> id) {
+trace.
+emplace_back(id);
+}
+}
+
+CacheMRCProfiler <uint64_t> *aet_profiler = new SamplingLRUAETProfiler<uint64_t>("test_cache", 1, trace.size() / 10, 1);
+for (
+const auto id
+: trace) {
+aet_profiler->
+ReferenceKey(id);
+}
+std::vector<double> mrc = aet_profiler->GetMRC(trace.size() / 100);
+
+std::ofstream result(result_path);
+for (
+size_t i = 0;
+i<mrc.
+
+size();
+
+++i) {
+result << i << ',' << mrc[i] <<
+std::endl;
+}
+delete
+aet_profiler;
+aet_profiler = nullptr;
+}
+
+TEST(EmbeddingVariableTest, TestProfiledLRUCache
+) {
+
+const char *env_bench_count = std::getenv("BENCH_COUNT");
+const char *env_batch_size = std::getenv("BATCH_SIZE");
+const char *env_trace_file = "/home/rtxux/DeepRec/td/ad_id.txt";
+ASSERT_NE(env_trace_file,
+nullptr);
+ASSERT_NE(env_bench_count,
+nullptr);
+ASSERT_NE(env_batch_size,
+nullptr);
+const size_t bench_count = std::stoi(env_bench_count);
+const size_t batch_size = std::stoi(env_batch_size);
+ASSERT_GT(bench_count,
+0);
+ASSERT_GT(batch_size,
+0);
+
+std::vector<uint64_t> trace;
+{
+std::ifstream trace_input(env_trace_file);
+uint64_t id;
+while (trace_input >> id) {
+trace.
+emplace_back(id);
+}
+}
+
+// bench original LRU Cache
+{
+std::chrono::nanoseconds spent{0};
+for (
+size_t bench_iter = 0;
+bench_iter<bench_count;
+++bench_iter) {
+LRUCache <uint64_t> lru;
+std::chrono::nanoseconds curr{0};
+std::unique_ptr<uint64_t[]> batch(new uint64_t[batch_size]);
+auto cursor = trace.cbegin();
+while(cursor != trace.
+
+cend()
+
+) {
+size_t curr_batch_size = 0;
+
+while (curr_batch_size<batch_size) {
+if (cursor == trace.
+
+cend()
+
+) break;
+batch[curr_batch_size++] = *(cursor++);
+}
+auto t1 = std::chrono::high_resolution_clock::now();
+lru.
+add_to_prefetch_list(batch
+.
+
+get(), curr_batch_size
+
+);
+lru.
+add_to_cache(batch
+.
+
+get(), curr_batch_size
+
+);
+auto t2 = std::chrono::high_resolution_clock::now();
+curr += t2 -
+t1;
+}
+spent +=
+curr;
+LOG(INFO) << "Original LRUCache Run #" << bench_iter << " spent: " <<
+std::chrono::duration_cast<std::chrono::milliseconds>(curr)
+.
+
+count()
+
+<< "ms";
+}
+spent /=
+bench_count;
+LOG(INFO) << "Original LRUCache spent: " <<
+std::chrono::duration_cast<std::chrono::milliseconds>(spent)
+.
+
+count();
+
+}
+
+{
+std::chrono::nanoseconds spent{0};
+for (
+size_t bench_iter = 0;
+bench_iter<bench_count;
+++bench_iter) {
+ProfiledLRUCache <uint64_t> lru("Test", 100, trace.size() / 10, 100);
+std::chrono::nanoseconds curr{0};
+std::unique_ptr<uint64_t[]> batch(new uint64_t[batch_size]);
+auto cursor = trace.cbegin();
+while(cursor != trace.
+
+cend()
+
+) {
+size_t curr_batch_size = 0;
+
+while (curr_batch_size<batch_size) {
+if (cursor == trace.
+
+cend()
+
+) break;
+batch[curr_batch_size++] = *(cursor++);
+}
+auto t1 = std::chrono::high_resolution_clock::now();
+lru.
+add_to_prefetch_list(batch
+.
+
+get(), curr_batch_size
+
+);
+lru.
+add_to_cache(batch
+.
+
+get(), curr_batch_size
+
+);
+auto t2 = std::chrono::high_resolution_clock::now();
+curr += t2 -
+t1;
+}
+spent +=
+curr;
+LOG(INFO) << "Profiled LRUCache Run #" << bench_iter << "spent: " <<
+std::chrono::duration_cast<std::chrono::milliseconds>(curr)
+.
+
+count()
+
+<< "ms";
+}
+spent /=
+bench_count;
+LOG(INFO) << "Profiled LRUCache spent: " <<
+std::chrono::duration_cast<std::chrono::milliseconds>(spent)
+.
+
+count();
+
+}
+
+}
+
+std::vector<std::string> split(const std::string &s, const char delimiter) {
+  size_t pos_start = 0, pos_end, delim_len = 1;
+  std::string token;
+  std::vector<std::string> res;
+
+  while ((pos_end = s.find(delimiter, pos_start)) != std::string::npos) {
+    token = s.substr(pos_start, pos_end - pos_start);
+    pos_start = pos_end + delim_len;
+    res.push_back(token);
+  }
+
+  res.push_back(s.substr(pos_start));
+  return res;
+}
+
+TEST(EmbeddingVariableTest, TestBasicTuning
+) {
+const char *env_data_files = std::getenv("DATA_FILES");
+const char *env_total_size = std::getenv("TOTAL_SIZE");
+const char *env_stat_step = std::getenv("STAT_STEP");
+const char *env_tune_step = std::getenv("TUNE_STEP");
+ASSERT_NE(env_data_files,
+nullptr);
+ASSERT_NE(env_total_size,
+nullptr);
+ASSERT_NE(env_stat_step,
+nullptr);
+ASSERT_NE(env_tune_step,
+nullptr);
+const std::vector<std::string> path_data_files = split(env_data_files, ':');
+std::map<std::string, std::vector<uint64_t>> columns;
+std::map<std::string, std::shared_ptr<LRUCache < uint64_t>>>
+caches;
+std::map<std::string, std::shared_ptr<MockTunableCache>> mocks;
+size_t count = 0;
+const size_t total_size = std::stoi(env_total_size);
+const size_t stat_step = std::stoi(env_stat_step);
+const size_t tune_step = std::stoi(env_tune_step);
+{
+for (
+const auto &data_file
+: path_data_files) {
+const std::string name = data_file.substr(data_file.find_last_of('/') + 1, data_file.find_last_of('.'));
+std::vector<uint64_t> data;
+uint64_t id;
+std::ifstream input_file(data_file);
+while (input_file >> id) {
+data.
+emplace_back(id);
+}
+count = data.size();
+columns.
+emplace(name, std::move(data)
+);
+}
+}
+{
+std::vector<size_t> init_size(columns.size());
+
+CacheManager<uint64_t>::GetInstance()
+
+.
+RandomApportion(init_size, total_size
+);
+for (
+auto &kv
+: columns) {
+mocks.
+emplace(kv
+.first,
+std::make_shared<MockTunableCache>(init_size
+.
+
+back()
+
+));
+LOG(INFO) << "Assigning \"" << kv.first << "\" of size " << init_size.
+
+back();
+
+auto cache = std::make_shared<ProfiledLRUCache < uint64_t>>
+(kv.first, 10, 100000, 1, mocks.
+find(kv
+.first)->second.
+
+get()
+
+);
+caches.
+emplace(kv
+.first, cache);
+
+CacheManager<uint64_t>::GetInstance()
+
+.RegisterCache(*dynamic_cast<CacheMRCProfiler <uint64_t>*>(cache->
+
+GetProfiler()
+
+));
+init_size.
+
+pop_back();
+
+}
+}
+
+for (
+size_t step = 0;
+step<count;
+++step) {
+for (
+auto &column
+: columns) {
+
+auto &mock = mocks[column.first];
+auto &cache = caches[column.first];
+size_t entries = mock->GetCacheSize() / mock->GetCacheEntrySize();
+uint64_t id = column.second[step];
+// evict
+if (cache->
+
+size()
+
+>= entries) {
+size_t evict_num = cache->size() - entries + 1;
+uint64_t evic_ids[evict_num];
+cache->
+get_evic_ids(evic_ids, evict_num
+);
+}
+// refernece
+// cache->add_to_prefetch_list(&id, 1);
+// cache->add_to_cache(&id, 1);
+cache->
+update(&id,
+1);
+
+if (step > 0 && step % stat_step == 0) {
+LOG(INFO) << cache->
+
+DebugString();
+
+}
+
+}
+
+if (step > 0 && step % tune_step == 0) {
+CacheManager<uint64_t>::GetInstance()
+
+.
+Tune(total_size,
+800);
+for (
+auto &cache
+: caches) {
+cache.second->
+
+reset_status();
+
+}
+}
+}
+
+caches.
+
+clear();
+
+mocks.
+
+clear();
+
+columns.
+
+clear();
+
+}
 
 } // namespace
 } // namespace embedding
