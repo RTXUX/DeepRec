@@ -11,6 +11,7 @@
 #include "tensorflow/core/platform/mutex.h"
 #include "tensorflow/core/lib/core/status.h"
 #include "tensorflow/core/lib/strings/strcat.h"
+#include "tensorflow/core/util/env_var.h"
 
 namespace tensorflow {
 namespace embedding {
@@ -63,20 +64,25 @@ class BatchCache {
                           " %, visit_count = ", num_hit + num_miss,
                            ", hit_count = ", num_hit);
   }
-  virtual mutex_lock maybe_lock_cache(
-      mutex& mu, mutex& temp_mu,bool use_locking) {
-    if (use_locking) {
-      mutex_lock l(mu);
-      return l;
-    } else {
-      mutex_lock l(temp_mu);
-      return l;
-    }
-  }
 
- protected:
-  int64 num_hit;
-  int64 num_miss;
+    virtual mutex_lock maybe_lock_cache(
+            mutex &mu, mutex &temp_mu, bool use_locking) {
+      if (use_locking) {
+        mutex_lock l(mu);
+        return l;
+      } else {
+        mutex_lock l(temp_mu);
+        return l;
+      }
+    }
+
+    virtual double GetHitRate() const {
+      return (double) num_hit / (num_hit + num_miss);
+    }
+
+protected:
+    int64 num_hit;
+    int64 num_miss;
 };
 
 template<class K>
@@ -132,15 +138,16 @@ class PrefetchLFUNode: public PrefetchNode<K>{
 template <class K>
 class LRUCache : public BatchCache<K> {
  public:
-  LRUCache() {
-    mp.clear();
-    head = new LRUNode(0);
-    tail = new LRUNode(0);
-    head->next = tail;
-    tail->pre = head;
-    BatchCache<K>::num_hit = 0;
-    BatchCache<K>::num_miss = 0;
-  }
+    LRUCache(const std::string &name = "") : name_(name) {
+      mp.clear();
+      head = new LRUNode(0);
+      tail = new LRUNode(0);
+      head->next = tail;
+      tail->pre = head;
+      BatchCache<K>::num_hit = 0;
+      BatchCache<K>::num_miss = 0;
+      ReadInt64FromEnvVar("CACHE_REPORT_INTERVAL", 10000, &report_interval_);
+    }
 
   size_t size() {
     mutex_lock l(mu_);
@@ -203,6 +210,9 @@ class LRUCache : public BatchCache<K> {
         BatchCache<K>::num_miss++;
       }
     }
+    if ((access_.fetch_add(1, std::memory_order_relaxed) + 1) % report_interval_ == 0) {
+      LOG(INFO) << "cache \"" << name_ << "\" statistics: " << BatchCache<K>::DebugString();
+    }
   }
 
   void update(const K* batch_ids, size_t batch_size,
@@ -256,29 +266,36 @@ class LRUCache : public BatchCache<K> {
   }
 
  private:
-  class LRUNode {
-   public:
-     K id;
-     LRUNode *pre, *next;
-     LRUNode(K id) : id(id), pre(nullptr), next(nullptr) {}
-  };
-  LRUNode *head, *tail;
-  std::map<K, LRUNode*> mp;
-  std::unordered_map<K, PrefetchNode<K>*> prefetch_id_table;
-  mutex mu_;
+    class LRUNode {
+    public:
+        K id;
+        LRUNode *pre, *next;
+
+        LRUNode(K id) : id(id), pre(nullptr), next(nullptr) {}
+    };
+
+    LRUNode *head, *tail;
+    std::map<K, LRUNode *> mp;
+    std::unordered_map<K, PrefetchNode<K> *> prefetch_id_table;
+    mutex mu_;
+
+    std::string name_;
+    std::atomic<int64> access_;
+    int64 report_interval_;
 };
 
 template <class K>
 class LFUCache : public BatchCache<K> {
  public:
-  LFUCache() {
-    min_freq = std::numeric_limits<size_t>::max();
-    max_freq = 0;
-    freq_table.emplace_back(std::pair<std::list<LFUNode>*, int64>(
-      new std::list<LFUNode>, 0));
-    BatchCache<K>::num_hit = 0;
-    BatchCache<K>::num_miss = 0;
-  }
+    LFUCache(const std::string &name) : name_(name) {
+      min_freq = std::numeric_limits<size_t>::max();
+      max_freq = 0;
+      freq_table.emplace_back(std::pair<std::list<LFUNode> *, int64>(
+              new std::list<LFUNode>, 0));
+      BatchCache<K>::num_hit = 0;
+      BatchCache<K>::num_miss = 0;
+      ReadInt64FromEnvVar("CACHE_REPORT_INTERVAL", 10000, &report_interval_);
+    }
 
   size_t size() {
     mutex_lock l(mu_);
@@ -363,8 +380,8 @@ class LFUCache : public BatchCache<K> {
             min_freq += 1;
         }
         if (freq == freq_table.size()) {
-          freq_table.emplace_back(std::pair<std::list<LFUNode>*, int64>(
-           new std::list<LFUNode>, 0));
+          freq_table.emplace_back(std::pair<std::list<LFUNode> *, int64>(
+                  new std::list<LFUNode>, 0));
         }
         max_freq = std::max(max_freq, freq + 1);
         freq_table[freq].first->emplace_front(LFUNode(id, freq + 1));
@@ -372,6 +389,9 @@ class LFUCache : public BatchCache<K> {
         key_table[id] = freq_table[freq].first->begin();
         BatchCache<K>::num_hit++;
       }
+    }
+    if ((access_.fetch_add(1, std::memory_order_relaxed) + 1) % report_interval_ == 0) {
+      LOG(INFO) << "cache \"" << name_ << "\" statistics: " << BatchCache<K>::DebugString();
     }
   }
 
@@ -423,12 +443,15 @@ class LFUCache : public BatchCache<K> {
             update_min_freq();
           }
         }
-       
-        freq_table[curr_freq-1].first->emplace_front(LFUNode(id, curr_freq));
-        freq_table[curr_freq-1].second++;
-        key_table[id] = freq_table[curr_freq-1].first->begin();
+
+        freq_table[curr_freq - 1].first->emplace_front(LFUNode(id, curr_freq));
+        freq_table[curr_freq - 1].second++;
+        key_table[id] = freq_table[curr_freq - 1].first->begin();
         BatchCache<K>::num_hit++;
       }
+    }
+    if ((access_.fetch_add(1, std::memory_order_relaxed) + 1) % report_interval_ == 0) {
+      LOG(INFO) << "cache \"" << name_ << "\" statistics: " << BatchCache<K>::DebugString();
     }
   }
 
@@ -526,16 +549,23 @@ class LFUCache : public BatchCache<K> {
 
   class LFUNode {
    public:
-    K key;
-    size_t freq;
-    LFUNode(K key, size_t freq) : key(key), freq(freq) {}
+      K key;
+      size_t freq;
+
+      LFUNode(K key, size_t freq) : key(key), freq(freq) {}
   };
-  size_t min_freq;
-  size_t max_freq;
-  std::vector<std::pair<std::list<LFUNode>*, int64>> freq_table;
-  std::unordered_map<K, typename std::list<LFUNode>::iterator> key_table;
-  std::unordered_map<K, PrefetchLFUNode<K>*> prefetch_id_table;
-  mutex mu_;
+
+    size_t min_freq;
+    size_t max_freq;
+    std::vector<std::pair<std::list<LFUNode> *, int64>> freq_table;
+    std::unordered_map<K, typename std::list<LFUNode>::iterator> key_table;
+    std::unordered_map<K, PrefetchLFUNode<K> *> prefetch_id_table;
+    mutex mu_;
+
+    std::atomic<int64> access_;
+    int64 report_interval_;
+
+    std::string name_;
 };
 
 } // embedding
