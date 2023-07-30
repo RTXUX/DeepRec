@@ -134,11 +134,10 @@ http_archive(
 
 http_archive(
     name = "com_github_nelhage_rules_boost",   # Apache License 2.0
-    sha256 = "4031539fe0af832c6b6ed6974d820d350299a291ba7337d6c599d4854e47ed88",
-    strip_prefix = "rules_boost-4ee400beca08f524e7ea3be3ca41cce34454272f",
+    strip_prefix = "rules_boost-2598b37ce68226fab465c0f0e10988af872b6dc9",
     urls = [
-       "https://github.com/nelhage/rules_boost/archive/4ee400beca08f524e7ea3be3ca41cce34454272f.tar.gz",
-       "https://github.com/nelhage/rules_boost/archive/4ee400beca08f524e7ea3be3ca41cce34454272f.tar.gz",
+       "https://github.com/nelhage/rules_boost/archive/2598b37ce68226fab465c0f0e10988af872b6dc9.tar.gz",
+       "https://github.com/nelhage/rules_boost/archive/2598b37ce68226fab465c0f0e10988af872b6dc9.tar.gz",
     ],
 )
 
