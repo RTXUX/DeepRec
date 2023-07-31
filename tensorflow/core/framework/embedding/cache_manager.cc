@@ -17,9 +17,11 @@ size_t MockTunableCache::GetCacheEntrySize() const {
 
 MockTunableCache::MockTunableCache(size_t size) : num_entries_(size / GetCacheEntrySize()) {}
 
-CacheItem::CacheItem(size_t bucketSize, size_t origSize, size_t newSize, size_t entrySize, double mr,
+CacheItem::CacheItem(size_t bucketSize, size_t origSize, size_t newSize, size_t entrySize, uint64_t vc, uint64_t mc,
+                     double mr,
                      const std::vector<double> &mrc) : bucket_size(bucketSize), orig_size(origSize),
-                                                       new_size(newSize), entry_size(entrySize), mr(mr), mrc(mrc) {}
+                                                       new_size(newSize), entry_size(entrySize), vc(vc), mc(mc), mr(mr),
+                                                       mrc(mrc) {}
 
 CacheItem::CacheItem() {}
 } // namespace embedding
