@@ -286,7 +286,8 @@ private:
     static const size_t total_cache_size = 1 * 1024 * 1024 * 1024;
 
     explicit CacheManager() : thread_pool_(
-            std::make_unique<thread::ThreadPool>(Env::Default(), ThreadOptions(), "CACHE_MANAGER", 1, false)) {
+            std::make_unique<thread::ThreadPool>(Env::Default(), ThreadOptions(), "CACHE_MANAGER", 1, false)),
+                              access_count_(0) {
       ReadInt64FromEnvVar("CACHE_TUNING_INTERVAL", 100000, reinterpret_cast<int64 *>(&tuning_interval_));
       ReadInt64FromEnvVar("CACHE_TOTAL_SIZE", 32 * 1024 * 1024, reinterpret_cast<int64 *>(&total_size_));
       ReadInt64FromEnvVar("CACHE_MIN_SIZE", 2048 * 128 * 8, reinterpret_cast<int64 *>(&min_size_));
