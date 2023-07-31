@@ -45,10 +45,12 @@ public:
     size_t orig_size;
     size_t new_size;
     size_t entry_size;
+    uint64_t vc;
+    uint64_t mc;
     double mr;
     std::vector<double> mrc;
 
-    CacheItem(size_t bucketSize, size_t origSize, size_t newSize, size_t entrySize, double mr,
+    CacheItem(size_t bucketSize, size_t origSize, size_t newSize, size_t entrySize, uint64_t vc, uint64_t mc, double mr,
               const std::vector<double> &mrc);
 
     CacheItem();
@@ -101,7 +103,7 @@ public:
     void DoTune(size_t total_size, std::vector<CacheMRCProfiler<K> *> caches, size_t unit) {
 
       std::map<CacheMRCProfiler<K> *, CacheItem> items;
-      double orig_mr_sum = 0.0;
+      uint64_t orig_mc_sum = 0;
 
       for (auto cache: caches) {
 
@@ -111,12 +113,15 @@ public:
         const size_t num_entries = size / entry_size;
         std::vector<double> mrc = cache->GetMRC(size * 10);
         const double mr = InterpolateMRC(mrc, bucket_size, num_entries);
+        const uint64_t vc = (uint64_t) mrc[mrc.size() - 1];
+        const uint64_t mc = vc * mr;
         const double actual_hr = cache->GetHitRate();
-        LOG(INFO) << "Cache \"" << cache->GetName() << "\" estimated hit rate=" << 1.0 - mr << ", actual hit rate="
-                  << actual_hr << ", error=" << (1.0 - mr) - actual_hr;
-        orig_mr_sum += mr;
+        const uint64_t actual_hc = (uint64_t) (actual_hr * vc);
+        LOG(INFO) << "Cache \"" << cache->GetName() << "\" estimated hit count=" << vc - mc << ", actual hit count="
+                  << actual_hc << ", relative error=" << (double) (int64_t) (vc - mc - actual_hc) / actual_hc;
+        orig_mc_sum += mc;
         items.emplace(std::piecewise_construct, std::forward_as_tuple(cache),
-                      std::forward_as_tuple(bucket_size, size, size, entry_size, mr, std::move(mrc)));
+                      std::forward_as_tuple(bucket_size, size, size, entry_size, vc, mc, mr, std::move(mrc)));
         cache->ResetProfiling();
       }
 
@@ -130,21 +135,23 @@ public:
           size_t new_entries = new_size / item.second.entry_size;
           item.second.new_size = new_size;
           item.second.mr = InterpolateMRC(item.second.mrc, item.second.bucket_size, new_entries);
+          item.second.mc = item.second.mr * item.second.vc;
         }
       }
 
       while (true) {
-        double max_gain = 0.0, min_loss = 0.0, gain_new_mr = 0.0, loss_new_mr = 0.0;
+        uint64_t max_gain = 0.0, min_loss = 0.0, gain_new_mc = 0.0, loss_new_mc = 0.0;
         CacheMRCProfiler<K> *max_gain_cache = nullptr, *min_loss_cache = nullptr;
         for (auto &item: items) {
           const size_t current_size = item.second.new_size;
           const size_t new_entries = (item.second.new_size + unit) / item.second.entry_size;
           const double new_mr = InterpolateMRC(item.second.mrc, item.second.bucket_size, new_entries);
-          const double gain = item.second.mr - new_mr;
+          const uint64_t new_mc = new_mr * item.second.vc;
+          const uint64_t gain = item.second.mc - new_mc;
           if (gain > max_gain || max_gain_cache == nullptr) {
             max_gain = gain;
             max_gain_cache = item.first;
-            gain_new_mr = new_mr;
+            gain_new_mc = new_mc;
           }
         }
 
@@ -157,29 +164,31 @@ public:
           const ssize_t new_entries = (item.second.new_size - unit) / item.second.entry_size;
 
           const double new_mr = InterpolateMRC(item.second.mrc, item.second.bucket_size, new_entries);
-          const double loss = new_mr - item.second.mr;
+          const uint64_t new_mc = new_mr * item.second.vc;
+          const uint64_t loss = new_mc - item.second.mc;
           if (loss < min_loss || min_loss_cache == nullptr) {
             min_loss = loss;
             min_loss_cache = item.first;
-            loss_new_mr = new_mr;
+            loss_new_mc = new_mc;
           }
         }
 
         if (max_gain <= min_loss || max_gain_cache == nullptr || min_loss_cache == nullptr) break;
 
         items[max_gain_cache].new_size += unit;
-        items[max_gain_cache].mr = gain_new_mr;
+        items[max_gain_cache].mc = gain_new_mc;
         items[min_loss_cache].new_size -= unit;
-        items[min_loss_cache].mr = loss_new_mr;
+        items[min_loss_cache].mc = loss_new_mc;
       }
 
-      double new_mr_sum = 0.0;
+      uint64_t new_mc_sum = 0;
       for (auto &item: items) {
-        new_mr_sum += item.second.mr;
+        new_mc_sum += item.second.mc;
       }
-      LOG(INFO) << "orig MRs=" << orig_mr_sum << ", new MRs=" << new_mr_sum << ", diff=" << orig_mr_sum - new_mr_sum;
-      if (new_mr_sum >= orig_mr_sum) {
-        LOG(INFO) << "new MRs not less than original MRs, not tuning cache";
+      LOG(INFO) << "orig MCs=" << orig_mc_sum << ", new MCs=" << new_mc_sum << ", diff="
+                << (int64_t) (orig_mc_sum - new_mc_sum);
+      if (new_mc_sum >= orig_mc_sum) {
+        LOG(INFO) << "new MCs not less than original MCs, not tuning cache";
         return;
       }
 
