@@ -177,7 +177,7 @@ public:
       for (auto &item: items) {
         new_mr_sum += item.second.mr;
       }
-
+      LOG(INFO) << "orig MRs=" << orig_mr_sum << ", new MRs=" << new_mr_sum << ", diff=" << orig_mr_sum - new_mr_sum;
       if (new_mr_sum >= orig_mr_sum) {
         LOG(INFO) << "new MRs not less than original MRs, not tuning cache";
         return;
