@@ -138,16 +138,16 @@ class PrefetchLFUNode: public PrefetchNode<K>{
 template <class K>
 class LRUCache : public BatchCache<K> {
  public:
-    LRUCache(const std::string &name = "") : name_(name) {
-      mp.clear();
-      head = new LRUNode(0);
-      tail = new LRUNode(0);
-      head->next = tail;
-      tail->pre = head;
-      BatchCache<K>::num_hit = 0;
-      BatchCache<K>::num_miss = 0;
-      ReadInt64FromEnvVar("CACHE_REPORT_INTERVAL", 10000, &report_interval_);
-    }
+  LRUCache(const std::string &name = "") : name_(name) {
+    mp.clear();
+    head = new LRUNode(0);
+    tail = new LRUNode(0);
+    head->next = tail;
+    tail->pre = head;
+    BatchCache<K>::num_hit = 0;
+    BatchCache<K>::num_miss = 0;
+    ReadInt64FromEnvVar("CACHE_REPORT_INTERVAL", 10000, &report_interval_);
+  }
 
   size_t size() {
     mutex_lock l(mu_);
@@ -265,7 +265,11 @@ class LRUCache : public BatchCache<K> {
     update(ids_to_cache.data(), nums_to_cache, false);
   }
 
- private:
+  ~LRUCache() override {
+    LOG(INFO) << "cache \"" << name_ << "\" destroyed, statistics: " << BatchCache<K>::DebugString();
+  }
+
+private:
     class LRUNode {
     public:
         K id;
