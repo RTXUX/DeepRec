@@ -174,11 +174,92 @@ public:
 };
 
 template<typename K>
+class MinimalizeMissCountLocalGreedyTuningStrategy : public CacheTuningStrategy<K> {
+public:
+  bool
+  DoTune(size_t total_size, std::map<CacheMRCProfiler<K> *, CacheItem> &caches, size_t unit, size_t min_size) override {
+    uint64_t orig_mc_sum = 0;
+
+    for (auto &kv: caches) {
+      CacheMRCProfiler<K> *cache = kv.first;
+      CacheItem &item = kv.second;
+      orig_mc_sum += item.mc;
+    }
+
+    for (auto &item: caches) {
+      size_t entries = item.second.orig_size / item.second.entry_size;
+      item.second.new_size = item.second.orig_size;
+      item.second.mr = InterpolateMRC(item.second.mrc, item.second.bucket_size, entries);
+      item.second.mc = item.second.mr * item.second.vc;
+    }
+
+    while (true) {
+      uint64_t max_gain = 0.0, min_loss = 0.0, gain_new_mc = 0.0, loss_new_mc = 0.0;
+      CacheMRCProfiler<K> *max_gain_cache = nullptr, *min_loss_cache = nullptr;
+      for (auto &item: caches) {
+        const size_t current_size = item.second.new_size;
+        const size_t new_entries = (item.second.new_size + unit) / item.second.entry_size;
+        const double new_mr = InterpolateMRC(item.second.mrc, item.second.bucket_size, new_entries);
+        const uint64_t new_mc = new_mr * item.second.vc;
+        const uint64_t gain = item.second.mc - new_mc;
+        if (gain > max_gain || max_gain_cache == nullptr) {
+          max_gain = gain;
+          max_gain_cache = item.first;
+          gain_new_mc = new_mc;
+        }
+      }
+
+      for (auto &item: caches) {
+        if (item.first == max_gain_cache) continue;
+        const size_t current_size = item.second.new_size;
+        if (current_size <= min_size + unit) {
+          continue;
+        }
+        const ssize_t new_entries = (item.second.new_size - unit) / item.second.entry_size;
+
+        const double new_mr = InterpolateMRC(item.second.mrc, item.second.bucket_size, new_entries);
+        const uint64_t new_mc = new_mr * item.second.vc;
+        const uint64_t loss = new_mc - item.second.mc;
+        if (loss < min_loss || min_loss_cache == nullptr) {
+          min_loss = loss;
+          min_loss_cache = item.first;
+          loss_new_mc = new_mc;
+        }
+      }
+
+      if (max_gain <= min_loss || max_gain_cache == nullptr || min_loss_cache == nullptr) break;
+
+      caches[max_gain_cache].new_size += unit;
+      caches[max_gain_cache].mc = gain_new_mc;
+      caches[min_loss_cache].new_size -= unit;
+      caches[min_loss_cache].mc = loss_new_mc;
+    }
+
+    uint64_t new_mc_sum = 0;
+    for (auto &item: caches) {
+      new_mc_sum += item.second.mc;
+    }
+    LOG(INFO) << "orig MCs=" << orig_mc_sum << ", new MCs=" << new_mc_sum << ", diff="
+              << (int64_t) (orig_mc_sum - new_mc_sum);
+    if (new_mc_sum >= orig_mc_sum) {
+      LOG(INFO) << "new MCs not less than original MCs, not tuning cache";
+      return false;
+    }
+
+    return true;
+  }
+};
+
+template<typename K>
 class CacheTuningStrategyCreator {
 public:
   static CacheTuningStrategy<K> *Create(const std::string &type) {
     if (type == "min_mc_random_greedy") {
+      LOG(INFO) << "Use MinimalizeMissCountRandomGreedyTuningStrategy";
       return new MinimalizeMissCountRandomGreedyTuningStrategy<K>();
+    } else if (type == "min_mc_random_local") {
+      LOG(INFO) << "Use MinimalizeMissCountLocalGreedyTuningStrategy";
+      return new MinimalizeMissCountLocalGreedyTuningStrategy<K>();
     } else {
       LOG(INFO) << "CacheTuningStrategyCreator: \"" << type
                 << "\" not valid, using default \"min_mc_random_greedy\" strategy";
