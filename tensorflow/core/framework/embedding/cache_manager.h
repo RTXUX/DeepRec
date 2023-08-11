@@ -72,7 +72,11 @@ public:
       }
       registry_[cache.GetName()] = &cache;
       std::vector<size_t> parts(registry_.size());
-      RandomApportion(parts, total_size_);
+      // RandomApportion(parts, total_size_);
+      size_t size = total_size_ / registry_.size();
+      for (auto &p : parts) {
+        p = size;
+      }
       size_t i = 0;
       for (auto &kv: registry_) {
         kv.second->SetCacheSize(parts[i++]);
@@ -94,10 +98,7 @@ public:
         caches.emplace_back(kv.second);
       }
       DoTune(total_size, std::move(caches), unit);
-      for (auto cache: caches) {
-        cache->ResetProfiling();
-        cache->ResetStat();
-      }
+      LOG(INFO) << "LRU Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::nanoseconds(lru_nanos.load())).count() << "ms, Profiler Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::nanoseconds(profiler_nanos.load())).count() << "ms";
     }
 
     void DoTune(size_t total_size, std::vector<CacheMRCProfiler<K> *> caches, size_t unit) {
@@ -122,7 +123,8 @@ public:
         orig_mc_sum += mc;
         items.emplace(std::piecewise_construct, std::forward_as_tuple(cache),
                       std::forward_as_tuple(bucket_size, size, size, entry_size, vc, mc, mr, std::move(mrc)));
-        cache->ResetProfiling();
+        // cache->ResetProfiling();
+        // cache->ResetStat();
       }
 
       // do random apportion and compute new MR
@@ -277,6 +279,11 @@ public:
       LOG(INFO) << "Tuning thread exit";
     }
 
+    void IncreaseNanos(uint64_t lru_nano, uint64_t profiler_nano) {
+      lru_nanos.fetch_add(lru_nano, std::memory_order_relaxed);
+      profiler_nanos.fetch_add(profiler_nano, std::memory_order_relaxed);
+    }
+
 private:
     mutex mu_;
     std::atomic<uint64> num_active_threads_;
@@ -288,6 +295,9 @@ private:
     uint64 tuning_interval_;
     uint64 step_ = 1;
 
+    std::atomic<uint64_t> lru_nanos;
+    std::atomic<uint64_t> profiler_nanos;
+
     size_t total_size_;
     size_t min_size_;
     size_t tuning_unit_;
@@ -296,7 +306,7 @@ private:
 
     explicit CacheManager() : thread_pool_(
             std::make_unique<thread::ThreadPool>(Env::Default(), ThreadOptions(), "CACHE_MANAGER", 1, false)),
-                              access_count_(0) {
+                              access_count_(0), lru_nanos(0), profiler_nanos(0) {
       ReadInt64FromEnvVar("CACHE_TUNING_INTERVAL", 100000, reinterpret_cast<int64 *>(&tuning_interval_));
       ReadInt64FromEnvVar("CACHE_TOTAL_SIZE", 32 * 1024 * 1024, reinterpret_cast<int64 *>(&total_size_));
       ReadInt64FromEnvVar("CACHE_MIN_SIZE", 2048 * 128 * 8, reinterpret_cast<int64 *>(&min_size_));
