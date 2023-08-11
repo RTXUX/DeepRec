@@ -8,22 +8,10 @@
 #include "tensorflow/core/util/env_var.h"
 #include "tensorflow/core/lib/core/threadpool.h"
 #include "tensorflow/core/framework/embedding/cache_profiler.h"
+#include "tensorflow/core/framework/embedding/cache_tuning_strategy.h"
 
 namespace tensorflow {
 namespace embedding {
-
-static inline double InterpolateMRC(const std::vector<double> &mrc, size_t bucket_size, size_t target) {
-  double bucket = (double) target / bucket_size;
-  size_t bucket_int = std::floor(bucket);
-  if (bucket_int >= mrc.size() - 2) {
-    return mrc[mrc.size() - 2];
-  }
-  if (mrc.size() == 2) {
-    return mrc[0];
-  }
-  double interpolated_mr = mrc[bucket_int] + (bucket - (double) bucket_int) * (mrc[bucket_int + 1] - mrc[bucket_int]);
-  return interpolated_mr;
-}
 
 class MockTunableCache : public TunableCache {
 public:
@@ -37,23 +25,6 @@ public:
 
 private:
     size_t num_entries_;
-};
-
-class CacheItem {
-public:
-    size_t bucket_size;
-    size_t orig_size;
-    size_t new_size;
-    size_t entry_size;
-    uint64_t vc;
-    uint64_t mc;
-    double mr;
-    std::vector<double> mrc;
-
-    CacheItem(size_t bucketSize, size_t origSize, size_t newSize, size_t entrySize, uint64_t vc, uint64_t mc, double mr,
-              const std::vector<double> &mrc);
-
-    CacheItem();
 };
 
 template<typename K>
@@ -127,119 +98,17 @@ public:
         // cache->ResetStat();
       }
 
-      // do random apportion and compute new MR
-      {
-        std::vector<size_t> parts(items.size());
-        RandomApportion(parts, total_size);
-        size_t i = 0;
-        for (auto &item: items) {
-          size_t new_size = parts[i++];
-          size_t new_entries = new_size / item.second.entry_size;
-          item.second.new_size = new_size;
-          item.second.mr = InterpolateMRC(item.second.mrc, item.second.bucket_size, new_entries);
-          item.second.mc = item.second.mr * item.second.vc;
+      bool success = tuning_strategy_->DoTune(total_size, items, unit, min_size_);
+      if (success) {
+        for (auto &kv: items) {
+          kv.first->SetCacheSize(kv.second.new_size);
         }
       }
 
-      while (true) {
-        uint64_t max_gain = 0.0, min_loss = 0.0, gain_new_mc = 0.0, loss_new_mc = 0.0;
-        CacheMRCProfiler<K> *max_gain_cache = nullptr, *min_loss_cache = nullptr;
-        for (auto &item: items) {
-          const size_t current_size = item.second.new_size;
-          const size_t new_entries = (item.second.new_size + unit) / item.second.entry_size;
-          const double new_mr = InterpolateMRC(item.second.mrc, item.second.bucket_size, new_entries);
-          const uint64_t new_mc = new_mr * item.second.vc;
-          const uint64_t gain = item.second.mc - new_mc;
-          if (gain > max_gain || max_gain_cache == nullptr) {
-            max_gain = gain;
-            max_gain_cache = item.first;
-            gain_new_mc = new_mc;
-          }
-        }
-
-        for (auto &item: items) {
-          if (item.first == max_gain_cache) continue;
-          const size_t current_size = item.second.new_size;
-          if (current_size <= min_size_ + unit) {
-            continue;
-          }
-          const ssize_t new_entries = (item.second.new_size - unit) / item.second.entry_size;
-
-          const double new_mr = InterpolateMRC(item.second.mrc, item.second.bucket_size, new_entries);
-          const uint64_t new_mc = new_mr * item.second.vc;
-          const uint64_t loss = new_mc - item.second.mc;
-          if (loss < min_loss || min_loss_cache == nullptr) {
-            min_loss = loss;
-            min_loss_cache = item.first;
-            loss_new_mc = new_mc;
-          }
-        }
-
-        if (max_gain <= min_loss || max_gain_cache == nullptr || min_loss_cache == nullptr) break;
-
-        items[max_gain_cache].new_size += unit;
-        items[max_gain_cache].mc = gain_new_mc;
-        items[min_loss_cache].new_size -= unit;
-        items[min_loss_cache].mc = loss_new_mc;
-      }
-
-      uint64_t new_mc_sum = 0;
-      for (auto &item: items) {
-        new_mc_sum += item.second.mc;
-      }
-      LOG(INFO) << "orig MCs=" << orig_mc_sum << ", new MCs=" << new_mc_sum << ", diff="
-                << (int64_t) (orig_mc_sum - new_mc_sum);
-      if (new_mc_sum >= orig_mc_sum) {
-        LOG(INFO) << "new MCs not less than original MCs, not tuning cache";
-        return;
-      }
-
-      for (auto &item: items) {
-        LOG(INFO) << "Change size of \"" << item.first->GetName() << "\" to " << item.second.new_size;
-        item.first->SetCacheSize(item.second.new_size);
-      }
+      LOG(INFO) << "Tuning Done";
     }
 
-    void RandomApportion(std::vector<size_t> &parts, size_t total) {
-      const size_t resv_size = parts.size() * min_size_;
-      const size_t part_size = total - resv_size;
-      if (resv_size >= total) {
-        LOG(FATAL) << "Not enough size to partition";
-      }
-      const size_t num_parts = parts.size();
-      std::random_device rd;
-      std::default_random_engine re(rd());
-      std::uniform_real_distribution<double> uniform(0, 1);
-      std::uniform_int_distribution<size_t> pick(0, num_parts - 1);
-      std::vector<double> apportion(num_parts);
-      double normalize_sum = 0.0;
-      for (auto &part: apportion) {
-        const double sample = uniform(re);
-        part = -std::log(sample);
-        normalize_sum += part;
-      }
-      for (auto &part: apportion) {
-        part /= normalize_sum;
-      }
-      size_t sum_apportion = 0;
-      for (size_t i = 0; i < num_parts; ++i) {
-        auto part = (size_t) std::round(apportion[i] * part_size);
-        sum_apportion += part;
-        parts[i] = part;
-      }
-      ssize_t remaining = part_size - sum_apportion;
-      ssize_t step = remaining > 0 ? 1 : -1;
-      while (remaining != 0) {
-        auto picked_part = pick(re);
-        if ((ssize_t) parts[picked_part] + step > 0) {
-          parts[picked_part] += step;
-          remaining -= step;
-        }
-      }
-      for (auto &part: parts) {
-        part += min_size_;
-      }
-    }
+
 
     void Access() {
       access_count_.fetch_add(1, std::memory_order_relaxed);
@@ -288,8 +157,9 @@ private:
     mutex mu_;
     std::atomic<uint64> num_active_threads_;
     std::atomic_flag flag_ = ATOMIC_FLAG_INIT;
-    std::unique_ptr<thread::ThreadPool> thread_pool_;
-    std::map<std::string, CacheMRCProfiler<K> *> registry_;
+  std::unique_ptr<thread::ThreadPool> thread_pool_;
+  std::unique_ptr<CacheTuningStrategy<K>> tuning_strategy_;
+  std::map<std::string, CacheMRCProfiler<K> *> registry_;
 
     std::atomic<uint64> access_count_;
     uint64 tuning_interval_;
@@ -311,6 +181,9 @@ private:
       ReadInt64FromEnvVar("CACHE_TOTAL_SIZE", 32 * 1024 * 1024, reinterpret_cast<int64 *>(&total_size_));
       ReadInt64FromEnvVar("CACHE_MIN_SIZE", 2048 * 128 * 8, reinterpret_cast<int64 *>(&min_size_));
       ReadInt64FromEnvVar("CACHE_TUNING_UNIT", 8 * 128, reinterpret_cast<int64 *>(&tuning_unit_));
+      std::string tuning_strategy_name;
+      ReadStringFromEnvVar("CACHE_TUNING_STRATEGY", "min_mc_random_greedy", &tuning_strategy_name);
+      tuning_strategy_.reset(CacheTuningStrategyCreator<K>::Create(tuning_strategy_name));
       num_active_threads_ = 0;
     }
 };
