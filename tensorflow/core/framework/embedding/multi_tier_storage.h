@@ -86,7 +86,6 @@ public:
     }
 
     void SetCacheSize(size_t new_size) override {
-      // TODO: Implement cache size adjustment
       while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
       Storage<K, V>::storage_config_.size[0] = new_size;
       cache_capacity_ = Storage<K, V>::storage_config_.size[0]

@@ -45,7 +45,7 @@ class CacheFactory {
           ProfiledLRUCache<K> *cache;
           cache = new ProfiledLRUCache<K>(name, bucket_size, max_reuse_dist, 1, tunable_cache);
           if (tunable_cache != nullptr) {
-            CacheManager<K>::GetInstance().RegisterCache(*cache->GetProfiler());
+            CacheManager::GetInstance().RegisterCache(*cache->GetProfiler());
           }
           return cache;
         default:
