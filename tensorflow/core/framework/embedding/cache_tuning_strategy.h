@@ -251,15 +251,191 @@ public:
 };
 
 template<typename K>
+class MinimalizeMissCountDynamicProgrammingTuningStrategy: public CacheTuningStrategy<K> {
+public:
+  bool
+  DoTune(size_t total_size, std::map<CacheMRCProfiler<K> *, CacheItem> &caches, size_t unit, size_t min_size) override {
+    const size_t total_units = total_size / unit;
+    const size_t min_unit = std::ceil((double)min_size / unit);
+    size_t orig_mc_sum = 0;
+    size_t low_sum = 0, high_sum = 0;
+    std::vector<CacheItem*> items;
+    for (auto &cache: caches) {
+      items.emplace_back(&cache.second);
+      orig_mc_sum += cache.second.mc;
+    }
+
+    const size_t num_caches = items.size();
+    std::vector<std::vector<size_t>> miss(num_caches);
+    std::vector<size_t> offset(num_caches);
+    std::vector<std::vector<size_t>> target(num_caches);
+    size_t last_low_sum;
+    size_t last_max;
+    for (size_t i = 0; i < num_caches; ++i) {
+      CacheItem& item = *items[i];
+      size_t max_j = 0;
+      const size_t entry_size = item.entry_size;
+      const size_t bucket_size = item.bucket_size;
+      const size_t vc = item.vc;
+      last_low_sum = low_sum;
+      low_sum += min_unit;
+      const std::vector<double>& mrc = items[i]->mrc;
+      const size_t hi = total_units;
+      high_sum += hi;
+      std::vector<size_t>& miss_i = miss[i], &target_i = target[i];
+      const size_t j_upper = std::min(total_units, high_sum);
+      miss_i.resize(j_upper -  low_sum + 1);
+      target_i.resize(j_upper -  low_sum + 1);
+      if (i == 0) {
+        for (size_t j = low_sum; j <= j_upper; ++j) {
+          miss_i[j - low_sum] = std::round(InterpolateMRC(mrc, bucket_size, j * unit / entry_size) * vc);
+        }
+        max_j = j_upper;
+        offset[i] = low_sum;
+      } else {
+        const std::vector<size_t>& miss_l = miss[i - 1];
+        for (size_t j  = low_sum; j <= j_upper; ++j) {
+          miss_i[j - low_sum] = UINT64_MAX;
+          const size_t k_upper = std::min(j - last_low_sum, hi);
+          for (size_t k = min_unit; k <= k_upper; ++k) {
+            const size_t c_miss = std::round(InterpolateMRC(mrc, bucket_size, k * unit / entry_size) * vc);
+            const size_t p_miss = miss_l[std::min(last_max, j - k) - offset[i - 1]];
+            const size_t n_miss = c_miss + p_miss;
+            if (miss_i[j - low_sum] > n_miss) {
+              miss_i[j - low_sum] = n_miss;
+              target_i[j - low_sum] = k;
+              if (j > max_j) {
+                max_j = j;
+              }
+            }
+          }
+        }
+        offset[i] = low_sum;
+      }
+
+      last_max = max_j;
+    }
+
+    size_t t = total_units;
+    const size_t new_mc_sum = miss[num_caches - 1][t - offset[num_caches - 1]];
+    if (new_mc_sum >= orig_mc_sum) {
+      LOG(INFO) << "Dynamic Programming: new MC sum not less than orig mc_sum";
+      return false;
+    }
+    for (ssize_t i = (ssize_t)num_caches - 1; i >= 0; --i) {
+      if (i > 0) {
+        const size_t alloc = target[i][t - offset[i]];
+        items[i]->new_size = alloc * unit;
+        t -= alloc;
+      } else {
+        items[i]->new_size = t * unit;
+      }
+    }
+    return true;
+  }
+};
+
+template<typename K>
+class MinimalizeMissRateDynamicProgrammingTuningStrategy: public CacheTuningStrategy<K> {
+public:
+  bool
+  DoTune(size_t total_size, std::map<CacheMRCProfiler<K> *, CacheItem> &caches, size_t unit, size_t min_size) override {
+    const size_t total_units = total_size / unit;
+    const size_t min_unit = std::ceil((double)min_size / unit);
+    double orig_mr_sum = 0;
+    size_t low_sum = 0, high_sum = 0;
+    std::vector<CacheItem*> items;
+    for (auto &cache: caches) {
+      items.emplace_back(&cache.second);
+      orig_mr_sum += cache.second.mr;
+    }
+
+    const size_t num_caches = items.size();
+    std::vector<std::vector<double>> miss(num_caches);
+    std::vector<size_t> offset(num_caches);
+    std::vector<std::vector<size_t>> target(num_caches);
+    size_t last_low_sum;
+    size_t last_max;
+    for (size_t i = 0; i < num_caches; ++i) {
+      CacheItem& item = *items[i];
+      size_t max_j = 0;
+      const size_t entry_size = item.entry_size;
+      const size_t bucket_size = item.bucket_size;
+      last_low_sum = low_sum;
+      low_sum += min_unit;
+      const std::vector<double>& mrc = items[i]->mrc;
+      const size_t hi = total_units;
+      high_sum += hi;
+      std::vector<double>& miss_i = miss[i];
+      std::vector<size_t>& target_i = target[i];
+      const size_t j_upper = std::min(total_units, high_sum);
+      miss_i.resize(j_upper -  low_sum + 1);
+      target_i.resize(j_upper -  low_sum + 1);
+      if (i == 0) {
+        for (size_t j = low_sum; j <= j_upper; ++j) {
+          miss_i[j - low_sum] = InterpolateMRC(mrc, bucket_size, j * unit / entry_size);
+        }
+        max_j = j_upper;
+        offset[i] = low_sum;
+      } else {
+        const std::vector<double>& miss_l = miss[i - 1];
+        for (size_t j  = low_sum; j <= j_upper; ++j) {
+          miss_i[j - low_sum] = UINT64_MAX;
+          const size_t k_upper = std::min(j - last_low_sum, hi);
+          for (size_t k = min_unit; k <= k_upper; ++k) {
+            const double c_miss = InterpolateMRC(mrc, bucket_size, k * unit / entry_size);
+            const double p_miss = miss_l[std::min(last_max, j - k) - offset[i - 1]];
+            const double n_miss = c_miss + p_miss;
+            if (miss_i[j - low_sum] > n_miss) {
+              miss_i[j - low_sum] = n_miss;
+              target_i[j - low_sum] = k;
+              if (j > max_j) {
+                max_j = j;
+              }
+            }
+          }
+        }
+        offset[i] = low_sum;
+      }
+
+      last_max = max_j;
+    }
+
+    size_t t = total_units;
+    const double new_mr_sum = miss[num_caches - 1][t - offset[num_caches - 1]];
+    if (new_mr_sum >= orig_mr_sum) {
+      LOG(INFO) << "Dynamic Programming: new MR sum not less than orig MR sum";
+      return false;
+    }
+    for (ssize_t i = (ssize_t)num_caches - 1; i >= 0; --i) {
+      if (i > 0) {
+        const size_t alloc = target[i][t - offset[i]];
+        items[i]->new_size = alloc * unit;
+        t -= alloc;
+      } else {
+        items[i]->new_size = t * unit;
+      }
+    }
+    return true;
+  }
+};
+
+template<typename K>
 class CacheTuningStrategyCreator {
 public:
   static CacheTuningStrategy<K> *Create(const std::string &type) {
     if (type == "min_mc_random_greedy") {
       LOG(INFO) << "Use MinimalizeMissCountRandomGreedyTuningStrategy";
       return new MinimalizeMissCountRandomGreedyTuningStrategy<K>();
-    } else if (type == "min_mc_random_local") {
+    } else if (type == "min_mc_local_greedy") {
       LOG(INFO) << "Use MinimalizeMissCountLocalGreedyTuningStrategy";
       return new MinimalizeMissCountLocalGreedyTuningStrategy<K>();
+    } else if (type == "min_mc_dp") {
+      LOG(INFO) << "Use MinimalizeMissCountDynamicProgrammingTuningStrategy";
+      return new MinimalizeMissCountDynamicProgrammingTuningStrategy<K>();
+    } else if (type == "min_mr_dp") {
+      LOG(INFO) << "Use MinimalizeMissRateDynamicProgrammingTuningStrategy";
+      return new MinimalizeMissRateDynamicProgrammingTuningStrategy<K>();
     } else {
       LOG(INFO) << "CacheTuningStrategyCreator: \"" << type
                 << "\" not valid, using default \"min_mc_random_greedy\" strategy";
