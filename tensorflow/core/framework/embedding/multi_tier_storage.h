@@ -72,9 +72,28 @@ public:
     return cache_;
   }
 
+  size_t GetCacheSize() const override {
+    return Storage<K, V>::storage_config_.size[0];
+  }
+
+  void SetCacheSize(size_t new_size) override {
+    // TODO: Implement cache size adjustment
+    while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
+    Storage<K, V>::storage_config_.size[0] = new_size;
+    cache_capacity_ = Storage<K, V>::storage_config_.size[0]
+                      / (Storage<K, V>::total_dims_ * sizeof(V));
+    ready_eviction_ = true;
+    Storage<K, V>::flag_.clear(std::memory_order_release);
+    LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_;
+  }
+
+  size_t GetCacheEntrySize() const override {
+    return Storage<K, V>::total_dims_ * sizeof(V);
+  }
+
   void InitCache(embedding::CacheStrategy cache_strategy) override {
     if (cache_ == nullptr) {
-      cache_ = CacheFactory::Create<K>(cache_strategy, name_);
+      cache_ = CacheFactory::Create<K>(cache_strategy, name_, this);
       eviction_manager_ = EvictionManagerCreator::Create<K, V>();
       eviction_manager_->AddStorage(this);
       cache_thread_pool_ = CacheThreadPoolCreator::Create();
@@ -99,25 +118,6 @@ public:
       int partition_id, int partition_nums) override {
     LOG(FATAL)<<"Can't get sharded snapshot of MultiTierStorage.";
     return Status::OK();
-  }
-
-  size_t GetCacheSize() const override {
-    return Storage<K, V>::storage_config_.size[0];
-  }
-
-  void SetCacheSize(size_t new_size) override {
-    // TODO: Implement cache size adjustment
-    while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
-    Storage<K, V>::storage_config_.size[0] = new_size;
-    cache_capacity_ = Storage<K, V>::storage_config_.size[0]
-                      / (total_dim() * sizeof(V));
-    ready_eviction_ = true;
-    Storage<K, V>::flag_.clear(std::memory_order_release);
-    LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_;
-  }
-
-  size_t GetCacheEntrySize() const override {
-    return total_dim() * sizeof(V);
   }
 
   double GetHitRate() const override {
