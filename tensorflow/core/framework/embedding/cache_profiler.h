@@ -65,7 +65,8 @@ public:
 
     void ReferenceKey(const K &key) override {
       // if resetting, just skip
-      while (run_lock_.load(std::memory_order_acquire));
+      if (run_lock_.load(std::memory_order_acquire))
+        return;
       // indicate we are running
       run_.fetch_add(1, std::memory_order_acquire);
       DoReferenceKey(key);
@@ -73,7 +74,8 @@ public:
     }
 
     void ReferenceKeyBatch(const K *keys, const size_t batch_size) override {
-      while (run_lock_.load(std::memory_order_acquire));
+      if (run_lock_.load(std::memory_order_acquire))
+	return;
       // indicate we are running
       run_.fetch_add(1, std::memory_order_acquire);
       for (size_t i = 0; i < batch_size; ++i) {

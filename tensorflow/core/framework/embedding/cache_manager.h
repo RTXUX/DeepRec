@@ -94,8 +94,10 @@ public:
         orig_mc_sum += mc;
         items.emplace(std::piecewise_construct, std::forward_as_tuple(cache),
                       std::forward_as_tuple(bucket_size, size, size, entry_size, vc, mc, mr, std::move(mrc)));
-        // cache->ResetProfiling();
-        // cache->ResetStat();
+        if (clear_stat_) {
+          cache->ResetProfiling();
+          cache->ResetStat();
+        }
       }
 
       bool success = tuning_strategy_->DoTune(total_size, items, unit, min_size_);
@@ -172,6 +174,8 @@ private:
     size_t min_size_;
     size_t tuning_unit_;
 
+    bool clear_stat_;
+
     static const size_t total_cache_size = 1 * 1024 * 1024 * 1024;
 
     explicit CacheManager() : thread_pool_(
@@ -185,6 +189,7 @@ private:
       ReadStringFromEnvVar("CACHE_TUNING_STRATEGY", "min_mc_random_greedy", &tuning_strategy_name);
       tuning_strategy_.reset(CacheTuningStrategyCreator<K>::Create(tuning_strategy_name));
       num_active_threads_ = 0;
+      ReadBoolFromEnvVar("CACHE_PROFLER_CLEAR", true, &clear_stat_);
     }
 };
 
