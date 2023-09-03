@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <malloc.h>
 
 #include "sparsehash/dense_hash_map_lockless"
 #include "tensorflow/core/framework/embedding/cache.h"
@@ -97,6 +98,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     reuse_time_hist_.clear();
     reuse_time_hist_.resize(max_reuse_time_ / bucket_size_ + 3);
     ResetLastAccessMap();
+    malloc_trim(0);
     sample_time_ = timestamp_.load(std::memory_order_relaxed);
     run_lock_.store(false, std::memory_order_release);
   }
@@ -203,39 +205,58 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
   }
 
   void DoReferenceKey(const K& key) {
-    uint64_t timestamp = timestamp_.fetch_add(1, std::memory_order_relaxed) + 1;
-    auto iter = last_access_map_->find_wait_free(const_cast<K&>(key));
-    // not found and we need to sample
-    if (iter.first == EMPTY_KEY || iter.first == DELETED_KEY) {
-      if (timestamp >= sample_time_) {
-        bool unlocked = false;
-        // avoid concurrent update of next sample time
-        if (sample_lock_.compare_exchange_strong(unlocked, true,
-                                                 std::memory_order_acquire)) {
-          uint64_t next = distrib_(rand_);
-          sample_time_ = timestamp_.load(std::memory_order_relaxed) + next;
-          sample_lock_.store(false, std::memory_order_release);
+    
+    bool success = false;
+    int64_t reuse_dist;
+    do {
+      uint64_t timestamp = timestamp_.fetch_add(1, std::memory_order_relaxed) + 1;
+      auto iter = last_access_map_->find_wait_free(const_cast<K&>(key));
+      // not found and we need to sample
+      if (iter.first == EMPTY_KEY || iter.first == DELETED_KEY) {
+        if (timestamp >= sample_time_) {
+          bool unlocked = false;
+          // avoid concurrent update of next sample time
+          if (sample_lock_.compare_exchange_strong(unlocked, true,
+                                                  std::memory_order_acquire)) {
+            uint64_t next = distrib_(rand_);
+            sample_time_ = timestamp_.load(std::memory_order_relaxed) + next;
+            sample_lock_.store(false, std::memory_order_release);
+          }
+          
+          uint64_t* value_ptr = new uint64_t(timestamp);
+          auto inserted = last_access_map_->insert_lockless({key, value_ptr});
+          if (inserted.first->second != value_ptr) {
+            success = false;
+            delete value_ptr;
+            continue;
+          }
+          reuse_dist = 0;
+          success = true;
         }
-        if (sampling_interval_ == 1) {
-          IncreaseHistogram(0);
+      } else {
+        uint64_t old_ts = *(iter.second);
+        reuse_dist = timestamp - old_ts;
+        if (__sync_val_compare_and_swap(iter.second, old_ts, timestamp) != old_ts) {
+          success = false;
+          continue;
         }
-        last_access_map_->insert_lockless({key, new uint64_t(timestamp)});
+        success = true;
       }
-    } else {
-      uint64_t reuse_time = timestamp - *(iter.second);
-      IncreaseHistogram(reuse_time);
-
-      *(iter.second) = timestamp;
-    }
+    } while(!success);
+    if (reuse_dist > 0 || (reuse_dist == 0 && sampling_interval_ == 1))
+      IncreaseHistogram(reuse_dist);
   }
 
   void ResetLastAccessMap() {
+    uint64_t count = 0;
     if (last_access_map_) {
       for (auto iter = last_access_map_->cbegin();
            iter != last_access_map_->cend(); ++iter) {
         delete iter->second;
+	      ++count;
       }
     }
+    LOG(INFO) << "Resetting Access Map: " << count;
     last_access_map_.reset(new google::dense_hash_map_lockless<K, uint64_t*>());
     last_access_map_->max_load_factor(0.8f);
     last_access_map_->set_empty_key_and_value(EMPTY_KEY, 0);
