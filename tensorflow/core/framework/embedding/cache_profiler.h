@@ -206,43 +206,38 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
 
   void DoReferenceKey(const K& key) {
     
-    bool success = false;
     int64_t reuse_dist;
-    do {
-      uint64_t timestamp = timestamp_.fetch_add(1, std::memory_order_relaxed) + 1;
-      auto iter = last_access_map_->find_wait_free(const_cast<K&>(key));
-      // not found and we need to sample
-      if (iter.first == EMPTY_KEY || iter.first == DELETED_KEY) {
-        if (timestamp >= sample_time_) {
-          bool unlocked = false;
-          // avoid concurrent update of next sample time
-          if (sample_lock_.compare_exchange_strong(unlocked, true,
-                                                  std::memory_order_acquire)) {
-            uint64_t next = distrib_(rand_);
-            sample_time_ = timestamp_.load(std::memory_order_relaxed) + next;
-            sample_lock_.store(false, std::memory_order_release);
-          }
-          
-          uint64_t* value_ptr = new uint64_t(timestamp);
-          auto inserted = last_access_map_->insert_lockless({key, value_ptr});
-          if (inserted.first->second != value_ptr) {
-            success = false;
-            delete value_ptr;
-            continue;
-          }
-          reuse_dist = 0;
-          success = true;
+    
+    uint64_t timestamp = timestamp_.fetch_add(1, std::memory_order_relaxed) + 1;
+    auto iter = last_access_map_->find_wait_free(const_cast<K&>(key));
+    // not found and we need to sample
+    if (iter.first == EMPTY_KEY || iter.first == DELETED_KEY) {
+      if (timestamp >= sample_time_) {
+        bool unlocked = false;
+        // avoid concurrent update of next sample time
+        if (sample_lock_.compare_exchange_strong(unlocked, true,
+                                                std::memory_order_acquire)) {
+          uint64_t next = distrib_(rand_);
+          sample_time_ = timestamp_.load(std::memory_order_relaxed) + next;
+          sample_lock_.store(false, std::memory_order_release);
         }
-      } else {
-        uint64_t old_ts = *(iter.second);
-        reuse_dist = timestamp - old_ts;
-        if (__sync_val_compare_and_swap(iter.second, old_ts, timestamp) != old_ts) {
-          success = false;
-          continue;
+        
+        uint64_t* value_ptr = new uint64_t(timestamp);
+        auto inserted = last_access_map_->insert_lockless({key, value_ptr});
+        if (inserted.first->second != value_ptr) {
+          delete value_ptr;
+          return;
         }
-        success = true;
+        reuse_dist = 0;
       }
-    } while(!success);
+    } else {
+      uint64_t old_ts = *(iter.second);
+      reuse_dist = timestamp - old_ts;
+      if (__sync_val_compare_and_swap(iter.second, old_ts, timestamp) != old_ts) {
+        return;
+      }
+    }
+    
     if (reuse_dist > 0 || (reuse_dist == 0 && sampling_interval_ == 1))
       IncreaseHistogram(reuse_dist);
   }
