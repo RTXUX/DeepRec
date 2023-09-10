@@ -187,12 +187,12 @@ void CacheManager::TuneLoop() {
       if (SamplingActive()) {
         LOG(INFO) << "access count: " << access_count_ << ", do tune";
         Tune(total_size_, tuning_unit_);
-        step_ = std::round(access_count_.load(std::memory_order_relaxed) /
-                          (tuning_interval_ * cache_count)) +
-                1;
+        
       } else {
         LOG(INFO) << "access count: " << access_count_ << ", tuning not active"; 
       }
+      step_ = std::round(access_count_.load(std::memory_order_relaxed) /
+                          (tuning_interval_ * cache_count)) + 1;
     }
     Env::Default()->SleepForMicroseconds(1000000);
   }
