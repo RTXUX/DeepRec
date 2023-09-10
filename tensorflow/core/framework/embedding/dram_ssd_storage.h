@@ -29,11 +29,11 @@ class EmbeddingVar;
 
 namespace embedding {
 template<typename K, typename V>
-class DramSsdHashStorage : public MultiTierStorage<K, V> {
+class   DramSsdHashStorage : public MultiTierStorage<K, V> {
  public:
   DramSsdHashStorage(const StorageConfig& sc, Allocator* alloc,
       LayoutCreator<V>* lc, const std::string& name)
-      : MultiTierStorage<K, V>(sc, name) {
+      : MultiTierStorage<K, V>(sc, name), to_ssd_count_(0), to_dram_count_(0) {
     dram_= new DramStorage<K, V>(sc, alloc, lc, new LocklessHashMap<K, V>());
     ssd_hash_ = new SsdHashStorage<K, V>(sc, alloc, lc);
   }
@@ -55,6 +55,7 @@ class DramSsdHashStorage : public MultiTierStorage<K, V> {
     if(s.ok()) {
       s = dram_->TryInsert(key, *value_ptr);
       if (s.ok()) {
+        to_dram_count_.fetch_add(1, std::memory_order_relaxed);
         return s;
       }
       //Insert Failed, the key is already in Dram;
@@ -90,6 +91,7 @@ class DramSsdHashStorage : public MultiTierStorage<K, V> {
     if(s.ok()) {
       s = dram_->TryInsert(key, *value_ptr);
       if (s.ok()) {
+        to_dram_count_.fetch_add(1, std::memory_order_relaxed);
         return s;
       }
       //Insert Failed, the key is already in Dram;
@@ -233,19 +235,23 @@ class DramSsdHashStorage : public MultiTierStorage<K, V> {
 
   Status Eviction(K* evict_ids, int64 evict_size) override {
     ValuePtr<V>* value_ptr = nullptr;
+    uint64 move_count = 0;
     for (int64 i = 0; i < evict_size; ++i) {
       if (dram_->Get(evict_ids[i], &value_ptr).ok()) {
         TF_CHECK_OK(ssd_hash_->Commit(evict_ids[i], value_ptr));
         TF_CHECK_OK(dram_->Remove(evict_ids[i]));
         dram_->DestroyValuePtr(value_ptr);
+        move_count++;
       }
     }
+    to_ssd_count_.fetch_add(move_count, std::memory_order_relaxed);
     return Status::OK();
   }
 
   Status EvictionWithDelayedDestroy(K* evict_ids, int64 evict_size) override {
     mutex_lock l(*(dram_->get_mutex()));
     mutex_lock l1(*(ssd_hash_->get_mutex()));
+    uint64 move_count = 0;
     MultiTierStorage<K, V>::ReleaseInvalidValuePtr(dram_->alloc_);
     ValuePtr<V>* value_ptr = nullptr;
     for (int64 i = 0; i < evict_size; ++i) {
@@ -253,9 +259,20 @@ class DramSsdHashStorage : public MultiTierStorage<K, V> {
         TF_CHECK_OK(ssd_hash_->Commit(evict_ids[i], value_ptr));
         TF_CHECK_OK(dram_->Remove(evict_ids[i]));
         MultiTierStorage<K, V>::KeepInvalidValuePtr(value_ptr);
+        move_count++;
       }
     }
+    to_ssd_count_.fetch_add(move_count, std::memory_order_relaxed);
     return Status::OK();
+  }
+
+  std::pair<uint64, uint64> GetMoveCount() const {
+    return {to_dram_count_.load(std::memory_order_relaxed), to_ssd_count_.load(std::memory_order_relaxed)};
+  }
+
+  void ResetMoveCount() {
+    to_dram_count_.store(0, std::memory_order_relaxed);
+    to_ssd_count_.store(0, std::memory_order_relaxed);
   }
 
  protected:
@@ -266,6 +283,9 @@ class DramSsdHashStorage : public MultiTierStorage<K, V> {
  private:
   DramStorage<K, V>* dram_ = nullptr;
   SsdHashStorage<K, V>* ssd_hash_ = nullptr;
+
+  std::atomic<uint64> to_ssd_count_;
+  std::atomic<uint64> to_dram_count_;
 };
 } // embedding
 } // tensorflow

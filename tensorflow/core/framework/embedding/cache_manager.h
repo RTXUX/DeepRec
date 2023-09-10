@@ -26,6 +26,15 @@ class MockTunableCache : public TunableCache {
   size_t num_entries_;
 };
 
+struct CacheStat {
+  uint64 prev_promotion = 0;
+  uint64 prev_demotion = 0;
+  uint64 promotion = 0;
+  uint64 demotion = 0;
+  uint64 visit_count = 0;
+  double hit_rate = 0;
+};
+
 class CacheManager {
  public:
   static CacheManager& GetInstance();
@@ -49,6 +58,8 @@ class CacheManager {
 
   void IncreaseNanos(uint64_t lru_nano, uint64_t profiler_nano);
 
+  bool SamplingActive() const;
+
  private:
   mutex mu_;
   std::atomic<uint64> num_active_threads_;
@@ -56,6 +67,7 @@ class CacheManager {
   std::unique_ptr<thread::ThreadPool> thread_pool_;
   std::unique_ptr<CacheTuningStrategy> tuning_strategy_;
   std::map<std::string, CacheMRCProfiler*> registry_;
+  std::map<CacheMRCProfiler*, CacheStat> cache_stats_;
 
   std::atomic<uint64> access_count_;
   uint64 tuning_interval_;
@@ -63,6 +75,10 @@ class CacheManager {
 
   std::atomic<uint64_t> lru_nanos;
   std::atomic<uint64_t> profiler_nanos;
+
+  std::atomic<bool> sampling_active_;
+  int64_t notune_counter_ = 0;
+  int64_t notune_threshold_;
 
   size_t total_size_;
   size_t min_size_;

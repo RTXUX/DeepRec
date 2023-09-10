@@ -297,6 +297,12 @@ public:
     });
   }
 
+  std::pair<uint64, uint64> GetMoveCount() const {
+    return {0, 0};
+  }
+
+  void ResetMoveCount() {}
+
  protected:
   virtual void SetTotalDims(int64 total_dims) = 0;
 
