@@ -209,6 +209,12 @@ public:
     });
   }
 
+  std::pair<uint64, uint64> GetMoveCount() const {
+    return {0, 0};
+  }
+
+  void ResetMoveCount() {}
+
   Status RestoreFeatures(int64 key_num, int bucket_num, int64 partition_id,
                          int64 partition_num, int64 value_len, bool is_filter,
                          bool is_incr, const EmbeddingConfig& emb_config,
@@ -239,6 +245,7 @@ public:
     }
     return s;
   }
+  
   virtual int total_dim() = 0;
 
   void DeleteFromEvictionManager() {

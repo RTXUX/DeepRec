@@ -1,5 +1,7 @@
 #include "tensorflow/core/framework/embedding/cache_manager.h"
 
+#include <cstdlib>
+
 namespace tensorflow {
 namespace embedding {
 
@@ -27,6 +29,7 @@ void CacheManager::RegisterCache(CacheMRCProfiler& cache) {
     // TODO: name conflict
   }
   registry_[cache.GetName()] = &cache;
+  cache_stats_.emplace(std::make_pair(&cache, CacheStat()));
   std::vector<size_t> parts(registry_.size());
   // RandomApportion(parts, total_size_);
   size_t size = total_size_ / registry_.size();
@@ -44,11 +47,14 @@ void CacheManager::RegisterCache(CacheMRCProfiler& cache) {
 
 void CacheManager::UnregisterCache(const std::string& name) {
   mutex_lock lock(mu_);
+  CacheMRCProfiler *cache = registry_.find(name)->second;
   registry_.erase(name);
+  cache_stats_.erase(cache);
 }
 
 void CacheManager::Tune(size_t total_size, size_t unit) {
   mutex_lock lock(mu_);
+  if (!sampling_active_.load(std::memory_order_relaxed)) return;
   std::vector<CacheMRCProfiler*> caches;
   for (auto& kv : registry_) {
     caches.emplace_back(kv.second);
@@ -100,6 +106,17 @@ void CacheManager::DoTune(size_t total_size,
     for (auto& kv : items) {
       kv.first->SetCacheSize(kv.second.new_size);
     }
+    notune_counter_ = 0;
+  } else {
+    notune_counter_++;
+  }
+
+  if (notune_counter_ > notune_threshold_) {
+    sampling_active_.store(false, std::memory_order_release);
+    for (auto cache : caches) {
+      cache->ResetProfiling();
+    }
+    LOG(INFO) << notune_counter_ << "continuous tuning did not succeed, stop sampling!";
   }
 
   LOG(INFO) << "Tuning Done";
@@ -136,11 +153,46 @@ void CacheManager::TuneLoop() {
     size_t cache_count = registry_.size();
     if (access_count_.load(std::memory_order_relaxed) >
         step_ * tuning_interval_ * cache_count) {
-      LOG(INFO) << "access count: " << access_count_ << ", do tune";
-      Tune(total_size_, tuning_unit_);
-      step_ = std::round(access_count_.load(std::memory_order_relaxed) /
-                         (tuning_interval_ * cache_count)) +
-              1;
+      bool reactivate = false;
+      for (auto &kv : cache_stats_) {
+        std::pair<uint64, uint64> move_count = kv.first->GetMoveCount();
+        kv.first->ResetMoveCount();
+        uint64 promotions = move_count.first, demotions = move_count.second;
+        LOG(INFO) << "\"" << kv.first->GetName() << "\" promotions: " << promotions << ", demotions:" << demotions;
+        uint64 prev_promotions = kv.second.prev_promotion, prev_demotions = kv.second.prev_demotion;
+        // skip if there is no promotion
+        if (prev_promotions != 0) {
+          int64 diff = prev_promotions - promotions;
+          double relative_diff = (std::fabs((double)diff)) / prev_promotions;
+          if (relative_diff > 0.2) {
+            reactivate = true;
+            LOG(INFO) << "\"" << kv.first->GetName() << "\" promotion diff: " << relative_diff << ", reactivating sampling";
+          }
+        }
+        if (prev_demotions != 0) {
+          int64 diff = prev_demotions - demotions;
+          double relative_diff = (std::fabs((double)diff)) / prev_demotions;
+          if (relative_diff > 0.2) {
+            reactivate = true;
+            LOG(INFO) << "\"" << kv.first->GetName() << "\" demotion diff: " << relative_diff << ", reactivating sampling";
+          }
+        }
+        kv.second.prev_promotion = promotions;
+        kv.second.prev_demotion = demotions;
+      }
+      if (reactivate) {
+        notune_counter_ = 0;
+        sampling_active_.store(true, std::memory_order_release);
+      }
+      if (SamplingActive()) {
+        LOG(INFO) << "access count: " << access_count_ << ", do tune";
+        Tune(total_size_, tuning_unit_);
+        step_ = std::round(access_count_.load(std::memory_order_relaxed) /
+                          (tuning_interval_ * cache_count)) +
+                1;
+      } else {
+        LOG(INFO) << "access count: " << access_count_ << ", tuning not active"; 
+      }
     }
     Env::Default()->SleepForMicroseconds(1000000);
   }
@@ -153,12 +205,17 @@ void CacheManager::IncreaseNanos(uint64_t lru_nano, uint64_t profiler_nano) {
   profiler_nanos.fetch_add(profiler_nano, std::memory_order_relaxed);
 }
 
+bool CacheManager::SamplingActive() const {
+  return sampling_active_.load(std::memory_order_relaxed);
+}
+
 CacheManager::CacheManager()
     : thread_pool_(std::make_unique<thread::ThreadPool>(
           Env::Default(), ThreadOptions(), "CACHE_MANAGER", 1, false)),
       access_count_(0),
       lru_nanos(0),
-      profiler_nanos(0) {
+      profiler_nanos(0),
+      sampling_active_(true) {
   ReadInt64FromEnvVar("CACHE_TUNING_INTERVAL", 100000,
                       reinterpret_cast<int64*>(&tuning_interval_));
   ReadInt64FromEnvVar("CACHE_TOTAL_SIZE", 32 * 1024 * 1024,
@@ -174,6 +231,7 @@ CacheManager::CacheManager()
       CacheTuningStrategyCreator::Create(tuning_strategy_name));
   num_active_threads_ = 0;
   ReadBoolFromEnvVar("CACHE_PROFLER_CLEAR", true, &clear_stat_);
+  ReadInt64FromEnvVar("CACHE_STABLE_STEPS", 5, reinterpret_cast<int64*>(&notune_threshold_));
 }
 
 }  // namespace embedding

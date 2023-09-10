@@ -24,6 +24,10 @@ class TunableCache {
   virtual double GetHitRate() const = 0;
 
   virtual void ResetStat() = 0;
+
+  virtual std::pair<uint64, uint64> GetMoveCount() const = 0;
+
+  virtual void ResetMoveCount() = 0;
 };
 
 template <typename K>
@@ -257,6 +261,14 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     last_access_map_->set_empty_key_and_value(EMPTY_KEY, 0);
     last_access_map_->set_counternum(16);
     last_access_map_->set_deleted_key(DELETED_KEY);
+  }
+
+  std::pair<uint64, uint64> GetMoveCount() const {
+    return tunable_cache_->GetMoveCount();
+  }
+
+  void ResetMoveCount() {
+    tunable_cache_->ResetMoveCount();
   }
 
  private:

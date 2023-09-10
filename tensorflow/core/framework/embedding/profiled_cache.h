@@ -34,7 +34,9 @@ class ProfiledLRUCache : public LRUCache<K> {
     auto start = Clock::now();
     LRUCache<K>::update(batch_ids, batch_size, use_locking);
     auto end_base = Clock::now();
-    profiler_.ReferenceKeyBatch(batch_ids, batch_size);
+    if (CacheManager::GetInstance().SamplingActive()) {
+      profiler_.ReferenceKeyBatch(batch_ids, batch_size);
+    }
     auto end_profiler = Clock::now();
     CacheManager::GetInstance().Access();
     auto lru_time =
