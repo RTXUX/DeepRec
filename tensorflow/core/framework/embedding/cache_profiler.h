@@ -47,6 +47,10 @@ class CacheMRCProfiler : public virtual TunableCache {
   virtual void ResetProfiling() = 0;
 
   virtual size_t GetBucketSize() const = 0;
+
+  virtual void StopSamplingAndReleaseResource() = 0;
+
+  virtual void StartSampling() = 0;
 };
 
 template <typename K>
@@ -96,8 +100,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     // avoid new thread to enter profiling
     run_lock_.store(true, std::memory_order_acquire);
     // wait until no thread profiling
-    while (run_.load(std::memory_order_acquire) != 0)
-      ;
+    while (run_.load(std::memory_order_acquire) != 0);
     timestamp_.store(0, std::memory_order_relaxed);
     reuse_time_hist_.clear();
     reuse_time_hist_.resize(max_reuse_time_ / bucket_size_ + 3);
@@ -110,7 +113,13 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
   size_t GetBucketSize() const override { return bucket_size_; }
 
   std::vector<double> GetMRC(uint64_t max_cache_size) const override {
-    // TODO: potential race condition when resetting
+    if (run_lock_.load(std::memory_order_acquire)) {
+      return {1.0, timestamp_.load(std::memory_order_relaxed)};
+    }
+    // prevent releasing
+    std::atomic<uint>& run__ = const_cast<std::atomic<uint>&>(run_);
+    run__.fetch_add(1, std::memory_order_acquire);
+
     const size_t num_elem = reuse_time_hist_.size();
     std::vector<uint64_t> reuse_time_hist(reuse_time_hist_.cbegin(),
                                           reuse_time_hist_.cend());
@@ -167,6 +176,8 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     }
     result.emplace_back(timestamp);
     result[0] = 1.0;
+
+    run__.fetch_sub(1, std::memory_order_release);
     return result;
   }
 
@@ -185,6 +196,28 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
   double GetHitRate() const override { return tunable_cache_->GetHitRate(); }
 
   void ResetStat() override { tunable_cache_->ResetStat(); }
+
+  void StopSamplingAndReleaseResource() {
+    // avoid new thread to enter profiling
+    run_lock_.store(true, std::memory_order_acquire);
+    // wait until no thread profiling
+    while (run_.load(std::memory_order_acquire) != 0);
+    timestamp_.store(0, std::memory_order_relaxed);
+    reuse_time_hist_ = std::vector<unsigned long>();
+    last_access_map_.reset(nullptr);
+    malloc_trim(0);
+    sample_time_ = timestamp_.load(std::memory_order_relaxed);
+  }
+
+  void StartSampling() {
+    if (!run_lock_.load(std::memory_order_acquire)) {
+      // already started
+      return;
+    }
+    reuse_time_hist_.resize(max_reuse_time_ / bucket_size_ + 3);
+    ResetLastAccessMap();
+    run_lock_.store(false, std::memory_order_release);
+  }
 
   virtual ~SamplingLRUAETProfiler() {
     for (auto iter = last_access_map_->cbegin();
