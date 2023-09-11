@@ -114,7 +114,7 @@ void CacheManager::DoTune(size_t total_size,
   if (notune_counter_ > notune_threshold_) {
     sampling_active_.store(false, std::memory_order_release);
     for (auto cache : caches) {
-      cache->ResetProfiling();
+      cache->StopSamplingAndReleaseResource();
     }
     LOG(INFO) << notune_counter_ << "continuous tuning did not succeed, stop sampling!";
   }
@@ -182,6 +182,9 @@ void CacheManager::TuneLoop() {
       }
       if (reactivate) {
         notune_counter_ = 0;
+        for (auto &kv: registry_) {
+          kv.second->StartSampling();
+        }
         sampling_active_.store(true, std::memory_order_release);
       }
       if (SamplingActive()) {
