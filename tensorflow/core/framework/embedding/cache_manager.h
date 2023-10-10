@@ -1,6 +1,7 @@
 #ifndef DEEPREC_CACHE_MANAGER_H
 #define DEEPREC_CACHE_MANAGER_H
 
+#include <atomic>
 #include <map>
 #include <memory>
 #include <random>
@@ -48,7 +49,7 @@ class CacheManager {
   void DoTune(size_t total_size, std::vector<CacheMRCProfiler*> caches,
               size_t unit);
 
-  void Access();
+  void Access(size_t size);
 
   bool CheckCache();
 
@@ -77,12 +78,15 @@ class CacheManager {
   std::atomic<uint64_t> profiler_nanos;
 
   std::atomic<bool> sampling_active_;
+  std::atomic<bool> should_tune_;
   int64_t notune_counter_ = 0;
   int64_t notune_threshold_;
 
   size_t total_size_;
   size_t min_size_;
   size_t tuning_unit_;
+  std::atomic<size_t> access_size_;
+  std::atomic_flag access_size_lock_ = ATOMIC_FLAG_INIT;
 
   bool clear_stat_;
 

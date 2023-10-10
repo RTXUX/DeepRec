@@ -1,5 +1,6 @@
 #include "tensorflow/core/framework/embedding/cache_manager.h"
 
+#include <atomic>
 #include <cstdlib>
 
 namespace tensorflow {
@@ -122,8 +123,16 @@ void CacheManager::DoTune(size_t total_size,
   LOG(INFO) << "Tuning Done";
 }
 
-void CacheManager::Access() {
+void CacheManager::Access(size_t size) {
   access_count_.fetch_add(1, std::memory_order_relaxed);
+  const size_t target_size = total_size_ * 8;
+  if (access_size_.fetch_add(size, std::memory_order_relaxed) + size >= target_size) {
+    if (!access_size_lock_.test_and_set(std::memory_order_relaxed)) {
+      should_tune_.store(true, std::memory_order_relaxed);
+      access_size_.fetch_sub(target_size, std::memory_order_relaxed);
+      access_size_lock_.clear(std::memory_order_relaxed);
+    }
+  }
 }
 
 bool CacheManager::CheckCache() {
@@ -151,8 +160,8 @@ void CacheManager::TuneLoop() {
     LOG(INFO) << "access count: "
               << access_count_.load(std::memory_order_relaxed);
     size_t cache_count = registry_.size();
-    if (access_count_.load(std::memory_order_relaxed) >
-        step_ * tuning_interval_ * cache_count) {
+    if (should_tune_.load(std::memory_order_relaxed)) {
+      should_tune_.store(std::memory_order_relaxed);
       bool reactivate = false;
       for (auto &kv : cache_stats_) {
         std::pair<uint64, uint64> move_count = kv.first->GetMoveCount();
@@ -180,6 +189,16 @@ void CacheManager::TuneLoop() {
         kv.second.prev_promotion = promotions;
         kv.second.prev_demotion = demotions;
       }
+      
+      if (SamplingActive()) {
+        LOG(INFO) << "access count: " << access_count_ << ", do tune";
+        Tune(total_size_, tuning_unit_);
+      } else {
+        LOG(INFO) << "access count: " << access_count_ << ", tuning not active"; 
+      }
+      step_ = std::round(access_count_.load(std::memory_order_relaxed) /
+                          (tuning_interval_ * cache_count)) + 1;
+
       if (reactivate) {
         notune_counter_ = 0;
         for (auto &kv: registry_) {
@@ -187,15 +206,6 @@ void CacheManager::TuneLoop() {
         }
         sampling_active_.store(true, std::memory_order_release);
       }
-      if (SamplingActive()) {
-        LOG(INFO) << "access count: " << access_count_ << ", do tune";
-        Tune(total_size_, tuning_unit_);
-        
-      } else {
-        LOG(INFO) << "access count: " << access_count_ << ", tuning not active"; 
-      }
-      step_ = std::round(access_count_.load(std::memory_order_relaxed) /
-                          (tuning_interval_ * cache_count)) + 1;
     }
     Env::Default()->SleepForMicroseconds(1000000);
   }
@@ -218,7 +228,8 @@ CacheManager::CacheManager()
       access_count_(0),
       lru_nanos(0),
       profiler_nanos(0),
-      sampling_active_(true) {
+      sampling_active_(true),
+      access_size_(0) {
   ReadInt64FromEnvVar("CACHE_TUNING_INTERVAL", 100000,
                       reinterpret_cast<int64*>(&tuning_interval_));
   ReadInt64FromEnvVar("CACHE_TOTAL_SIZE", 32 * 1024 * 1024,

@@ -17,7 +17,7 @@ class ProfiledLRUCache : public LRUCache<K> {
                             TunableCache* tunable_cache = nullptr)
       : LRUCache<K>(name),
         profiler_(name, bucket_size, max_reuse_time, sampling_interval,
-                  tunable_cache) {}
+                  tunable_cache), entry_size(tunable_cache->GetCacheEntrySize()) {}
 
   //    void add_to_cache(const K *batch_ids, const size_t batch_size) override
   //    {
@@ -38,7 +38,8 @@ class ProfiledLRUCache : public LRUCache<K> {
       profiler_.ReferenceKeyBatch(batch_ids, batch_size);
     }
     auto end_profiler = Clock::now();
-    CacheManager::GetInstance().Access();
+    const size_t access_size = batch_size * entry_size;
+    CacheManager::GetInstance().Access(access_size);
     auto lru_time =
         std::chrono::duration_cast<std::chrono::nanoseconds>(end_base - start)
             .count();
@@ -54,6 +55,7 @@ class ProfiledLRUCache : public LRUCache<K> {
 
  private:
   SamplingLRUAETProfiler<K> profiler_;
+  size_t entry_size;
 };
 
 }  // namespace embedding
