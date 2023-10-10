@@ -254,12 +254,41 @@ bool MinimalizeMissCountDynamicProgrammingTuningStrategy::DoTune(
   size_t orig_mc_sum = 0;
   size_t low_sum = 0, high_sum = 0;
   std::vector<CacheItem*> items;
+  std::vector<std::string> cache_names;
   for (auto& cache : caches) {
     items.emplace_back(&cache.second);
     orig_mc_sum += cache.second.mc;
+    cache_names.emplace_back(cache.first->GetName());
   }
 
   const size_t num_caches = items.size();
+  for (size_t i = 0;i < num_caches; ++i) {
+    CacheItem& item = *items[i];
+    const size_t entry_size = item.entry_size;
+    const size_t bucket_size = item.bucket_size;
+    const std::vector<double>& mrc = items[i]->mrc;
+    const size_t max_unit = std::ceil((mrc.size() - 1) * bucket_size * entry_size / unit);
+    const size_t hi = std::max(min_unit, std::min(max_unit, total_units));
+    high_sum += hi;
+    LOG(INFO) << "\"" << cache_names[i] << "\": max_unit=" << max_unit << ", hi=" << hi << ", high_sum=" << high_sum;
+  }
+  if (high_sum < total_units) {
+    for (size_t i = 0; i < num_caches; ++i) {
+      CacheItem& item = *items[i];
+      const size_t entry_size = item.entry_size;
+      const size_t bucket_size = item.bucket_size;
+      const std::vector<double>& mrc = items[i]->mrc;
+      const size_t max_unit = std::ceil((mrc.size() - 1) * bucket_size * entry_size / unit);
+      const size_t hi = std::max(min_unit, std::min(max_unit, total_units));
+
+      const size_t alloc = std::round((double)hi / high_sum * total_units);
+      item.new_size = alloc * unit;
+    }
+    return true;
+  }
+
+  high_sum = 0;
+
   std::vector<std::vector<size_t>> miss(num_caches);
   std::vector<size_t> offset(num_caches);
   std::vector<std::vector<size_t>> target(num_caches);
@@ -274,7 +303,8 @@ bool MinimalizeMissCountDynamicProgrammingTuningStrategy::DoTune(
     last_low_sum = low_sum;
     low_sum += min_unit;
     const std::vector<double>& mrc = items[i]->mrc;
-    const size_t hi = total_units;
+    const size_t max_unit = std::ceil((mrc.size() - 1) * bucket_size * entry_size / unit);
+    const size_t hi = std::max(min_unit, std::min(max_unit, total_units));
     high_sum += hi;
     std::vector<size_t>&miss_i = miss[i], &target_i = target[i];
     const size_t j_upper = std::min(total_units, high_sum);
@@ -313,7 +343,7 @@ bool MinimalizeMissCountDynamicProgrammingTuningStrategy::DoTune(
     last_max = max_j;
   }
 
-  size_t t = total_units;
+  size_t t = last_max;
   const size_t new_mc_sum = miss[num_caches - 1][t - offset[num_caches - 1]];
   if (new_mc_sum >= orig_mc_sum) {
     LOG(INFO) << "Dynamic Programming: new MC sum not less than orig mc_sum";

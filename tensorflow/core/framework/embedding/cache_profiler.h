@@ -162,7 +162,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
                         ((cache_size - prev_integ) / (integral - prev_integ));
         result.emplace_back(mr);
         cache_size += bucket_size_;
-        if (cache_size > max_cache_size) break;
+        if (cache_size > max_cache_size || cache_size > timestamp) break;
       }
       prev_integ = integral;
       const double increment =
@@ -174,6 +174,16 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
       }
       integral += increment;
     }
+
+    while (result.size() > 2) {
+      const size_t s = result.size() - 1;
+      if (result[s] == result[s - 1]) {
+        result.pop_back();
+      } else {
+        break;
+      }
+    }
+
     result.emplace_back(timestamp);
     result[0] = 1.0;
 
