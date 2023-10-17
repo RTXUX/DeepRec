@@ -1,6 +1,7 @@
 #ifndef DEEPREC_CACHE_PROFILER_H
 #define DEEPREC_CACHE_PROFILER_H
 
+#include <cstdint>
 #include <random>
 #include <string>
 #include <utility>
@@ -126,10 +127,16 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     const uint64_t timestamp = timestamp_.load(std::memory_order_relaxed);
     uint64_t reuse_time_sum = 0;
     if (sampling_interval_ != 1) {
-      reuse_time_sum += last_access_map_->size_lockless();
-    } else {
       reuse_time_sum += reuse_time_hist[0];
+    } else {
+      for (auto iter = last_access_map_->cbegin();
+         iter != last_access_map_->cend(); ++iter) {
+        if (*(iter->second) != 0) {
+          reuse_time_sum += 1;
+        }
+      }
     }
+    const size_t max_dist = sampling_interval_ == 1 ? last_access_map_->size_lockless() : timestamp;
     size_t last_index = 0;
     std::vector<uint64_t> prefix_sum;
     prefix_sum.reserve(num_elem);
@@ -162,7 +169,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
                         ((cache_size - prev_integ) / (integral - prev_integ));
         result.emplace_back(mr);
         cache_size += bucket_size_;
-        if (cache_size > max_cache_size || cache_size > timestamp) break;
+        if (cache_size > max_cache_size || cache_size > max_dist) break;
       }
       prev_integ = integral;
       const double increment =
@@ -258,7 +265,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     uint64_t timestamp = timestamp_.fetch_add(1, std::memory_order_relaxed) + 1;
     auto iter = last_access_map_->find_wait_free(const_cast<K&>(key));
     // not found and we need to sample
-    if (iter.first == EMPTY_KEY || iter.first == DELETED_KEY) {
+    if (iter.first == EMPTY_KEY || iter.first == DELETED_KEY || *(iter.second) == 0) {
       if (timestamp >= sample_time_) {
         bool unlocked = false;
         // avoid concurrent update of next sample time
@@ -268,21 +275,31 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
           sample_time_ = timestamp_.load(std::memory_order_relaxed) + next;
           sample_lock_.store(false, std::memory_order_release);
         }
-        
-        uint64_t* value_ptr = new uint64_t(timestamp);
-        auto inserted = last_access_map_->insert_lockless({key, value_ptr});
-        if (inserted.first->second != value_ptr) {
-          delete value_ptr;
-          return;
+
+        if (iter.first == EMPTY_KEY || iter.first == DELETED_KEY || sampling_interval_ == 1) {
+          // new sample
+          uint64_t* value_ptr = new uint64_t(timestamp);
+          auto inserted = last_access_map_->insert_lockless({key, value_ptr});
+          if (inserted.first->second != value_ptr) {
+            delete value_ptr;
+            return;
+          }
+        } else {
+          // existing key
+          uint64_t* value_ptr = iter.second;
+          __sync_bool_compare_and_swap(value_ptr, 0, timestamp);
         }
         reuse_dist = 0;
       }
     } else {
       uint64_t old_ts = *(iter.second);
       reuse_dist = timestamp - old_ts;
-      if (__sync_val_compare_and_swap(iter.second, old_ts, timestamp) != old_ts) {
-        return;
+      if (sampling_interval_ == 1) {
+        __sync_val_compare_and_swap(iter.second, old_ts, timestamp);
+      } else {
+        __sync_val_compare_and_swap(iter.second, old_ts, 0);
       }
+      
     }
     
     if (reuse_dist > 0 || (reuse_dist == 0 && sampling_interval_ == 1))

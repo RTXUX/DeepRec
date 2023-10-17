@@ -40,10 +40,12 @@ class CacheFactory {
                     << name;
           size_t bucket_size;
           size_t max_reuse_dist;
+          uint64_t sampling_interval;
           ReadInt64FromEnvVar("CACHE_PROFILER_BUCKET_SIZE", 10, reinterpret_cast<int64 *>(&bucket_size));
           ReadInt64FromEnvVar("CACHE_PROFILER_MAX_REUSE_DIST", 100000, reinterpret_cast<int64 *>(&max_reuse_dist));
+          ReadInt64FromEnvVar("CACHE_PROFILER_SAMPLING_INTERVAL", 1, reinterpret_cast<int64 *>(&sampling_interval));
           ProfiledLRUCache<K> *cache;
-          cache = new ProfiledLRUCache<K>(name, bucket_size, max_reuse_dist, 1, tunable_cache);
+          cache = new ProfiledLRUCache<K>(name, bucket_size, max_reuse_dist, sampling_interval, tunable_cache);
           if (tunable_cache != nullptr) {
             CacheManager::GetInstance().RegisterCache(*cache->GetProfiler());
           }
