@@ -18,6 +18,7 @@ limitations under the License.
 #include "cache.h"
 #include "tensorflow/core/framework/embedding/profiled_cache.h"
 #include "tensorflow/core/framework/embedding/config.pb.h"
+#include "tensorflow/core/util/env_var.h"
 
 namespace tensorflow {
 namespace embedding {
@@ -50,6 +51,11 @@ class CacheFactory {
             CacheManager::GetInstance().RegisterCache(*cache->GetProfiler());
           }
           return cache;
+        case CacheStrategy::ShardedLRU:
+          LOG(INFO) << " Use Storage::LFU in multi-tier EmbeddingVariable " << name;
+          int64 shard_shift;
+          ReadInt64FromEnvVar("CACHE_SHARD_SHIFT", 0, &shard_shift);
+          return new ShardedLRUCache<K>(name, shard_shift);
         default:
           LOG(INFO) << " Invalid Cache strategy, \
                        use LFU in multi-tier EmbeddingVariable "

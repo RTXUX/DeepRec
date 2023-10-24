@@ -4,14 +4,12 @@ IOSCHEME=("mmap_and_madvise" "mmap" "directio")
 
 set -x
 
-for ioscheme in "${IOSCHEME[@]}"; do
-    TF_SSDHASH_IO_SCHEME="${ioscheme}" ./run.sh "logs/ioscheme/lru_ev_512m_${ioscheme}.log" --cache_size=512 --ev=tiered;
-    rm -rf ./result/*
-    rm -rf /opt/ev/*
-done 
+CACHE_SIZE=("8192" "4096" "2048" "1024" "512")
 
-for ioscheme in "${IOSCHEME[@]}"; do
-    TF_SSDHASH_IO_SCHEME="${ioscheme}" ./run.sh "logs/ioscheme/lru_ev_256m_${ioscheme}.log" --cache_size=256 --ev=tiered;
-    rm -rf ./result/*
-    rm -rf /opt/ev/*
-done 
+for size in "${CACHE_SIZE[@]}"; do
+    for ioscheme in "${IOSCHEME[@]}"; do
+        TF_SSDHASH_IO_SCHEME="${ioscheme}" ./run.sh "logs/ioscheme/lru_ev_${size}m_${ioscheme}.log" "--cache_size=${size}" --ev=tiered;
+        rm -rf ./result/*
+        rm -rf /opt/ev/*
+    done 
+done
