@@ -61,7 +61,8 @@ public:
     cache_capacity_ = Storage<K, V>::storage_config_.size[0]
                       / (total_dim() * sizeof(V));
     ready_eviction_ = true;
-    LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_;
+    const size_t unit_size = total_dim() * sizeof(V);
+    LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_ << ", unit size=" << unit_size;
   }
 
   int64 CacheSize() const override {
@@ -77,14 +78,14 @@ public:
   }
 
   void SetCacheSize(size_t new_size) override {
-    // TODO: Implement cache size adjustment
     while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
     Storage<K, V>::storage_config_.size[0] = new_size;
     cache_capacity_ = Storage<K, V>::storage_config_.size[0]
                       / (Storage<K, V>::total_dims_ * sizeof(V));
     ready_eviction_ = true;
+    const size_t unit_size = total_dim() * sizeof(V);
     Storage<K, V>::flag_.clear(std::memory_order_release);
-    LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_;
+    LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_ << ", unit size=" << unit_size;
   }
 
   size_t GetCacheEntrySize() const override {

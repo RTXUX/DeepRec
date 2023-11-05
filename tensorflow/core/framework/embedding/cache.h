@@ -302,6 +302,7 @@ class ShardedLRUCache: public BatchCache<K> {
   }
 
   ~ShardedLRUCache() override {
+    LOG(INFO) << "Sharded LRU Cache for " << name_ << " Destroying: " << DebugString();
     const size_t num_shards = shards_.size();
     for (size_t i = 0; i < num_shards; ++i) {
       LRUShard& shard = *shards_[i];
