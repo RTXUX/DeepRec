@@ -68,7 +68,8 @@ public:
         cache_capacity_ = Storage<K, V>::storage_config_.size[0]
                           / (Storage<K, V>::total_dims_ * sizeof(V));
         ready_eviction_ = true;
-        LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_;
+        const size_t unit_size = Storage<K, V>::total_dims_ * sizeof(V);
+        LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_ << ", unit size=" << unit_size;
       }
       Storage<K, V>::flag_.clear(std::memory_order_release);
     }
@@ -91,8 +92,9 @@ public:
       cache_capacity_ = Storage<K, V>::storage_config_.size[0]
                         / (Storage<K, V>::total_dims_ * sizeof(V));
       ready_eviction_ = true;
+      const size_t unit_size = Storage<K, V>::total_dims_ * sizeof(V);
       Storage<K, V>::flag_.clear(std::memory_order_release);
-      LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_;
+      LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_ << ", unit size=" << unit_size;
     }
 
     size_t GetCacheEntrySize() const override {
