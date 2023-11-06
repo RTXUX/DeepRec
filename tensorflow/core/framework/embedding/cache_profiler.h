@@ -10,6 +10,7 @@
 
 #include "sparsehash/dense_hash_map_lockless"
 #include "tensorflow/core/framework/embedding/cache.h"
+#include "tensorflow/core/platform/mutex.h"
 
 namespace tensorflow {
 namespace embedding {
@@ -81,6 +82,10 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     if (run_lock_.load(std::memory_order_acquire)) return;
     // indicate we are running
     run_.fetch_add(1, std::memory_order_acquire);
+    if (run_lock_.load(std::memory_order_acquire)) {
+      run_.fetch_sub(1, std::memory_order_release);
+      return;
+    };
     DoReferenceKey(key);
     run_.fetch_sub(1, std::memory_order_release);
   }
@@ -89,6 +94,10 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     if (run_lock_.load(std::memory_order_acquire)) return;
     // indicate we are running
     run_.fetch_add(1, std::memory_order_acquire);
+    if (run_lock_.load(std::memory_order_acquire)) {
+      run_.fetch_sub(1, std::memory_order_release);
+      return;
+    };
     for (size_t i = 0; i < batch_size; ++i) {
       DoReferenceKey(keys[i]);
     }
@@ -120,7 +129,6 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     // prevent releasing
     std::atomic<uint>& run__ = const_cast<std::atomic<uint>&>(run_);
     run__.fetch_add(1, std::memory_order_acquire);
-
     const size_t num_elem = reuse_time_hist_.size();
     std::vector<uint64_t> reuse_time_hist(reuse_time_hist_.cbegin(),
                                           reuse_time_hist_.cend());
@@ -347,6 +355,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
   std::uniform_int_distribution<uint64_t> distrib_;
   std::mt19937 rand_;
   TunableCache* tunable_cache_;
+  mutex mu_;
   inline static constexpr K EMPTY_KEY = -1;
   inline static constexpr K DELETED_KEY = -2;
 };

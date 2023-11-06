@@ -125,7 +125,7 @@ void CacheManager::DoTune(size_t total_size,
 
 void CacheManager::Access(size_t size) {
   access_count_.fetch_add(1, std::memory_order_relaxed);
-  const size_t target_size = total_size_ * 8;
+  const size_t target_size = total_size_ * 16;
   if (access_size_.fetch_add(size, std::memory_order_relaxed) + size >= target_size) {
     if (!access_size_lock_.test_and_set(std::memory_order_relaxed)) {
       should_tune_.store(true, std::memory_order_relaxed);
