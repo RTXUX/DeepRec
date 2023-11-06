@@ -42,6 +42,7 @@ enum CacheStrategy {
   LFU = 1;
   ProfiledLRU = 2;
   ShardedLRU = 3;
+  ProfiledShardedLRU = 4;
 }
 
 enum EmbeddingVariableType {

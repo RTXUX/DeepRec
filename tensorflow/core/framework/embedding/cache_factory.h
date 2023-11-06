@@ -27,6 +27,7 @@ class CacheFactory {
     template<typename K>
     static BatchCache<K> *
     Create(CacheStrategy cache_strategy, std::string name, TunableCache *tunable_cache = nullptr) {
+      int64 shard_shift;
       switch (cache_strategy) {
         case CacheStrategy::LRU:
           LOG(INFO) << " Use Storage::LRU in multi-tier EmbeddingVariable "
@@ -52,10 +53,21 @@ class CacheFactory {
           }
           return cache;
         case CacheStrategy::ShardedLRU:
-          LOG(INFO) << " Use Storage::LFU in multi-tier EmbeddingVariable " << name;
-          int64 shard_shift;
+          LOG(INFO) << " Use Storage::ShardedLRU in multi-tier EmbeddingVariable " << name;
           ReadInt64FromEnvVar("CACHE_SHARD_SHIFT", 0, &shard_shift);
           return new ShardedLRUCache<K>(name, shard_shift);
+        case CacheStrategy::ProfiledShardedLRU:
+          LOG(INFO) << " Use Storage::ProfiledShardedLRU in multi-tier EmbeddingVariable " << name;
+          ReadInt64FromEnvVar("CACHE_SHARD_SHIFT", 0, &shard_shift);
+          ReadInt64FromEnvVar("CACHE_PROFILER_BUCKET_SIZE", 10, reinterpret_cast<int64 *>(&bucket_size));
+          ReadInt64FromEnvVar("CACHE_PROFILER_MAX_REUSE_DIST", 100000, reinterpret_cast<int64 *>(&max_reuse_dist));
+          ReadInt64FromEnvVar("CACHE_PROFILER_SAMPLING_INTERVAL", 1, reinterpret_cast<int64 *>(&sampling_interval));
+          ProfiledShardedLRUCache<K> *pscache;
+          pscache = new ProfiledShardedLRUCache<K>(name, bucket_size, max_reuse_dist, sampling_interval, shard_shift, tunable_cache);
+          if (tunable_cache != nullptr) {
+            CacheManager::GetInstance().RegisterCache(*pscache->GetProfiler());
+          }
+          return pscache;
         default:
           LOG(INFO) << " Invalid Cache strategy, \
                        use LFU in multi-tier EmbeddingVariable "
