@@ -82,14 +82,15 @@ void CacheManager::DoTune(size_t total_size,
     const size_t size = cache->GetCacheSize();
     const size_t entry_size = cache->GetCacheEntrySize();
     const size_t num_entries = size / entry_size;
-    std::vector<double> mrc = cache->GetMRC(size * 10);
+    std::vector<double> mrc = cache->GetMRC(num_entries * 10);
     const double mr = InterpolateMRC(mrc, bucket_size, num_entries);
     const uint64_t vc = (uint64_t)mrc[mrc.size() - 1];
     const uint64_t mc = vc * mr;
     const double actual_hr = cache->GetHitRate();
     const uint64_t actual_hc = (uint64_t)(actual_hr * vc);
     LOG(INFO) << "Cache \"" << cache->GetName()
-              << "\" estimated hit count=" << vc - mc
+              << "\" visit count=" << vc
+              << ", estimated hit count=" << vc - mc
               << ", actual hit count=" << actual_hc << ", relative error="
               << (double)(int64_t)(vc - mc - actual_hc) / actual_hc;
     orig_mc_sum += mc;

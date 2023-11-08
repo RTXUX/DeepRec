@@ -169,25 +169,36 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     const size_t num_mrc_elem = max_cache_size / bucket_size_ + 1;
     std::vector<double> result;
     result.reserve(num_mrc_elem + 1);
-    for (uint64_t t = 0; t < num_elem - 1; ++t) {
-      if (integral >= cache_size) {
-        // linear interpolation
-        double mr = prob_greater[t - 1] +
-                    (prob_greater[t] - prob_greater[t - 1]) *
-                        ((cache_size - prev_integ) / (integral - prev_integ));
-        result.emplace_back(mr);
-        cache_size += bucket_size_;
-        if (cache_size > max_cache_size || cache_size > max_dist) break;
+    // for (uint64_t t = 0; t < num_elem - 1; ++t) {
+    //   if (integral >= cache_size) {
+    //     // linear interpolation
+    //     double mr = prob_greater[t - 1] +
+    //                 (prob_greater[t] - prob_greater[t - 1]) *
+    //                     ((cache_size - prev_integ) / (integral - prev_integ));
+    //     result.emplace_back(mr);
+    //     cache_size += bucket_size_;
+    //     if (cache_size > max_cache_size || cache_size > max_dist) break;
+    //   }
+    //   prev_integ = integral;
+    //   const double increment =
+    //       (prob_greater[t] +
+    //        prob_greater[std::min(t + 1, prob_greater.size() - 1)]) /
+    //       2 * bucket_size_;
+    //   if (increment == 0.0) {
+    //     break;
+    //   }
+    //   integral += increment;
+    // }
+    size_t t = 0;
+    for(uint64_t c = 0; c < num_mrc_elem; ++c) {
+      while (integral < c && t < num_elem - 1) {
+        integral += prob_greater[t];
+        t++;
       }
-      prev_integ = integral;
-      const double increment =
-          (prob_greater[t] +
-           prob_greater[std::min(t + 1, prob_greater.size() - 1)]) /
-          2 * bucket_size_;
-      if (increment == 0.0) {
+      result.emplace_back(prob_greater[t - 1]);
+      if (t >= num_elem - 1) {
         break;
       }
-      integral += increment;
     }
 
     while (result.size() > 2) {
@@ -268,7 +279,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
 
   void DoReferenceKey(const K& key) {
     
-    int64_t reuse_dist;
+    int64_t reuse_dist = 0;
     
     uint64_t timestamp = timestamp_.fetch_add(1, std::memory_order_relaxed) + 1;
     auto iter = last_access_map_->find_wait_free(const_cast<K&>(key));
