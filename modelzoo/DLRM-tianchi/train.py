@@ -79,7 +79,7 @@ TYPE_COLS = ['time_type', 'time_type_list']
 TYPE_LIST = ['lunch', 'night', 'dinner', 'tea', 'breakfast']
 
 HASH_BUCKET_SIZES = 100000
-EMBEDDING_DIMENSIONS = 256
+EMBEDDING_DIMENSIONS = 16
 
 
 class DLRM():
@@ -332,11 +332,15 @@ def build_model_input(filename, batch_size, num_epochs):
 def build_feature_columns():
     dense_column = []
     sparse_column = []
+
+
+
     for columns in SHARE_EMBEDDING_COLS:
         cate_cols = []
         for col in columns:
             cate_col = tf.feature_column.categorical_column_with_hash_bucket(
-                col, HASH_BUCKET_SIZES)
+                 col, HASH_BUCKET_SIZES)
+            # cate_col = tf.feature_column.categorical_column_with_embedding(col, ev_option=ev_opt)
             cate_cols.append(cate_col)
         shared_emb_cols = tf.feature_column.shared_embedding_columns(
             cate_cols, EMBEDDING_DIMENSIONS)
@@ -346,7 +350,6 @@ def build_feature_columns():
         # cate_col = tf.feature_column.categorical_column_with_hash_bucket(
         #    column, HASH_BUCKET_SIZES)
 
-        
         if args.ev == 'tiered':
             ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
                 storage_type=config_pb2.StorageType.DRAM_SSDHASH,
@@ -361,10 +364,25 @@ def build_feature_columns():
                 storage_size=[args.cache_size * 1024 * 1024],
                 cache_strategy=config_pb2.CacheStrategy.ProfiledLRU
             ))
+        elif args.ev == 'sharded':
+            ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
+                storage_type=config_pb2.StorageType.DRAM_SSDHASH,
+                storage_path=f"/opt/ev/{column}",
+                storage_size=[args.cache_size * 1024 * 1024],
+                cache_strategy=config_pb2.CacheStrategy.ShardedLRU
+            ))
+        elif args.ev == 'profiled_sharded':
+            ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
+                storage_type=config_pb2.StorageType.DRAM_SSDHASH,
+                storage_path=f"/opt/ev/{column}",
+                storage_size=[args.cache_size * 1024 * 1024],
+                cache_strategy=config_pb2.CacheStrategy.ProfiledShardedLRU
+            ))
         else:
             ev_opt = tf.EmbeddingVariableOption()
+
         cate_col = tf.feature_column.categorical_column_with_embedding(column, ev_option=ev_opt)
-        
+
         if args.tf or not args.emb_fusion:
             emb_col = tf.feature_column.embedding_column(
                 cate_col, EMBEDDING_DIMENSIONS)
@@ -648,7 +666,7 @@ def get_arg_parser():
     parser.add_argument('--ev',
                         help='',
                         type=str,
-                        choices=['normal', 'tiered', 'profiled'],
+                        choices=['normal', 'tiered', 'profiled', 'sharded', 'profiled_sharded'],
                         default='normal')
     parser.add_argument('--cache_size',
                         type=int,

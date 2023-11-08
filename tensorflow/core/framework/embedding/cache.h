@@ -471,7 +471,7 @@ class ShardedLRUCache: public BatchCache<K> {
       num_miss += shard->num_miss;
     }
     hit_rate = (double)num_hit / (num_hit + num_miss);
-    return strings::StrCat("HitRate = ", hit_rate,
+    return strings::StrCat("HitRate = ", hit_rate * 100,
                            " %, visit_count = ", num_hit + num_miss,
                            ", hit_count = ", num_hit);
   }
