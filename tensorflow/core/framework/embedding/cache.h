@@ -199,11 +199,8 @@ class LRUCache : public BatchCache<K> {
         BatchCache<K>::num_miss++;
       }
     }
-    if ((access_.fetch_add(1, std::memory_order_relaxed) + 1) %
-            report_interval_ ==
-        0) {
-      LOG(INFO) << "cache \"" << name_
-                << "\" statistics: " << BatchCache<K>::DebugString();
+    if ((access_.fetch_add(1, std::memory_order_relaxed) + 1) % report_interval_ == 0) {
+      LOG(INFO) << "cache \"" << name_ << "\" statistics: " << BatchCache<K>::DebugString()  << ", actual size=" << mp.size();
     }
   }
 
