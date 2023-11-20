@@ -154,6 +154,8 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
       reuse_time_sum += reuse_time_hist[i];
       last_index = i;
     }
+    const size_t beyond = prefix_sum[prefix_sum.size() - 1];
+    prefix_sum.pop_back();
     // calculate CCDF
     std::vector<double> prob_greater;
     prob_greater.reserve(num_elem - 1);
@@ -285,7 +287,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     auto iter = last_access_map_->find_wait_free(const_cast<K&>(key));
     // not found and we need to sample
     if (iter.first == EMPTY_KEY || iter.first == DELETED_KEY || *(iter.second) == 0) {
-      if (timestamp >= sample_time_) {
+      if (timestamp >= sample_time_ || sampling_interval_ == 1) {
         bool unlocked = false;
         // avoid concurrent update of next sample time
         if (sample_lock_.compare_exchange_strong(unlocked, true,
