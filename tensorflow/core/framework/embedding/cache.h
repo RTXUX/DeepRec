@@ -18,6 +18,8 @@
 #include "tensorflow/core/platform/types.h"
 #include "tensorflow/core/util/env_var.h"
 
+#define STRICT_LRU 1
+
 namespace tensorflow {
 namespace embedding {
 
@@ -141,11 +143,13 @@ class LRUCache : public BatchCache<K> {
     tail = new LRUNode(0);
     head->next = tail;
     tail->pre = head;
+    #if STRICT_LRU
     evicted_head = new LRUNode(0);
     evicted_tail = new LRUNode(0);
     evicted_head->next = evicted_tail;
     evicted_tail->pre = evicted_head;
     pending_evict_count = 0;
+    #endif
     BatchCache<K>::num_hit = 0;
     BatchCache<K>::num_miss = 0;
     ReadInt64FromEnvVar("CACHE_REPORT_INTERVAL", 10000, &report_interval_);
@@ -153,16 +157,24 @@ class LRUCache : public BatchCache<K> {
 
   size_t size() {
     mutex_lock l(mu_);
+    #if STRICT_LRU
     return mp.size() + pending_evict_count;
+    #else
+    return mp.size();
+    #endif
   }
 
   size_t get_evic_ids(K* evic_ids, size_t k_size) {
     mutex_lock l(mu_);
     size_t true_size = 0;
 
+    LRUNode* evic_node;
+    LRUNode* rm_node;
+
     // evict from evicted linked list
-    LRUNode* evic_node = evicted_tail->pre;
-    LRUNode* rm_node = evic_node;
+    #if STRICT_LRU
+    evic_node = evicted_tail->pre;
+    rm_node = evic_node;
     for (size_t i = 0; true_size < k_size && evic_node != evicted_head; ++i) {
       evic_ids[true_size++] = evic_node->id;
       rm_node = evic_node;
@@ -175,6 +187,7 @@ class LRUCache : public BatchCache<K> {
     if (true_size >= k_size) {
       return true_size;
     }
+    #endif
 
     evic_node = tail->pre;
     rm_node = evic_node;
@@ -207,6 +220,7 @@ class LRUCache : public BatchCache<K> {
     auto lock = BatchCache<K>::maybe_lock_cache(mu_, temp_mu, use_locking);
 
     // Implement strict LRU
+    #if STRICT_LRU
     if (BatchCache<K>::desired_size > 0) {
       ssize_t evict_count = mp.size() - BatchCache<K>::desired_size;
       ssize_t evicted = 0;
@@ -233,7 +247,7 @@ class LRUCache : public BatchCache<K> {
 
       pending_evict_count += evicted;
     }
-    
+    #endif
     
     for (size_t i = 0; i < batch_size; ++i) {
       K id = batch_ids[i];
@@ -354,8 +368,10 @@ class LRUCache : public BatchCache<K> {
   std::unordered_map<K, PrefetchNode<K>*> prefetch_id_table;
   mutex mu_;
 
+  #if STRICT_LRU
   LRUNode *evicted_head, *evicted_tail;
   size_t pending_evict_count;
+  #endif
 
   std::string name_;
   std::atomic<int64> access_;
