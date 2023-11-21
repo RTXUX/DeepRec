@@ -60,6 +60,11 @@ public:
   virtual void Init() override {
     cache_capacity_ = Storage<K, V>::storage_config_.size[0]
                       / (total_dim() * sizeof(V));
+    if (cache_) {
+      cache_->SetSize(cache_capacity_);
+    } else {
+      LOG(INFO) << "Cache \"" << name_ << "\" not initialized";
+    }
     ready_eviction_ = true;
     const size_t unit_size = total_dim() * sizeof(V);
     LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_ << ", unit size=" << unit_size;
@@ -82,6 +87,11 @@ public:
     Storage<K, V>::storage_config_.size[0] = new_size;
     cache_capacity_ = Storage<K, V>::storage_config_.size[0]
                       / (Storage<K, V>::total_dims_ * sizeof(V));
+    if (cache_) {
+      cache_->SetSize(cache_capacity_);
+    } else {
+      LOG(INFO) << "Cache \"" << name_ << "\" not initialized";
+    }
     ready_eviction_ = true;
     const size_t unit_size = total_dim() * sizeof(V);
     Storage<K, V>::flag_.clear(std::memory_order_release);
@@ -95,6 +105,9 @@ public:
   void InitCache(embedding::CacheStrategy cache_strategy) override {
     if (cache_ == nullptr) {
       cache_ = CacheFactory::Create<K>(cache_strategy, name_, this);
+      if (cache_capacity_ != -1) {
+        cache_->SetSize(cache_capacity_);
+      }
       eviction_manager_ = EvictionManagerCreator::Create<K, V>();
       eviction_manager_->AddStorage(this);
       cache_thread_pool_ = CacheThreadPoolCreator::Create();
