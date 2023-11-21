@@ -69,8 +69,10 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
         reuse_time_hist_(max_reuse_time / bucket_size + 3, 0),
         timestamp_(0),
         sampling_interval_(sampling_interval),
+        samping_rate_(1.0 / sampling_interval),
         rand_(std::random_device()()),
         distrib_(1, sampling_interval * 2 - 1),
+        distrib_real_(0.0, 1.0),
         run_lock_(false),
         run_(0),
         tunable_cache_(tunable_cache) {
@@ -280,6 +282,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
   }
 
   void DoReferenceKey(const K& key) {
+    static thread_local std::mt19937_64 rand;
     
     int64_t reuse_dist = 0;
     
@@ -287,16 +290,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     auto iter = last_access_map_->find_wait_free(const_cast<K&>(key));
     // not found and we need to sample
     if (iter.first == EMPTY_KEY || iter.first == DELETED_KEY || *(iter.second) == 0) {
-      if (timestamp >= sample_time_ || sampling_interval_ == 1) {
-        bool unlocked = false;
-        // avoid concurrent update of next sample time
-        if (sample_lock_.compare_exchange_strong(unlocked, true,
-                                                std::memory_order_acquire)) {
-          uint64_t next = distrib_(rand_);
-          sample_time_ = timestamp_.load(std::memory_order_relaxed) + next;
-          sample_lock_.store(false, std::memory_order_release);
-        }
-
+      if (distrib_real_(rand) <= samping_rate_) {
         if (iter.first == EMPTY_KEY || iter.first == DELETED_KEY || sampling_interval_ == 1) {
           // new sample
           uint64_t* value_ptr = new uint64_t(timestamp);
@@ -311,7 +305,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
           __sync_bool_compare_and_swap(value_ptr, 0, timestamp);
         }
         reuse_dist = 0;
-      }
+      } else return;
     } else {
       uint64_t old_ts = *(iter.second);
       reuse_dist = timestamp - old_ts;
@@ -319,10 +313,8 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
         __sync_val_compare_and_swap(iter.second, old_ts, timestamp);
       } else {
         __sync_val_compare_and_swap(iter.second, old_ts, 0);
-      }
-      
+      } 
     }
-    
     if (reuse_dist > 0 || (reuse_dist == 0 && sampling_interval_ == 1))
       IncreaseHistogram(reuse_dist);
   }
@@ -345,7 +337,8 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
       LOG(INFO) << "Resetting Access Map: " << count;
     }
     last_access_map_.reset(new google::dense_hash_map_lockless<K, uint64_t*>());
-    last_access_map_->max_load_factor(0.8f);
+    last_access_map_->max_load_factor(1.5f);
+    last_access_map_->min_load_factor(0.5f);
     last_access_map_->set_empty_key_and_value(EMPTY_KEY, 0);
     last_access_map_->set_counternum(16);
     last_access_map_->set_deleted_key(DELETED_KEY);
@@ -372,7 +365,9 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
   std::atomic<bool> run_lock_;
   std::atomic<uint> run_;
   uint64_t sampling_interval_;
+  double samping_rate_;
   std::uniform_int_distribution<uint64_t> distrib_;
+  std::uniform_real_distribution<double> distrib_real_;
   std::mt19937 rand_;
   TunableCache* tunable_cache_;
   mutex mu_;
