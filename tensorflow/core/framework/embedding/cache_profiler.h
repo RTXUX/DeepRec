@@ -335,8 +335,15 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
         delete iter->second;
 	      ++count;
       }
+      // Print Last Access Map Info
+      LOG(INFO) << "map info size:" << count
+                << ", bucket_count:" << last_access_map_->bucket_count()
+                << ", load_factor:" << last_access_map_->load_factor()
+                << ", max_load_factor:" << last_access_map_->max_load_factor()
+                << ", min_load_factor:" << last_access_map_->min_load_factor();
+
+      LOG(INFO) << "Resetting Access Map: " << count;
     }
-    LOG(INFO) << "Resetting Access Map: " << count;
     last_access_map_.reset(new google::dense_hash_map_lockless<K, uint64_t*>());
     last_access_map_->max_load_factor(0.8f);
     last_access_map_->set_empty_key_and_value(EMPTY_KEY, 0);
