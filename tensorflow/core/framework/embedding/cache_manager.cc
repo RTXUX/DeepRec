@@ -162,7 +162,7 @@ void CacheManager::TuneLoop() {
               << access_count_.load(std::memory_order_relaxed);
     size_t cache_count = registry_.size();
     if (should_tune_.load(std::memory_order_relaxed)) {
-      should_tune_.store(std::memory_order_relaxed);
+      should_tune_.store(false, std::memory_order_relaxed);
       bool reactivate = false;
       for (auto &kv : cache_stats_) {
         std::pair<uint64, uint64> move_count = kv.first->GetMoveCount();
@@ -230,6 +230,7 @@ CacheManager::CacheManager()
       lru_nanos(0),
       profiler_nanos(0),
       sampling_active_(true),
+      should_tune_(false),
       access_size_(0) {
   ReadInt64FromEnvVar("CACHE_TUNING_INTERVAL", 100000,
                       reinterpret_cast<int64*>(&tuning_interval_));
