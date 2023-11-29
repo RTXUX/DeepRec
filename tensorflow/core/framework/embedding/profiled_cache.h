@@ -19,7 +19,8 @@ class ProfiledLRUCache : public LRUCache<K> {
       : LRUCache<K>(name),
         profiler_(name, bucket_size, max_reuse_time, sampling_interval,
                   tunable_cache),
-        entry_size(tunable_cache->GetCacheEntrySize()) {}
+        entry_size(-1),
+        tunable_cache_(tunable_cache) {}
 
   //    void add_to_cache(const K *batch_ids, const size_t batch_size) override
   //    {
@@ -32,6 +33,9 @@ class ProfiledLRUCache : public LRUCache<K> {
 
   void update(const K* batch_ids, size_t batch_size,
               bool use_locking) override {
+    if (entry_size >= 0xFFFFFFFFL) {
+      entry_size = tunable_cache_->GetCacheEntrySize();
+    }
     using Clock = std::chrono::high_resolution_clock;
     auto start = Clock::now();
     LRUCache<K>::update(batch_ids, batch_size, use_locking);
@@ -40,8 +44,10 @@ class ProfiledLRUCache : public LRUCache<K> {
       profiler_.ReferenceKeyBatch(batch_ids, batch_size);
     }
     auto end_profiler = Clock::now();
-    const size_t access_size = batch_size * entry_size;
-    CacheManager::GetInstance().Access(access_size);
+    if (entry_size < 0xFFFFFFFFL) {
+      const size_t access_size = batch_size * entry_size;
+      CacheManager::GetInstance().Access(access_size);
+    }
     auto lru_time =
         std::chrono::duration_cast<std::chrono::nanoseconds>(end_base - start)
             .count();
@@ -58,6 +64,7 @@ class ProfiledLRUCache : public LRUCache<K> {
  private:
   SamplingLRUAETProfiler<K> profiler_;
   size_t entry_size;
+  TunableCache *tunable_cache_;
 };
 
 template <typename K>
@@ -71,12 +78,16 @@ class ProfiledShardedLRUCache : public ShardedLRUCache<K> {
     : ShardedLRUCache<K>(name, shard_shift),
     profiler_(name, bucket_size, max_reuse_time, sampling_interval,
               tunable_cache),
-    entry_size(tunable_cache->GetCacheEntrySize()) {}
+    entry_size(-1),
+    tunable_cache_(tunable_cache) {}
 
   SamplingLRUAETProfiler<K>* GetProfiler() { return &profiler_; }
 
   void update(const K* batch_ids, size_t batch_size,
               bool use_locking) override {
+    if (entry_size >= 0xFFFFFFFFL) {
+      entry_size = tunable_cache_->GetCacheEntrySize();
+    }
     using Clock = std::chrono::high_resolution_clock;
     auto start = Clock::now();
     ShardedLRUCache<K>::update(batch_ids, batch_size, use_locking);
@@ -85,8 +96,10 @@ class ProfiledShardedLRUCache : public ShardedLRUCache<K> {
       profiler_.ReferenceKeyBatch(batch_ids, batch_size);
     }
     auto end_profiler = Clock::now();
-    const size_t access_size = batch_size * entry_size;
-    CacheManager::GetInstance().Access(access_size);
+    if (entry_size < 0xFFFFFFFFL) {
+      const size_t access_size = batch_size * entry_size;
+      CacheManager::GetInstance().Access(access_size);
+    }
     auto lru_time =
         std::chrono::duration_cast<std::chrono::nanoseconds>(end_base - start)
             .count();
@@ -102,7 +115,8 @@ class ProfiledShardedLRUCache : public ShardedLRUCache<K> {
 
  private:
   SamplingLRUAETProfiler<K> profiler_;
-  size_t entry_size;
+  size_t entry_size = -1;
+  TunableCache *tunable_cache_;
 };
 
 }  // namespace embedding
