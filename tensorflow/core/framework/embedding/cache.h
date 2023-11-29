@@ -1,8 +1,10 @@
 #ifndef TENSORFLOW_CORE_FRAMEWORK_EMBEDDING_CACHE_H_
 #define TENSORFLOW_CORE_FRAMEWORK_EMBEDDING_CACHE_H_
+#include <algorithm>
 #include <climits>
 #include <cstddef>
 #include <exception>
+#include <fstream>
 #include <iostream>
 #include <limits>
 #include <list>
@@ -17,6 +19,7 @@
 #include "tensorflow/core/platform/mutex.h"
 #include "tensorflow/core/platform/types.h"
 #include "tensorflow/core/util/env_var.h"
+#include "tensorflow/core/framework/embedding/dumper.h"
 
 #define STRICT_LRU 1
 
@@ -153,6 +156,16 @@ class LRUCache : public BatchCache<K> {
     BatchCache<K>::num_hit = 0;
     BatchCache<K>::num_miss = 0;
     ReadInt64FromEnvVar("CACHE_REPORT_INTERVAL", 10000, &report_interval_);
+
+    #if DEBUG_DUMP
+    std::string file_name = name;
+    std::replace(file_name.begin(), file_name.end(), '/', '_');
+    std::string file_path = "/opt/dump/trace/" + file_name;
+    dump_file = std::ofstream(file_path);
+    if (!dump_file.good()) {
+      LOG(FATAL) << "failed to open dump file " << file_path;
+    }
+    #endif
   }
 
   size_t size() {
@@ -270,7 +283,13 @@ class LRUCache : public BatchCache<K> {
         mp[id] = newNode;
         BatchCache<K>::num_miss++;
       }
+      #if DEBUG_DUMP
+      dump_file << id << std::endl;
+      #endif
     }
+    #if DEBUG_DUMP
+    dump_file.flush();
+    #endif
     if ((access_.fetch_add(1, std::memory_order_relaxed) + 1) % report_interval_ == 0) {
       LOG(INFO) << "cache \"" << name_ << "\" statistics: " << BatchCache<K>::DebugString()  << ", actual size=" << mp.size();
     }
@@ -376,6 +395,9 @@ class LRUCache : public BatchCache<K> {
   std::string name_;
   std::atomic<int64> access_;
   int64 report_interval_;
+  #if DEBUG_DUMP
+  std::ofstream dump_file;
+  #endif
 };
 
 template <typename K>

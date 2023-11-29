@@ -1,7 +1,13 @@
 #ifndef DEEPREC_CACHE_PROFILER_H
 #define DEEPREC_CACHE_PROFILER_H
 
+#include <algorithm>
+#include <atomic>
+#include <cstddef>
 #include <cstdint>
+#include <fstream>
+#include <iomanip>
+#include <ios>
 #include <random>
 #include <string>
 #include <utility>
@@ -11,6 +17,7 @@
 #include "sparsehash/dense_hash_map_lockless"
 #include "tensorflow/core/framework/embedding/cache.h"
 #include "tensorflow/core/platform/mutex.h"
+#include "tensorflow/core/framework/embedding/dumper.h"
 
 namespace tensorflow {
 namespace embedding {
@@ -55,6 +62,10 @@ class CacheMRCProfiler : public virtual TunableCache {
   virtual void StartSampling() = 0;
 };
 
+#if DEBUG_DUMP
+static std::atomic<size_t> dumped;
+#endif
+
 template <typename K>
 class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
                                public virtual CacheMRCProfiler {
@@ -77,6 +88,9 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
         run_(0),
         tunable_cache_(tunable_cache) {
     ResetLastAccessMap();
+    #if DEBUG_DUMP
+    dumped.store(0, std::memory_order_relaxed);
+    #endif
   }
 
   void ReferenceKey(const K& key) override {
@@ -131,22 +145,27 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     // prevent releasing
     std::atomic<uint>& run__ = const_cast<std::atomic<uint>&>(run_);
     run__.fetch_add(1, std::memory_order_acquire);
-    const size_t num_elem = reuse_time_hist_.size();
+    const size_t num_elem = reuse_time_hist_.size() - 1;
     std::vector<uint64_t> reuse_time_hist(reuse_time_hist_.cbegin(),
                                           reuse_time_hist_.cend());
     const uint64_t timestamp = timestamp_.load(std::memory_order_relaxed);
     uint64_t reuse_time_sum = 0;
-    if (sampling_interval_ != 1) {
-      reuse_time_sum += reuse_time_hist[0];
+    uint64_t cold_miss = 0;
+    if (sampling_interval_ == 1) {
+      cold_miss += reuse_time_hist[0];
     } else {
       for (auto iter = last_access_map_->cbegin();
          iter != last_access_map_->cend(); ++iter) {
         if (*(iter->second) != 0) {
-          reuse_time_sum += 1;
+          cold_miss += 1;
         }
       }
     }
+    reuse_time_sum += cold_miss;
     const size_t max_dist = sampling_interval_ == 1 ? last_access_map_->size_lockless() : timestamp;
+    const size_t beyond = reuse_time_hist[reuse_time_hist.size() - 1];
+    reuse_time_hist.pop_back();
+
     size_t last_index = 0;
     std::vector<uint64_t> prefix_sum;
     prefix_sum.reserve(num_elem);
@@ -156,8 +175,9 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
       reuse_time_sum += reuse_time_hist[i];
       last_index = i;
     }
-    const size_t beyond = prefix_sum[prefix_sum.size() - 1];
-    prefix_sum.pop_back();
+    
+    
+
     // calculate CCDF
     std::vector<double> prob_greater;
     prob_greater.reserve(num_elem - 1);
@@ -213,9 +233,46 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
         break;
       }
     }
+    result[0] = 1.0;
+
+    #if DEBUG_DUMP
+    {
+      std::string file_name = name_;
+      std::replace(file_name.begin(), file_name.end(), '/', '_');
+      std::string file_path = "/opt/dump/hist/" + file_name;
+      std::ofstream dump_file(file_path);
+      if (!dump_file.good()) {
+        LOG(FATAL) << "Failed to open hist dump file " << file_path;
+      }
+      dump_file << bucket_size_ << std::endl;
+      dump_file << sampling_interval_ << std::endl;
+      dump_file << cold_miss << std::endl;
+      dump_file << beyond << std::endl;
+      for (const uint64_t hist_value: reuse_time_hist) {
+        dump_file << hist_value << std::endl;
+      }
+      dump_file.flush();
+      dump_file.close();
+
+      std::string mrc_file_path = "/opt/dump/mrc/" + file_name;
+      std::ofstream mrc_dump_file(mrc_file_path);
+      if (!mrc_dump_file.good()) {
+        LOG(FATAL) << "Failed to open mrc dump file " << mrc_file_path;
+      }
+      for (const double mr : result) {
+        mrc_dump_file << std::fixed << std::setprecision(16) << mr << std::endl;
+      }
+      mrc_dump_file.flush();
+      mrc_dump_file.close();
+      if (dumped.fetch_add(1, std::memory_order_release) + 1 == 4) {
+        LOG(INFO) << "Finished dumping";
+        exit(0);
+      }
+    }
+    #endif
 
     result.emplace_back(timestamp);
-    result[0] = 1.0;
+    
 
     run__.fetch_sub(1, std::memory_order_release);
     return result;
