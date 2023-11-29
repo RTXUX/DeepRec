@@ -178,7 +178,7 @@ class FeatureDescriptor {
     feat_desc_impl_->AddFreq(val, freq);
   }
 
-  int total_dim() {
+  int total_dim() const {
     return feat_desc_impl_->total_dim();
   }
   

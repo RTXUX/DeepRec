@@ -58,16 +58,16 @@ public:
 
 
   virtual void Init() override {
+    const size_t unit_size = total_dim() * sizeof(V);
     cache_capacity_ = Storage<K, V>::storage_config_.size[0]
-                      / (total_dim() * sizeof(V));
+                      / (unit_size);
     if (cache_) {
       cache_->SetSize(cache_capacity_);
     } else {
-      LOG(INFO) << "Cache \"" << name_ << "\" not initialized";
+      LOG(INFO) << "Init: Cache \"" << name_ << "\" not initialized";
     }
     ready_eviction_ = true;
-    const size_t unit_size = total_dim() * sizeof(V);
-    LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_ << ", unit size=" << unit_size;
+    LOG(INFO) << "Init: Setting \"" << name_ << "\" cache capacity to " << cache_capacity_ << ", unit size=" << unit_size;
   }
 
   int64 CacheSize() const override {
@@ -85,21 +85,21 @@ public:
   void SetCacheSize(size_t new_size) override {
     while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
     Storage<K, V>::storage_config_.size[0] = new_size;
+    const size_t unit_size = total_dim() * sizeof(V);
     cache_capacity_ = Storage<K, V>::storage_config_.size[0]
-                      / (Storage<K, V>::total_dims_ * sizeof(V));
+                      / (unit_size);
     if (cache_) {
       cache_->SetSize(cache_capacity_);
     } else {
-      LOG(INFO) << "Cache \"" << name_ << "\" not initialized";
+      LOG(INFO) << "SetCacheSize: Cache \"" << name_ << "\" not initialized";
     }
     ready_eviction_ = true;
-    const size_t unit_size = total_dim() * sizeof(V);
     Storage<K, V>::flag_.clear(std::memory_order_release);
-    LOG(INFO) << "Setting \"" << name_ << "\" cache capacity to " << cache_capacity_ << ", unit size=" << unit_size;
+    LOG(INFO) << "SetCacheSize: Setting \"" << name_ << "\" cache capacity to " << cache_capacity_ << ", unit size=" << unit_size;
   }
 
   size_t GetCacheEntrySize() const override {
-    return Storage<K, V>::total_dims_ * sizeof(V);
+    return total_dim() * sizeof(V);
   }
 
   void InitCache(embedding::CacheStrategy cache_strategy) override {
@@ -260,7 +260,7 @@ public:
     return s;
   }
   
-  virtual int total_dim() = 0;
+  virtual int total_dim() const = 0;
 
   void DeleteFromEvictionManager() {
     eviction_manager_->DeleteStorage(this);

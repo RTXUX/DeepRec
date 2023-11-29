@@ -202,7 +202,7 @@ class FeatureDescriptorImpl {
     freq_desc_->AddFreq(val, freq);
   }
 
-  inline int total_dim() {
+  inline int total_dim() const {
     int64 slot_num = slot_infos_.size();
     return slot_infos_[slot_num - 1].embedding_offset
            + slot_infos_[slot_num - 1].embedding_dim;
