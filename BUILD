@@ -16,6 +16,7 @@ refresh_compile_commands(
     # For example, specify a dict of targets and any flags required to build.
     targets = {
       "//tensorflow/tools/pip_package:build_pip_package": "-c opt --config=opt",
+      "//tensorflow/core/kernels:lockless_hashmap_memory_test": "-c opt --config=opt",
     },
     # No need to add flags already in .bazelrc. They're automatically picked up.
     # If you don't need flags, a list of targets is also okay, as is a single target string.
