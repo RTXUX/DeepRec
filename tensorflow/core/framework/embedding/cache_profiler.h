@@ -246,7 +246,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
       prev_integ = integral;
       const int32_t k1 = reuse_time_hist[t].first;
       const int32_t k2 = reuse_time_hist[t + 1].first;
-      integral += (prob_greater[t] + prob_greater[t + 1]) * (k2 - k1);
+      integral += (prob_greater[t] + prob_greater[t + 1]) * (k2 - k1) / 2.0;
       t += 1;
     }
 
