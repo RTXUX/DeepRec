@@ -8,6 +8,7 @@
 #include <fstream>
 #include <iomanip>
 #include <ios>
+#include <memory>
 #include <random>
 #include <string>
 #include <utility>
@@ -69,6 +70,8 @@ static std::atomic<size_t> dumped;
 template <typename K>
 class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
                                public virtual CacheMRCProfiler {
+ private:
+  using HistogramMap = google::dense_hash_map_lockless<int32_t, uint32_t*>;
  public:
   explicit SamplingLRUAETProfiler(std::string name, const size_t bucket_size,
                                   const size_t max_reuse_time,
@@ -76,8 +79,6 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
                                   TunableCache* tunable_cache = nullptr)
       : name_(std::move(name)),
         bucket_size_(bucket_size),
-        max_reuse_time_(max_reuse_time),
-        reuse_time_hist_(max_reuse_time / bucket_size + 3, 0),
         timestamp_(0),
         sampling_interval_(sampling_interval),
         samping_rate_(1.0 / sampling_interval),
@@ -88,6 +89,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
         run_(0),
         tunable_cache_(tunable_cache) {
     ResetLastAccessMap();
+    ResetHistogram();
     #if DEBUG_DUMP
     dumped.store(0, std::memory_order_relaxed);
     #endif
@@ -128,8 +130,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     // wait until no thread profiling
     while (run_.load(std::memory_order_acquire) != 0);
     timestamp_.store(0, std::memory_order_relaxed);
-    reuse_time_hist_.clear();
-    reuse_time_hist_.resize(max_reuse_time_ / bucket_size_ + 3);
+    ResetHistogram();
     ResetLastAccessMap();
     malloc_trim(0);
     sample_time_ = timestamp_.load(std::memory_order_relaxed);
@@ -145,15 +146,24 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     // prevent releasing
     std::atomic<uint>& run__ = const_cast<std::atomic<uint>&>(run_);
     run__.fetch_add(1, std::memory_order_acquire);
-    const size_t num_elem = reuse_time_hist_.size() - 1;
-    std::vector<uint64_t> reuse_time_hist(reuse_time_hist_.cbegin(),
-                                          reuse_time_hist_.cend());
+    uint64_t cold_miss = 0;
+    
+    std::vector<std::pair<int32_t, uint32_t>> reuse_time_hist;
+    reuse_time_hist.reserve(reuse_time_hist_->size_lockless());
+    reuse_time_hist.emplace_back(0, 0);
+    for (auto iter = reuse_time_hist_->cbegin(); iter != reuse_time_hist_->cend(); ++iter) {
+      if (iter->first == 0) {
+        cold_miss = *iter->second;
+      } else {
+        reuse_time_hist.emplace_back(iter->first, *iter->second);
+      }
+    }
+    const size_t num_elem = reuse_time_hist.size();
     const uint64_t timestamp = timestamp_.load(std::memory_order_relaxed);
     uint64_t reuse_time_sum = 0;
-    uint64_t cold_miss = 0;
-    if (sampling_interval_ == 1) {
-      cold_miss += reuse_time_hist[0];
-    } else {
+    
+    if (sampling_interval_ != 1) {
+      cold_miss = 0;
       for (auto iter = last_access_map_->cbegin();
          iter != last_access_map_->cend(); ++iter) {
         if (*(iter->second) != 0) {
@@ -163,29 +173,27 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     }
     reuse_time_sum += cold_miss;
     const size_t max_dist = sampling_interval_ == 1 ? last_access_map_->size_lockless() : timestamp;
-    const size_t beyond = reuse_time_hist[reuse_time_hist.size() - 1];
-    reuse_time_hist.pop_back();
+    std::sort(reuse_time_hist.begin(), reuse_time_hist.end());
 
     size_t last_index = 0;
     std::vector<uint64_t> prefix_sum;
     prefix_sum.reserve(num_elem);
     prefix_sum.emplace_back(0);
     for (size_t i = 1; i < num_elem; ++i) {
-      prefix_sum.emplace_back(prefix_sum[last_index] + reuse_time_hist[i]);
-      reuse_time_sum += reuse_time_hist[i];
+      prefix_sum.emplace_back(prefix_sum[last_index] + reuse_time_hist[i].second);
+      reuse_time_sum += reuse_time_hist[i].second;
       last_index = i;
     }
-    
-    
 
     // calculate CCDF
     std::vector<double> prob_greater;
-    prob_greater.reserve(num_elem - 1);
+    prob_greater.reserve(num_elem);
     prob_greater.emplace_back(1.0);
-    for (size_t i = 1; i < num_elem - 1; ++i) {
+    for (size_t i = 1; i < num_elem; ++i) {
       prob_greater.emplace_back(((double)(reuse_time_sum - prefix_sum[i])) /
                                 (double)reuse_time_sum);
     }
+
     // integrate CCDF and calculate MRC
     uint64_t cache_size = 0;
     double integral = 0;
@@ -213,16 +221,33 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     //   }
     //   integral += increment;
     // }
+
     size_t t = 0;
-    for(uint64_t c = 0; c < num_mrc_elem; ++c) {
-      while (integral < c && t < num_elem - 1) {
-        integral += prob_greater[t];
-        t++;
+    // for(uint64_t c = 0; c < num_mrc_elem; ++c) {
+    //   while (integral < c && t < num_elem - 1) {
+    //     integral += prob_greater[t];
+    //     t++;
+    //   }
+    //   result.emplace_back(prob_greater[t - 1]);
+    //   if (t >= num_elem - 1) {
+    //     break;
+    //   }
+    // }
+    uint64_t c = 0;
+    while (t < prob_greater.size() - 1) {
+      while (integral > c && c < num_mrc_elem) {
+        const double mr = prob_greater[t - 1] + (prob_greater[t] - prob_greater[t - 1]) * ((double)c - prev_integ) / (integral - prev_integ);
+        result.emplace_back(mr);
+        ++c;
       }
-      result.emplace_back(prob_greater[t - 1]);
-      if (t >= num_elem - 1) {
+      if (c >= num_mrc_elem) {
         break;
       }
+      prev_integ = integral;
+      const int32_t k1 = reuse_time_hist[t].first;
+      const int32_t k2 = reuse_time_hist[t + 1].first;
+      integral += (prob_greater[t] + prob_greater[t + 1]) * (k2 - k1);
+      t += 1;
     }
 
     while (result.size() > 2) {
@@ -247,9 +272,8 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
       dump_file << bucket_size_ << std::endl;
       dump_file << sampling_interval_ << std::endl;
       dump_file << cold_miss << std::endl;
-      dump_file << beyond << std::endl;
-      for (const uint64_t hist_value: reuse_time_hist) {
-        dump_file << hist_value << std::endl;
+      for (const auto& hist_value: reuse_time_hist) {
+        dump_file << hist_value.first << ':' << hist_value.second << std::endl;
       }
       dump_file.flush();
       dump_file.close();
@@ -300,8 +324,16 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     // wait until no thread profiling
     while (run_.load(std::memory_order_acquire) != 0);
     timestamp_.store(0, std::memory_order_relaxed);
-    reuse_time_hist_ = std::vector<unsigned long>();
-    last_access_map_.reset(nullptr);
+    for (auto iter = reuse_time_hist_->cbegin();
+         iter != reuse_time_hist_->cend(); ++iter) {
+      delete iter->second;
+    }
+    reuse_time_hist_ = nullptr;
+    for (auto iter = last_access_map_->cbegin();
+         iter != last_access_map_->cend(); ++iter) {
+      delete iter->second;
+    }
+    last_access_map_ = nullptr;
     malloc_trim(0);
     sample_time_ = timestamp_.load(std::memory_order_relaxed);
   }
@@ -311,7 +343,7 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
       // already started
       return;
     }
-    reuse_time_hist_.resize(max_reuse_time_ / bucket_size_ + 3);
+    ResetHistogram();
     ResetLastAccessMap();
     run_lock_.store(false, std::memory_order_release);
   }
@@ -321,21 +353,40 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
          iter != last_access_map_->cend(); ++iter) {
       delete iter->second;
     }
-    last_access_map_.reset(nullptr);
+    last_access_map_ = nullptr;
+
+    for (auto iter = reuse_time_hist_->cbegin();
+         iter != reuse_time_hist_->cend(); ++iter) {
+      delete iter->second;
+    }
+    reuse_time_hist_ = nullptr;
   }
 
  protected:
   void IncreaseHistogram(uint64_t time) {
-    if (time > max_reuse_time_) {
-      __sync_add_and_fetch(&reuse_time_hist_[reuse_time_hist_.size() - 1], 1);
-      return;
-    }
     if (time == 0) {
-      __sync_add_and_fetch(&reuse_time_hist_[0], 1);
+      AtomicBucketIncrease(0);
       return;
     }
     size_t bucket = (time - 1) / bucket_size_ + 1;
-    __sync_add_and_fetch(&reuse_time_hist_[bucket], 1);
+    AtomicBucketIncrease(bucket);
+  }
+
+  void AtomicBucketIncrease(int32_t bucket) {
+    if (!reuse_time_hist_) {
+      return;
+    }
+    auto found = reuse_time_hist_->find_wait_free(bucket);
+    if (found.first == HIST_EMPTY_KEY || found.first == HIST_DELETED_KEY) {
+      uint32_t * value_ptr = new uint32_t(1);
+      auto inserted = reuse_time_hist_->insert_lockless({bucket, value_ptr});
+      if (inserted.first->second != value_ptr) {
+        delete value_ptr;
+        __sync_add_and_fetch(inserted.first->second, 1);
+      }
+    } else {
+      __sync_add_and_fetch(found.second, 1);
+    }
   }
 
   void DoReferenceKey(const K& key) {
@@ -401,6 +452,31 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     last_access_map_->set_deleted_key(DELETED_KEY);
   }
 
+  void ResetHistogram() {
+    uint64_t count = 0;
+    if (reuse_time_hist_) {
+      for (auto iter = reuse_time_hist_->cbegin();
+           iter != reuse_time_hist_->cend(); ++iter) {
+        delete iter->second;
+	      ++count;
+      }
+      // Print Last Access Map Info
+      LOG(INFO) << "map info size:" << count
+                << ", bucket_count:" << reuse_time_hist_->bucket_count()
+                << ", load_factor:" << reuse_time_hist_->load_factor()
+                << ", max_load_factor:" << reuse_time_hist_->max_load_factor()
+                << ", min_load_factor:" << reuse_time_hist_->min_load_factor();
+
+      LOG(INFO) << "Resetting Access Map: " << count;
+    }
+    reuse_time_hist_.reset(new HistogramMap());
+    reuse_time_hist_->max_load_factor(1.5f);
+    reuse_time_hist_->min_load_factor(0.5f);
+    reuse_time_hist_->set_empty_key_and_value(HIST_EMPTY_KEY, 0);
+    reuse_time_hist_->set_counternum(16);
+    reuse_time_hist_->set_deleted_key(HIST_DELETED_KEY);
+  }
+
   std::pair<uint64, uint64> GetMoveCount() const {
     return tunable_cache_->GetMoveCount();
   }
@@ -410,10 +486,10 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
   }
 
  private:
+
   std::string name_;
   size_t bucket_size_;
-  size_t max_reuse_time_;
-  std::vector<uint64_t> reuse_time_hist_;
+  std::unique_ptr<HistogramMap> reuse_time_hist_;
   std::unique_ptr<google::dense_hash_map_lockless<K, uint64_t*>>
       last_access_map_;
   std::atomic<uint64_t> timestamp_;
@@ -428,8 +504,10 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
   std::mt19937 rand_;
   TunableCache* tunable_cache_;
   mutex mu_;
-  inline static constexpr K EMPTY_KEY = -1;
-  inline static constexpr K DELETED_KEY = -2;
+  static const K EMPTY_KEY = -1;
+  static const int32_t HIST_EMPTY_KEY = -3;
+  static const int32_t HIST_DELETED_KEY = -4;
+  static const K DELETED_KEY = -2;
 };
 
 }  // namespace embedding
