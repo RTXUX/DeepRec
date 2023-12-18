@@ -91,6 +91,7 @@ class CacheManager {
   size_t min_size_;
   size_t max_batch_size_;
   size_t tuning_unit_;
+  size_t num_cache_blocks_;
   std::atomic<size_t> access_size_;
   std::atomic_flag access_size_lock_ = ATOMIC_FLAG_INIT;
 

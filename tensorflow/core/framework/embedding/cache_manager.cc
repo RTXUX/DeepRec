@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cstdlib>
 #include "tensorflow/core/platform/mutex.h"
+#include "tensorflow/core/util/env_var.h"
 
 namespace tensorflow {
 namespace embedding {
@@ -258,8 +259,17 @@ CacheManager::CacheManager()
     max_batch_size_ = 0;
     LOG(INFO) << "min_size: auto";
   }
-  ReadInt64FromEnvVar("CACHE_TUNING_UNIT", 8 * 128,
+  ReadInt64FromEnvVar("CACHE_BLOCKS", 0, reinterpret_cast<int64*>(&num_cache_blocks_));
+  ReadInt64FromEnvVar("CACHE_TUNING_UNIT", 0,
                       reinterpret_cast<int64*>(&tuning_unit_));
+  if (num_cache_blocks_ == 0 && tuning_unit_ == 0) {
+    num_cache_blocks_ = 16384;
+    LOG(INFO) << "CACHE_BLOCKS not set, using default " << num_cache_blocks_;
+  }
+  if (tuning_unit_ == 0){
+    tuning_unit_ = total_size_ / num_cache_blocks_;
+    LOG(INFO) << "CACHE_TUNING_UNIT not set, using fixed block number " << num_cache_blocks_ << ", now unit is " << tuning_unit_;
+  };
   std::string tuning_strategy_name;
   ReadStringFromEnvVar("CACHE_TUNING_STRATEGY", "min_mc_random_greedy",
                        &tuning_strategy_name);
