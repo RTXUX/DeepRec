@@ -2,6 +2,7 @@
 #define DEEPREC_CACHE_MANAGER_H
 
 #include <atomic>
+#include <cstddef>
 #include <map>
 #include <memory>
 #include <random>
@@ -61,8 +62,12 @@ class CacheManager {
 
   bool SamplingActive() const;
 
+  // Notify CacheManager batch size in bytes
+  void NotifyBatchSize(size_t batch_size);
+
  private:
   mutex mu_;
+  mutex min_size_mu_;
   std::atomic<uint64> num_active_threads_;
   std::atomic_flag flag_ = ATOMIC_FLAG_INIT;
   std::unique_ptr<thread::ThreadPool> thread_pool_;
@@ -84,11 +89,13 @@ class CacheManager {
 
   size_t total_size_;
   size_t min_size_;
+  size_t max_batch_size_;
   size_t tuning_unit_;
   std::atomic<size_t> access_size_;
   std::atomic_flag access_size_lock_ = ATOMIC_FLAG_INIT;
 
   bool clear_stat_;
+  bool min_size_specified_;
 
   explicit CacheManager();
 };

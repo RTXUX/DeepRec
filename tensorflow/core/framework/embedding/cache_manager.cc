@@ -1,7 +1,9 @@
 #include "tensorflow/core/framework/embedding/cache_manager.h"
 
 #include <atomic>
+#include <cstddef>
 #include <cstdlib>
+#include "tensorflow/core/platform/mutex.h"
 
 namespace tensorflow {
 namespace embedding {
@@ -223,6 +225,16 @@ bool CacheManager::SamplingActive() const {
   return sampling_active_.load(std::memory_order_relaxed);
 }
 
+void CacheManager::NotifyBatchSize(size_t batch_size) {
+  if (min_size_specified_) return;
+  if (batch_size <= max_batch_size_) return;
+  mutex_lock lock(min_size_mu_);
+  if (batch_size <= max_batch_size_) return;
+  max_batch_size_ = batch_size;
+  min_size_ = 2 * batch_size;
+  LOG(INFO) << "Setting min_size to " << min_size_;
+}
+
 CacheManager::CacheManager()
     : thread_pool_(std::make_unique<thread::ThreadPool>(
           Env::Default(), ThreadOptions(), "CACHE_MANAGER", 1, false)),
@@ -236,8 +248,16 @@ CacheManager::CacheManager()
                       reinterpret_cast<int64*>(&tuning_interval_));
   ReadInt64FromEnvVar("CACHE_TOTAL_SIZE", 32 * 1024 * 1024,
                       reinterpret_cast<int64*>(&total_size_));
-  ReadInt64FromEnvVar("CACHE_MIN_SIZE", 2048 * 128 * 8,
-                      reinterpret_cast<int64*>(&min_size_));
+  if (ReadInt64FromEnvVar("CACHE_MIN_SIZE", 0,
+                      reinterpret_cast<int64*>(&min_size_)) == Status::OK() && min_size_ != 0) {
+    LOG(INFO) << "Using min_size " << min_size_;
+    min_size_specified_ = true;
+  } else {
+    min_size_specified_ = false;
+    min_size_ = 0;
+    max_batch_size_ = 0;
+    LOG(INFO) << "min_size: auto";
+  }
   ReadInt64FromEnvVar("CACHE_TUNING_UNIT", 8 * 128,
                       reinterpret_cast<int64*>(&tuning_unit_));
   std::string tuning_strategy_name;
