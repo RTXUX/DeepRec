@@ -20,7 +20,8 @@ class ProfiledLRUCache : public LRUCache<K> {
         profiler_(name, bucket_size, max_reuse_time, sampling_interval,
                   tunable_cache),
         entry_size(-1),
-        tunable_cache_(tunable_cache) {}
+        tunable_cache_(tunable_cache),
+        cm_(CacheManager::GetInstance()) {}
 
   //    void add_to_cache(const K *batch_ids, const size_t batch_size) override
   //    {
@@ -40,14 +41,14 @@ class ProfiledLRUCache : public LRUCache<K> {
     auto start = Clock::now();
     LRUCache<K>::update(batch_ids, batch_size, use_locking);
     auto end_base = Clock::now();
-    if (CacheManager::GetInstance().SamplingActive()) {
+    if (cm_.SamplingActive()) {
       profiler_.ReferenceKeyBatch(batch_ids, batch_size);
     }
     auto end_profiler = Clock::now();
     if (entry_size < 0xFFFFFFFFL) {
       const size_t access_size = batch_size * entry_size;
-      CacheManager::GetInstance().NotifyBatchSize(access_size);
-      CacheManager::GetInstance().Access(access_size);
+      cm_.NotifyBatchSize(access_size);
+      cm_.Access(access_size);
     }
     auto lru_time =
         std::chrono::duration_cast<std::chrono::nanoseconds>(end_base - start)
@@ -55,17 +56,18 @@ class ProfiledLRUCache : public LRUCache<K> {
     auto profiler_time = std::chrono::duration_cast<std::chrono::nanoseconds>(
                              end_profiler - end_base)
                              .count();
-    CacheManager::GetInstance().IncreaseNanos(lru_time, profiler_time);
+    cm_.IncreaseNanos(lru_time, profiler_time);
   }
 
   ~ProfiledLRUCache() override {
-    CacheManager::GetInstance().UnregisterCache(profiler_.GetName());
+    cm_.UnregisterCache(profiler_.GetName());
   }
 
  private:
   SamplingLRUAETProfiler<K> profiler_;
   size_t entry_size;
   TunableCache *tunable_cache_;
+  CacheManager& cm_;
 };
 
 template <typename K>
@@ -80,7 +82,8 @@ class ProfiledShardedLRUCache : public ShardedLRUCache<K> {
     profiler_(name, bucket_size, max_reuse_time, sampling_interval,
               tunable_cache),
     entry_size(-1),
-    tunable_cache_(tunable_cache) {}
+    tunable_cache_(tunable_cache),
+    cm_(CacheManager::GetInstance()) {}
 
   SamplingLRUAETProfiler<K>* GetProfiler() { return &profiler_; }
 
@@ -93,14 +96,14 @@ class ProfiledShardedLRUCache : public ShardedLRUCache<K> {
     auto start = Clock::now();
     ShardedLRUCache<K>::update(batch_ids, batch_size, use_locking);
     auto end_base = Clock::now();
-    if (CacheManager::GetInstance().SamplingActive()) {
+    if (cm_.SamplingActive()) {
       profiler_.ReferenceKeyBatch(batch_ids, batch_size);
     }
     auto end_profiler = Clock::now();
     if (entry_size < 0xFFFFFFFFL) {
       const size_t access_size = batch_size * entry_size;
-      CacheManager::GetInstance().NotifyBatchSize(access_size);
-      CacheManager::GetInstance().Access(access_size);
+      cm_.NotifyBatchSize(access_size);
+      cm_.Access(access_size);
     }
     auto lru_time =
         std::chrono::duration_cast<std::chrono::nanoseconds>(end_base - start)
@@ -108,17 +111,18 @@ class ProfiledShardedLRUCache : public ShardedLRUCache<K> {
     auto profiler_time = std::chrono::duration_cast<std::chrono::nanoseconds>(
                              end_profiler - end_base)
                              .count();
-    CacheManager::GetInstance().IncreaseNanos(lru_time, profiler_time);
+    cm_.IncreaseNanos(lru_time, profiler_time);
   }
 
   ~ProfiledShardedLRUCache() {
-    CacheManager::GetInstance().UnregisterCache(profiler_.GetName());
+    cm_.UnregisterCache(profiler_.GetName());
   }
 
  private:
   SamplingLRUAETProfiler<K> profiler_;
   size_t entry_size = -1;
   TunableCache *tunable_cache_;
+  CacheManager& cm_;
 };
 
 }  // namespace embedding
