@@ -37,6 +37,14 @@ struct CacheStat {
   double hit_rate = 0;
 };
 
+struct CacheProp {
+  mutex mu;
+  CacheMRCProfiler* profiler;
+  size_t min_size;
+  size_t max_batch_size;
+  CacheStat stat;
+};
+
 class CacheManager {
  public:
   static CacheManager& GetInstance();
@@ -47,7 +55,7 @@ class CacheManager {
 
   void Tune(size_t total_size, size_t unit);
 
-  void DoTune(size_t total_size, std::vector<CacheMRCProfiler*> caches,
+  void DoTune(size_t total_size, std::vector<CacheProp*> props,
               size_t unit);
 
   void Access(size_t size);
@@ -63,17 +71,16 @@ class CacheManager {
   bool SamplingActive() const;
 
   // Notify CacheManager batch size in bytes
-  void NotifyBatchSize(size_t batch_size);
+  void NotifyBatchSize(CacheMRCProfiler* profiler, size_t batch_size);
 
  private:
   mutex mu_;
-  mutex min_size_mu_;
   std::atomic<uint64> num_active_threads_;
   std::atomic_flag flag_ = ATOMIC_FLAG_INIT;
   std::unique_ptr<thread::ThreadPool> thread_pool_;
   std::unique_ptr<CacheTuningStrategy> tuning_strategy_;
-  std::map<std::string, CacheMRCProfiler*> registry_;
-  std::map<CacheMRCProfiler*, CacheStat> cache_stats_;
+  std::map<std::string, std::unique_ptr<CacheProp>> registry_;
+  std::unordered_map<CacheMRCProfiler*, CacheProp*> registry2_;
 
   std::atomic<uint64> access_count_;
   uint64 tuning_interval_;
@@ -89,7 +96,6 @@ class CacheManager {
 
   size_t total_size_;
   size_t min_size_;
-  size_t max_batch_size_;
   size_t tuning_unit_;
   size_t num_cache_blocks_;
   std::atomic<size_t> access_size_;

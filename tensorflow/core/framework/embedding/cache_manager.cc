@@ -3,6 +3,8 @@
 #include <atomic>
 #include <cstddef>
 #include <cstdlib>
+#include <memory>
+#include "tensorflow/core/framework/embedding/cache_profiler.h"
 #include "tensorflow/core/platform/mutex.h"
 #include "tensorflow/core/util/env_var.h"
 
@@ -32,8 +34,15 @@ void CacheManager::RegisterCache(CacheMRCProfiler& cache) {
   if (registry_.find(cache.GetName()) != registry_.cend()) {
     // TODO: name conflict
   }
-  registry_[cache.GetName()] = &cache;
-  cache_stats_.emplace(std::make_pair(&cache, CacheStat()));
+  CacheProp* prop = new CacheProp();
+  prop->profiler = &cache;
+  registry_.insert(std::make_pair(cache.GetName(), std::unique_ptr<CacheProp>(prop)));
+  registry2_.insert(std::make_pair(&cache, prop));
+
+  if (min_size_specified_) {
+    prop->min_size = min_size_;
+  }
+
   std::vector<size_t> parts(registry_.size());
   // RandomApportion(parts, total_size_);
   size_t size = total_size_ / registry_.size();
@@ -42,7 +51,7 @@ void CacheManager::RegisterCache(CacheMRCProfiler& cache) {
   }
   size_t i = 0;
   for (auto& kv : registry_) {
-    kv.second->SetCacheSize(parts[i++]);
+    kv.second->profiler->SetCacheSize(parts[i++]);
   }
   if (num_active_threads_ < 1) {
     StartThread();
@@ -51,17 +60,17 @@ void CacheManager::RegisterCache(CacheMRCProfiler& cache) {
 
 void CacheManager::UnregisterCache(const std::string& name) {
   mutex_lock lock(mu_);
-  CacheMRCProfiler *cache = registry_.find(name)->second;
+  CacheMRCProfiler *cache = registry_.find(name)->second->profiler;
   registry_.erase(name);
-  cache_stats_.erase(cache);
+  registry2_.erase(cache);
 }
 
 void CacheManager::Tune(size_t total_size, size_t unit) {
   mutex_lock lock(mu_);
   if (!sampling_active_.load(std::memory_order_relaxed)) return;
-  std::vector<CacheMRCProfiler*> caches;
+  std::vector<CacheProp*> caches;
   for (auto& kv : registry_) {
-    caches.emplace_back(kv.second);
+    caches.emplace_back(kv.second.get());
   }
   DoTune(total_size, std::move(caches), unit);
   LOG(INFO) << "LRU Time: "
@@ -76,14 +85,16 @@ void CacheManager::Tune(size_t total_size, size_t unit) {
 }
 
 void CacheManager::DoTune(size_t total_size,
-                          std::vector<CacheMRCProfiler*> caches, size_t unit) {
+                          std::vector<CacheProp*> props, size_t unit) {
   std::map<CacheMRCProfiler*, CacheItem> items;
   uint64_t orig_mc_sum = 0;
 
-  for (auto cache : caches) {
+  for (auto prop : props) {
+    CacheMRCProfiler* cache = prop->profiler;
     const size_t bucket_size = cache->GetBucketSize();
     const size_t size = cache->GetCacheSize();
     const size_t entry_size = cache->GetCacheEntrySize();
+    const size_t min_size = prop->min_size;
     const size_t num_entries = size / entry_size;
     std::vector<double> mrc = cache->GetMRC(num_entries * 10);
     const double mr = InterpolateMRC(mrc, bucket_size, num_entries);
@@ -98,7 +109,7 @@ void CacheManager::DoTune(size_t total_size,
               << (double)(int64_t)(vc - mc - actual_hc) / actual_hc;
     orig_mc_sum += mc;
     items.emplace(std::piecewise_construct, std::forward_as_tuple(cache),
-                  std::forward_as_tuple(bucket_size, size, size, entry_size, vc,
+                  std::forward_as_tuple(bucket_size, size, size, entry_size, min_size, vc,
                                         mc, mr, std::move(mrc)));
     if (clear_stat_) {
       cache->ResetProfiling();
@@ -106,7 +117,7 @@ void CacheManager::DoTune(size_t total_size,
     }
   }
 
-  bool success = tuning_strategy_->DoTune(total_size, items, unit, min_size_);
+  bool success = tuning_strategy_->DoTune(total_size, items, unit);
   if (success) {
     for (auto& kv : items) {
       kv.first->SetCacheSize(kv.second.new_size);
@@ -118,8 +129,8 @@ void CacheManager::DoTune(size_t total_size,
 
   if (notune_counter_ > notune_threshold_) {
     sampling_active_.store(false, std::memory_order_release);
-    for (auto cache : caches) {
-      cache->StopSamplingAndReleaseResource();
+    for (auto prop : props) {
+      prop->profiler->StopSamplingAndReleaseResource();
     }
     LOG(INFO) << notune_counter_ << "continuous tuning did not succeed, stop sampling!";
   }
@@ -167,12 +178,13 @@ void CacheManager::TuneLoop() {
     if (should_tune_.load(std::memory_order_relaxed)) {
       should_tune_.store(false, std::memory_order_relaxed);
       bool reactivate = false;
-      for (auto &kv : cache_stats_) {
+      for (auto &kv : registry2_) {
+        CacheStat& stat = kv.second->stat;
         std::pair<uint64, uint64> move_count = kv.first->GetMoveCount();
         kv.first->ResetMoveCount();
         uint64 promotions = move_count.first, demotions = move_count.second;
         LOG(INFO) << "\"" << kv.first->GetName() << "\" promotions: " << promotions << ", demotions:" << demotions;
-        uint64 prev_promotions = kv.second.prev_promotion, prev_demotions = kv.second.prev_demotion;
+        uint64 prev_promotions = stat.prev_promotion, prev_demotions = stat.prev_demotion;
         // skip if there is no promotion
         if (prev_promotions != 0) {
           int64 diff = prev_promotions - promotions;
@@ -190,8 +202,8 @@ void CacheManager::TuneLoop() {
             LOG(INFO) << "\"" << kv.first->GetName() << "\" demotion diff: " << relative_diff << ", reactivating sampling";
           }
         }
-        kv.second.prev_promotion = promotions;
-        kv.second.prev_demotion = demotions;
+        stat.prev_promotion = promotions;
+        stat.prev_demotion = demotions;
       }
       
       if (SamplingActive()) {
@@ -206,7 +218,7 @@ void CacheManager::TuneLoop() {
       if (reactivate) {
         notune_counter_ = 0;
         for (auto &kv: registry_) {
-          kv.second->StartSampling();
+          kv.second->profiler->StartSampling();
         }
         sampling_active_.store(true, std::memory_order_release);
       }
@@ -226,14 +238,15 @@ bool CacheManager::SamplingActive() const {
   return sampling_active_.load(std::memory_order_relaxed);
 }
 
-void CacheManager::NotifyBatchSize(size_t batch_size) {
+void CacheManager::NotifyBatchSize(CacheMRCProfiler* profiler, size_t batch_size) {
   if (min_size_specified_) return;
-  if (batch_size <= max_batch_size_) return;
-  mutex_lock lock(min_size_mu_);
-  if (batch_size <= max_batch_size_) return;
-  max_batch_size_ = batch_size;
-  min_size_ = 2 * batch_size;
-  LOG(INFO) << "Setting min_size to " << min_size_;
+  CacheProp& prop = *registry2_[profiler];
+  if (batch_size <= prop.max_batch_size) return;
+  mutex_lock lock(prop.mu);
+  if (batch_size <= prop.max_batch_size) return;
+  prop.max_batch_size = batch_size;
+  prop.min_size = 2 * batch_size;
+  LOG(INFO) << "Setting min_size of " << profiler->GetName() << " to " << prop.min_size;
 }
 
 CacheManager::CacheManager()
@@ -251,12 +264,11 @@ CacheManager::CacheManager()
                       reinterpret_cast<int64*>(&total_size_));
   if (ReadInt64FromEnvVar("CACHE_MIN_SIZE", 0,
                       reinterpret_cast<int64*>(&min_size_)) == Status::OK() && min_size_ != 0) {
-    LOG(INFO) << "Using min_size " << min_size_;
     min_size_specified_ = true;
+    LOG(INFO) << "Using min_size " << min_size_;
   } else {
     min_size_specified_ = false;
     min_size_ = 0;
-    max_batch_size_ = 0;
     LOG(INFO) << "min_size: auto";
   }
   ReadInt64FromEnvVar("CACHE_BLOCKS", 0, reinterpret_cast<int64*>(&num_cache_blocks_));

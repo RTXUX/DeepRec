@@ -47,7 +47,7 @@ class ProfiledLRUCache : public LRUCache<K> {
     auto end_profiler = Clock::now();
     if (entry_size < 0xFFFFFFFFL) {
       const size_t access_size = batch_size * entry_size;
-      cm_.NotifyBatchSize(access_size);
+      cm_.NotifyBatchSize(&profiler_, access_size);
       cm_.Access(access_size);
     }
     auto lru_time =
@@ -102,7 +102,7 @@ class ProfiledShardedLRUCache : public ShardedLRUCache<K> {
     auto end_profiler = Clock::now();
     if (entry_size < 0xFFFFFFFFL) {
       const size_t access_size = batch_size * entry_size;
-      cm_.NotifyBatchSize(access_size);
+      cm_.NotifyBatchSize(&profiler_, access_size);
       cm_.Access(access_size);
     }
     auto lru_time =

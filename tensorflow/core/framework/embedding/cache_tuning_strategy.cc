@@ -4,12 +4,13 @@ namespace tensorflow {
 namespace embedding {
 
 CacheItem::CacheItem(size_t bucketSize, size_t origSize, size_t newSize,
-                     size_t entrySize, uint64_t vc, uint64_t mc, double mr,
+                     size_t entrySize, size_t minSize, uint64_t vc, uint64_t mc, double mr,
                      const std::vector<double>& mrc)
     : bucket_size(bucketSize),
       orig_size(origSize),
       new_size(newSize),
       entry_size(entrySize),
+      min_size(minSize),
       vc(vc),
       mc(mc),
       mr(mr),
@@ -77,7 +78,7 @@ static void RandomApportion(std::vector<size_t>& parts, size_t total,
 
 bool MinimalizeMissCountRandomGreedyTuningStrategy::DoTune(
     size_t total_size, std::map<CacheMRCProfiler*, CacheItem>& caches,
-    size_t unit, size_t min_size) {
+    size_t unit) {
   uint64_t orig_mc_sum = 0;
 
   for (auto& kv : caches) {
@@ -89,6 +90,10 @@ bool MinimalizeMissCountRandomGreedyTuningStrategy::DoTune(
   // do random apportion and compute new MR
   {
     std::vector<size_t> parts(caches.size());
+    size_t min_size = 0;
+    for (auto &item : caches) {
+      min_size = std::max(min_size, item.second.min_size);
+    }
     RandomApportion(parts, total_size, min_size);
     size_t i = 0;
     for (auto& item : caches) {
@@ -123,6 +128,7 @@ bool MinimalizeMissCountRandomGreedyTuningStrategy::DoTune(
     for (auto& item : caches) {
       if (item.first == max_gain_cache) continue;
       const size_t current_size = item.second.new_size;
+      const size_t min_size = item.second.min_size;
       if (current_size <= min_size + unit) {
         continue;
       }
@@ -166,7 +172,7 @@ bool MinimalizeMissCountRandomGreedyTuningStrategy::DoTune(
 
 bool MinimalizeMissCountLocalGreedyTuningStrategy::DoTune(
     size_t total_size, std::map<CacheMRCProfiler*, CacheItem>& caches,
-    size_t unit, size_t min_size) {
+    size_t unit) {
   uint64_t orig_mc_sum = 0;
 
   for (auto& kv : caches) {
@@ -205,6 +211,7 @@ bool MinimalizeMissCountLocalGreedyTuningStrategy::DoTune(
     for (auto& item : caches) {
       if (item.first == max_gain_cache) continue;
       const size_t current_size = item.second.new_size;
+      const size_t min_size = item.second.min_size;
       if (current_size <= min_size + unit) {
         continue;
       }
@@ -248,9 +255,8 @@ bool MinimalizeMissCountLocalGreedyTuningStrategy::DoTune(
 
 bool MinimalizeMissCountDynamicProgrammingTuningStrategy::DoTune(
     size_t total_size, std::map<CacheMRCProfiler*, CacheItem>& caches,
-    size_t unit, size_t min_size) {
+    size_t unit) {
   const size_t total_units = total_size / unit;
-  const size_t min_unit = std::ceil((double)min_size / unit);
   size_t orig_mc_sum = 0;
   size_t low_sum = 0, high_sum = 0;
   std::vector<CacheItem*> items;
@@ -266,6 +272,7 @@ bool MinimalizeMissCountDynamicProgrammingTuningStrategy::DoTune(
     CacheItem& item = *items[i];
     const size_t entry_size = item.entry_size;
     const size_t bucket_size = item.bucket_size;
+    const size_t min_unit = std::ceil((double)item.min_size / unit);
     const std::vector<double>& mrc = items[i]->mrc;
     const size_t max_unit = std::ceil((mrc.size() - 1) * bucket_size * entry_size / unit);
     const size_t hi = std::max(min_unit, std::min(max_unit, total_units));
@@ -277,6 +284,7 @@ bool MinimalizeMissCountDynamicProgrammingTuningStrategy::DoTune(
       CacheItem& item = *items[i];
       const size_t entry_size = item.entry_size;
       const size_t bucket_size = item.bucket_size;
+      const size_t min_unit = std::ceil((double)item.min_size / unit);
       const std::vector<double>& mrc = items[i]->mrc;
       const size_t max_unit = std::ceil((mrc.size() - 1) * bucket_size * entry_size / unit);
       const size_t hi = std::max(min_unit, std::min(max_unit, total_units));
@@ -299,6 +307,7 @@ bool MinimalizeMissCountDynamicProgrammingTuningStrategy::DoTune(
     size_t max_j = 0;
     const size_t entry_size = item.entry_size;
     const size_t bucket_size = item.bucket_size;
+    const size_t min_unit = std::ceil((double)item.min_size / unit);
     const size_t vc = item.vc;
     last_low_sum = low_sum;
     low_sum += min_unit;
@@ -363,9 +372,8 @@ bool MinimalizeMissCountDynamicProgrammingTuningStrategy::DoTune(
 
 bool MinimalizeMissRateDynamicProgrammingTuningStrategy::DoTune(
     size_t total_size, std::map<CacheMRCProfiler*, CacheItem>& caches,
-    size_t unit, size_t min_size) {
+    size_t unit) {
   const size_t total_units = total_size / unit;
-  const size_t min_unit = std::ceil((double)min_size / unit);
   double orig_mr_sum = 0;
   size_t low_sum = 0, high_sum = 0;
   std::vector<CacheItem*> items;
@@ -385,6 +393,7 @@ bool MinimalizeMissRateDynamicProgrammingTuningStrategy::DoTune(
     size_t max_j = 0;
     const size_t entry_size = item.entry_size;
     const size_t bucket_size = item.bucket_size;
+    const size_t min_unit = std::ceil((double)item.min_size / unit);
     last_low_sum = low_sum;
     low_sum += min_unit;
     const std::vector<double>& mrc = items[i]->mrc;
