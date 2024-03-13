@@ -21,7 +21,7 @@
 #include "tensorflow/core/util/env_var.h"
 #include "tensorflow/core/framework/embedding/dumper.h"
 
-#define STRICT_LRU 1
+#define STRICT_LRU 0
 
 namespace tensorflow {
 namespace embedding {
