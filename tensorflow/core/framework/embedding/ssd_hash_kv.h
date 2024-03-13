@@ -814,7 +814,7 @@ const int SSDHashKV<K, V>::EMPTY_KEY = -1;
 template <class K, class V>
 const int SSDHashKV<K, V>::DELETED_KEY = -2;
 template <class K, class V>
-const int SSDHashKV<K, V>::CAP_INVALID_POS = 200000;
+const int SSDHashKV<K, V>::CAP_INVALID_POS = 2000000;
 template <class K, class V>
 const int SSDHashKV<K, V>::CAP_INVALID_ID = 10000000;
 template <class K, class V>

@@ -222,7 +222,7 @@ class DramPmemStorage : public MultiTierStorage<K, V> {
   }
 
  protected:
-  int total_dim() override {
+  int total_dim() const override {
     return pmem_feat_desc_->total_dim();
   }
 

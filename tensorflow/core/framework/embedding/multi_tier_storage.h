@@ -27,6 +27,7 @@ limitations under the License.
 #include "tensorflow/core/framework/embedding/l2weight_shrink_policy.h"
 #include "tensorflow/core/framework/embedding/storage_config.h"
 #include "tensorflow/core/framework/embedding/storage.h"
+#include "tensorflow/core/framework/embedding/cache_profiler.h"
 
 #include "tensorflow/core/lib/core/threadpool.h"
 #include "tensorflow/core/lib/core/status.h"
@@ -44,34 +45,69 @@ struct SsdRecordDescriptor;
 
 namespace embedding {
 template<typename K, typename V>
-class MultiTierStorage : public Storage<K, V> {
- public:
-  MultiTierStorage(const StorageConfig& sc, const std::string& name)
-      : Storage<K, V>(sc), name_(name) {}
+class MultiTierStorage : public Storage<K, V>, public TunableCache {
+public:
+    MultiTierStorage(const StorageConfig &sc, const std::string &name)
+            : Storage<K, V>(sc), name_(name) {}
 
-  virtual ~MultiTierStorage() {
-    delete cache_;
-  }
+    virtual ~MultiTierStorage() {
+      delete cache_;
+    }
 
-  TF_DISALLOW_COPY_AND_ASSIGN(MultiTierStorage);
+    TF_DISALLOW_COPY_AND_ASSIGN(MultiTierStorage);
+
 
   virtual void Init() override {
+    const size_t unit_size = total_dim() * sizeof(V);
     cache_capacity_ = Storage<K, V>::storage_config_.size[0]
-                      / (total_dim() * sizeof(V));
+                      / (unit_size);
+    if (cache_) {
+      cache_->SetSize(cache_capacity_);
+    } else {
+      LOG(INFO) << "Init: Cache \"" << name_ << "\" not initialized";
+    }
     ready_eviction_ = true;
+    LOG(INFO) << "Init: Setting \"" << name_ << "\" cache capacity to " << cache_capacity_ << ", unit size=" << unit_size;
   }
 
   int64 CacheSize() const override {
     return cache_capacity_;
   }
 
-  BatchCache<K>* Cache() override {
+  BatchCache<K> *Cache() override {
     return cache_;
+  }
+
+  size_t GetCacheSize() const override {
+    return Storage<K, V>::storage_config_.size[0];
+  }
+
+  void SetCacheSize(size_t new_size) override {
+    while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
+    Storage<K, V>::storage_config_.size[0] = new_size;
+    const size_t unit_size = total_dim() * sizeof(V);
+    cache_capacity_ = Storage<K, V>::storage_config_.size[0]
+                      / (unit_size);
+    if (cache_) {
+      cache_->SetSize(cache_capacity_);
+    } else {
+      LOG(INFO) << "SetCacheSize: Cache \"" << name_ << "\" not initialized";
+    }
+    ready_eviction_ = true;
+    Storage<K, V>::flag_.clear(std::memory_order_release);
+    LOG(INFO) << "SetCacheSize: Setting \"" << name_ << "\" cache capacity to " << cache_capacity_ << ", unit size=" << unit_size;
+  }
+
+  size_t GetCacheEntrySize() const override {
+    return total_dim() * sizeof(V);
   }
 
   void InitCache(embedding::CacheStrategy cache_strategy) override {
     if (cache_ == nullptr) {
-      cache_ = CacheFactory::Create<K>(cache_strategy, name_);
+      cache_ = CacheFactory::Create<K>(cache_strategy, name_, this);
+      if (cache_capacity_ != -1) {
+        cache_->SetSize(cache_capacity_);
+      }
       eviction_manager_ = EvictionManagerCreator::Create<K, V>();
       eviction_manager_->AddStorage(this);
       cache_thread_pool_ = CacheThreadPoolCreator::Create();
@@ -96,6 +132,14 @@ class MultiTierStorage : public Storage<K, V> {
       int partition_id, int partition_nums) override {
     LOG(FATAL)<<"Can't get sharded snapshot of MultiTierStorage.";
     return Status::OK();
+  }
+
+  double GetHitRate() const override {
+    return cache_->GetHitRate();
+  }
+
+  void ResetStat() override {
+    cache_->reset_status();
   }
 
   void CopyEmbeddingsFromCPUToGPU(
@@ -179,6 +223,12 @@ class MultiTierStorage : public Storage<K, V> {
     });
   }
 
+  std::pair<uint64, uint64> GetMoveCount() const {
+    return {0, 0};
+  }
+
+  void ResetMoveCount() {}
+
   Status RestoreFeatures(int64 key_num, int bucket_num, int64 partition_id,
                          int64 partition_num, int64 value_len, bool is_filter,
                          bool is_incr, const EmbeddingConfig& emb_config,
@@ -209,7 +259,8 @@ class MultiTierStorage : public Storage<K, V> {
     }
     return s;
   }
-  virtual int total_dim() = 0;
+  
+  virtual int total_dim() const = 0;
 
   void DeleteFromEvictionManager() {
     eviction_manager_->DeleteStorage(this);

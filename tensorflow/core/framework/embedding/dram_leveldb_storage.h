@@ -229,7 +229,7 @@ class DramLevelDBStore : public MultiTierStorage<K, V> {
   }
 
  protected:
-  int total_dim() override {
+  int total_dim() const override {
     return dram_feat_desc_->total_dim();
   }
 
