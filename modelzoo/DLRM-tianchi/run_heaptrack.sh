@@ -11,7 +11,7 @@ export CACHE_TUNING_UNIT="${CACHE_TUNING_UNIT:-$((16 * 128 * 128))}"
 export CACHE_TUNING_STRATEGY="${CACHE_TUNING_STRATEGY:-min_mc_dp}"
 export CACHE_PROFLER_CLEAR="${CACHE_PROFLER_CLEAR:-true}"
 export CACHE_REPORT_INTERVAL="${CACHE_REPORT_INTERVAL:-100}"
-export TF_SSDHASH_ASYNC_COMPACTION="${TF_SSDHASH_ASYNC_COMPACTION:-true}"
+export TF_SSDHASH_ASYNC_COMPACTION="${TF_SSDHASH_ASYNC_COMPACTION:-false}"
 export CACHE_SHARD_SHIFT="${CACHE_SHARD_SHIFT:-8}"
 
 # Output file is first argument
@@ -31,7 +31,7 @@ fi
 # Print the date and environment variables to console and output file
 date | tee -a "$OUTPUT_FILE"
 export | tee -a "$OUTPUT_FILE"
-CMD="time -v python3 ./train.py $@"
+CMD="heaptrack python3 ./train.py $@"
 echo "${CMD}" | tee -a "${OUTPUT_FILE}"
 # Run the program with remaining arguments, print stdout and stderr to console and append to output file
-/usr/bin/time -v python3 ./train.py "$@" 2>&1 | tee -a "$OUTPUT_FILE"
+heaptrack python3 ./train.py "$@" 2>&1 | tee -a "$OUTPUT_FILE"
