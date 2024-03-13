@@ -18,7 +18,6 @@
 #include "sparsehash/dense_hash_map_lockless"
 #include "tensorflow/core/framework/embedding/cache.h"
 #include "tensorflow/core/platform/mutex.h"
-#include "tensorflow/core/framework/embedding/dumper.h"
 
 namespace tensorflow {
 namespace embedding {
@@ -201,38 +200,8 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     const size_t num_mrc_elem = max_cache_size / bucket_size_ + 1;
     std::vector<double> result;
     result.reserve(num_mrc_elem + 1);
-    // for (uint64_t t = 0; t < num_elem - 1; ++t) {
-    //   if (integral >= cache_size) {
-    //     // linear interpolation
-    //     double mr = prob_greater[t - 1] +
-    //                 (prob_greater[t] - prob_greater[t - 1]) *
-    //                     ((cache_size - prev_integ) / (integral - prev_integ));
-    //     result.emplace_back(mr);
-    //     cache_size += bucket_size_;
-    //     if (cache_size > max_cache_size || cache_size > max_dist) break;
-    //   }
-    //   prev_integ = integral;
-    //   const double increment =
-    //       (prob_greater[t] +
-    //        prob_greater[std::min(t + 1, prob_greater.size() - 1)]) /
-    //       2 * bucket_size_;
-    //   if (increment == 0.0) {
-    //     break;
-    //   }
-    //   integral += increment;
-    // }
 
     size_t t = 0;
-    // for(uint64_t c = 0; c < num_mrc_elem; ++c) {
-    //   while (integral < c && t < num_elem - 1) {
-    //     integral += prob_greater[t];
-    //     t++;
-    //   }
-    //   result.emplace_back(prob_greater[t - 1]);
-    //   if (t >= num_elem - 1) {
-    //     break;
-    //   }
-    // }
     uint64_t c = 0;
     while (t < prob_greater.size() - 1) {
       while (integral > c && c < num_mrc_elem) {
@@ -260,44 +229,8 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     }
     result[0] = 1.0;
 
-    #if DEBUG_DUMP
-    {
-      std::string file_name = name_;
-      std::replace(file_name.begin(), file_name.end(), '/', '_');
-      std::string file_path = "/opt/dump/hist/" + file_name;
-      std::ofstream dump_file(file_path);
-      if (!dump_file.good()) {
-        LOG(FATAL) << "Failed to open hist dump file " << file_path;
-      }
-      dump_file << bucket_size_ << std::endl;
-      dump_file << sampling_interval_ << std::endl;
-      dump_file << cold_miss << std::endl;
-      for (const auto& hist_value: reuse_time_hist) {
-        dump_file << hist_value.first << ':' << hist_value.second << std::endl;
-      }
-      dump_file.flush();
-      dump_file.close();
-
-      std::string mrc_file_path = "/opt/dump/mrc/" + file_name;
-      std::ofstream mrc_dump_file(mrc_file_path);
-      if (!mrc_dump_file.good()) {
-        LOG(FATAL) << "Failed to open mrc dump file " << mrc_file_path;
-      }
-      for (const double mr : result) {
-        mrc_dump_file << std::fixed << std::setprecision(16) << mr << std::endl;
-      }
-      mrc_dump_file.flush();
-      mrc_dump_file.close();
-      if (dumped.fetch_add(1, std::memory_order_release) + 1 == 4) {
-        LOG(INFO) << "Finished dumping";
-        exit(0);
-      }
-    }
-    #endif
-
     result.emplace_back(timestamp);
     
-
     run__.fetch_sub(1, std::memory_order_release);
     return result;
   }
@@ -436,13 +369,13 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
 	      ++count;
       }
       // Print Last Access Map Info
-      LOG(INFO) << "map info size:" << count
+      VLOG(2) << "map info size:" << count
                 << ", bucket_count:" << last_access_map_->bucket_count()
                 << ", load_factor:" << last_access_map_->load_factor()
                 << ", max_load_factor:" << last_access_map_->max_load_factor()
                 << ", min_load_factor:" << last_access_map_->min_load_factor();
 
-      LOG(INFO) << "Resetting Access Map: " << count;
+      VLOG(2) << "Resetting Access Map: " << count;
     }
     last_access_map_.reset(new google::dense_hash_map_lockless<K, uint64_t*>());
     last_access_map_->max_load_factor(1.5f);
@@ -460,14 +393,14 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
         delete iter->second;
 	      ++count;
       }
-      // Print Last Access Map Info
-      LOG(INFO) << "map info size:" << count
+      // Print Last Histogram
+      VLOG(2) << "map info size:" << count
                 << ", bucket_count:" << reuse_time_hist_->bucket_count()
                 << ", load_factor:" << reuse_time_hist_->load_factor()
                 << ", max_load_factor:" << reuse_time_hist_->max_load_factor()
                 << ", min_load_factor:" << reuse_time_hist_->min_load_factor();
 
-      LOG(INFO) << "Resetting Access Map: " << count;
+      VLOG(2) << "Resetting Histogram: " << count;
     }
     reuse_time_hist_.reset(new HistogramMap());
     reuse_time_hist_->max_load_factor(1.5f);

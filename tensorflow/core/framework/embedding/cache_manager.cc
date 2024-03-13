@@ -73,7 +73,7 @@ void CacheManager::Tune(size_t total_size, size_t unit) {
     caches.emplace_back(kv.second.get());
   }
   DoTune(total_size, std::move(caches), unit);
-  LOG(INFO) << "LRU Time: "
+  VLOG(2) << "LRU Time: "
             << std::chrono::duration_cast<std::chrono::milliseconds>(
                    std::chrono::nanoseconds(lru_nanos.load()))
                    .count()
@@ -160,9 +160,9 @@ void CacheManager::StartThread() {
     ;
   if (num_active_threads_ < 1) {
     num_active_threads_.fetch_add(1, std::memory_order_relaxed);
-    LOG(INFO) << "Scheduling Tuning Thread";
+    VLOG(2) << "Scheduling Tuning Thread";
     thread_pool_->Schedule([this]() {
-      LOG(INFO) << "Scheduled Tuning Thread";
+      VLOG(2) << "Scheduled Tuning Thread";
       this->TuneLoop();
     });
   }
@@ -170,9 +170,9 @@ void CacheManager::StartThread() {
 }
 
 void CacheManager::TuneLoop() {
-  LOG(INFO) << "Tuning Loop Begin";
+  VLOG(3) << "Tuning Loop Begin";
   while (CheckCache()) {
-    LOG(INFO) << "access count: "
+    VLOG(3) << "access count: "
               << access_count_.load(std::memory_order_relaxed);
     size_t cache_count = registry_.size();
     if (should_tune_.load(std::memory_order_relaxed)) {
@@ -183,7 +183,7 @@ void CacheManager::TuneLoop() {
         std::pair<uint64, uint64> move_count = kv.first->GetMoveCount();
         kv.first->ResetMoveCount();
         uint64 promotions = move_count.first, demotions = move_count.second;
-        LOG(INFO) << "\"" << kv.first->GetName() << "\" promotions: " << promotions << ", demotions:" << demotions;
+        VLOG(2) << "\"" << kv.first->GetName() << "\" promotions: " << promotions << ", demotions:" << demotions;
         uint64 prev_promotions = stat.prev_promotion, prev_demotions = stat.prev_demotion;
         // skip if there is no promotion
         if (prev_promotions != 0) {
@@ -191,7 +191,7 @@ void CacheManager::TuneLoop() {
           double relative_diff = (std::fabs((double)diff)) / prev_promotions;
           if (relative_diff > 0.2) {
             reactivate = true;
-            LOG(INFO) << "\"" << kv.first->GetName() << "\" promotion diff: " << relative_diff << ", reactivating sampling";
+            VLOG(2) << "\"" << kv.first->GetName() << "\" promotion diff: " << relative_diff << ", reactivating sampling";
           }
         }
         if (prev_demotions != 0) {
@@ -199,7 +199,7 @@ void CacheManager::TuneLoop() {
           double relative_diff = (std::fabs((double)diff)) / prev_demotions;
           if (relative_diff > 0.2) {
             reactivate = true;
-            LOG(INFO) << "\"" << kv.first->GetName() << "\" demotion diff: " << relative_diff << ", reactivating sampling";
+            VLOG(2) << "\"" << kv.first->GetName() << "\" demotion diff: " << relative_diff << ", reactivating sampling";
           }
         }
         stat.prev_promotion = promotions;
@@ -207,10 +207,10 @@ void CacheManager::TuneLoop() {
       }
       
       if (SamplingActive()) {
-        LOG(INFO) << "access count: " << access_count_ << ", do tune";
+        VLOG(2) << "access count: " << access_count_ << ", do tune";
         Tune(total_size_, tuning_unit_);
       } else {
-        LOG(INFO) << "access count: " << access_count_ << ", tuning not active"; 
+        VLOG(2) << "access count: " << access_count_ << ", tuning not active"; 
       }
       step_ = std::round(access_count_.load(std::memory_order_relaxed) /
                           (tuning_interval_ * cache_count)) + 1;
@@ -226,7 +226,7 @@ void CacheManager::TuneLoop() {
     Env::Default()->SleepForMicroseconds(1000000);
   }
   num_active_threads_.fetch_sub(1, std::memory_order_relaxed);
-  LOG(INFO) << "Tuning thread exit";
+  VLOG(3) << "Tuning thread exit";
 }
 
 void CacheManager::IncreaseNanos(uint64_t lru_nano, uint64_t profiler_nano) {
