@@ -81,6 +81,12 @@ TYPE_LIST = ['lunch', 'night', 'dinner', 'tea', 'breakfast']
 HASH_BUCKET_SIZES = 100000
 EMBEDDING_DIMENSIONS = 64
 
+CACHE_SIZES = {
+    "user_id": 2443264,
+    "times": 133120,
+    "district_id": 3413,
+    "timediff_list": 8605013
+}
 
 class DLRM():
 
@@ -361,8 +367,15 @@ def build_feature_columns():
             ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
                 storage_type=config_pb2.StorageType.DRAM_SSDHASH,
                 storage_path=f"/opt/ev/{column}",
-                storage_size=[args.cache_size * 1024 * 1024],
+                storage_size=[CACHE_SIZES[column] * 768],
                 cache_strategy=config_pb2.CacheStrategy.ProfiledLRU
+            ))
+        elif args.ev == 'optimal':
+            ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
+                storage_type=config_pb2.StorageType.DRAM_SSDHASH,
+                storage_path=f"/opt/ev/{column}",
+                storage_size=[CACHE_SIZES[column] * 768],
+                cache_strategy=config_pb2.CacheStrategy.LRU
             ))
         elif args.ev == 'sharded':
             ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
@@ -666,7 +679,7 @@ def get_arg_parser():
     parser.add_argument('--ev',
                         help='',
                         type=str,
-                        choices=['normal', 'tiered', 'profiled', 'sharded', 'profiled_sharded'],
+                        choices=['normal', 'tiered', 'profiled', 'sharded', 'profiled_sharded', 'optimal'],
                         default='normal')
     parser.add_argument('--cache_size',
                         type=int,
@@ -748,7 +761,7 @@ def set_env_for_DeepRec():
     os.environ['STOP_STATISTIC_STEP'] = '110'
     os.environ['MALLOC_CONF'] = \
         'background_thread:true,metadata_thp:auto,dirty_decay_ms:20000,muzzy_decay_ms:20000'
-    os.environ['ENABLE_MEMORY_OPTIMIZATION'] = '1'
+    os.environ['ENABLE_MEMORY_OPTIMIZATION'] = '0'
 
 
 if __name__ == '__main__':
