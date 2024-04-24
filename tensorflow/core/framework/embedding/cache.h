@@ -1,6 +1,7 @@
 #ifndef TENSORFLOW_CORE_FRAMEWORK_EMBEDDING_CACHE_H_
 #define TENSORFLOW_CORE_FRAMEWORK_EMBEDDING_CACHE_H_
 #include <algorithm>
+#include <chrono>
 #include <climits>
 #include <cstddef>
 #include <exception>
@@ -166,6 +167,7 @@ class LRUCache : public BatchCache<K> {
       LOG(FATAL) << "failed to open dump file " << file_path;
     }
     #endif
+    base_time = 0;
   }
 
   size_t size() {
@@ -229,6 +231,8 @@ class LRUCache : public BatchCache<K> {
   }
 
   void update(const K* batch_ids, size_t batch_size, bool use_locking = true) {
+    using Clock = std::chrono::high_resolution_clock;
+    auto start = Clock::now();
     mutex temp_mu;
     auto lock = BatchCache<K>::maybe_lock_cache(mu_, temp_mu, use_locking);
 
@@ -291,8 +295,12 @@ class LRUCache : public BatchCache<K> {
     dump_file.flush();
     #endif
     if ((access_.fetch_add(1, std::memory_order_relaxed) + 1) % report_interval_ == 0) {
-      LOG(INFO) << "cache \"" << name_ << "\" statistics: " << BatchCache<K>::DebugString()  << ", actual size=" << mp.size();
+      LOG(INFO) << "cache \"" << name_ << "\" statistics: " << BatchCache<K>::DebugString()  << ", actual size=" << mp.size() << ", time=" << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::nanoseconds(base_time)).count();
     }
+    auto end = Clock::now();
+
+    auto lru_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    base_time += lru_time;
   }
 
   void update(const K* batch_ids, size_t batch_size, const int64* batch_version,
@@ -372,6 +380,8 @@ class LRUCache : public BatchCache<K> {
     // evicted_head = nullptr;
     // pending_evict_count = 0;
   }
+
+  uint64_t base_time = 0;
 
  private:
   class LRUNode {

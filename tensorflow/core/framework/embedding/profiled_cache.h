@@ -34,29 +34,40 @@ class ProfiledLRUCache : public LRUCache<K> {
 
   void update(const K* batch_ids, size_t batch_size,
               bool use_locking) override {
+    using Clock = std::chrono::high_resolution_clock;
+    auto start = Clock::now();
+    auto prev_entry_size = entry_size;
     if (entry_size >= 0xFFFFFFFFL) {
       entry_size = tunable_cache_->GetCacheEntrySize();
     }
-    using Clock = std::chrono::high_resolution_clock;
-    auto start = Clock::now();
+    
+    auto lru_start = Clock::now();
     LRUCache<K>::update(batch_ids, batch_size, use_locking);
-    auto end_base = Clock::now();
+    auto lru_end = Clock::now();
     if (cm_.SamplingActive()) {
       profiler_.ReferenceKeyBatch(batch_ids, batch_size);
     }
-    auto end_profiler = Clock::now();
     if (entry_size < 0xFFFFFFFFL) {
       const size_t access_size = batch_size * entry_size;
-      cm_.NotifyBatchSize(&profiler_, access_size);
+      if (prev_entry_size != entry_size) {
+        cm_.NotifyBatchSize(&profiler_, access_size);
+      }
       cm_.Access(access_size);
     }
-    auto lru_time =
-        std::chrono::duration_cast<std::chrono::nanoseconds>(end_base - start)
-            .count();
-    auto profiler_time = std::chrono::duration_cast<std::chrono::nanoseconds>(
-                             end_profiler - end_base)
-                             .count();
-    cm_.IncreaseNanos(lru_time, profiler_time);
+    
+    // auto end_profiler = Clock::now();
+    
+    // auto lru_time =
+    //     std::chrono::duration_cast<std::chrono::nanoseconds>(end_base - start)
+    //         .count();
+    // auto profiler_time = std::chrono::duration_cast<std::chrono::nanoseconds>(
+    //                          end_profiler - end_base)
+    //                          .count();
+    // cm_.IncreaseNanos(lru_time, profiler_time);
+    auto end = Clock::now();
+    auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+    auto lru_time = std::chrono::duration_cast<std::chrono::nanoseconds>(lru_end - lru_start).count();
+    // cm_.IncreaseNanos(lru_time, time);
   }
 
   ~ProfiledLRUCache() override {

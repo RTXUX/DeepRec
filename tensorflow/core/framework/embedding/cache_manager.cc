@@ -82,6 +82,8 @@ void CacheManager::Tune(size_t total_size, size_t unit) {
                    std::chrono::nanoseconds(profiler_nanos.load()))
                    .count()
             << "ms";
+  lru_nanos.store(0, std::memory_order_relaxed);
+  profiler_nanos.store(0, std::memory_order_relaxed);
 }
 
 void CacheManager::DoTune(size_t total_size,
@@ -118,11 +120,18 @@ void CacheManager::DoTune(size_t total_size,
   }
 
   bool success = tuning_strategy_->DoTune(total_size, items, unit);
+  
   if (success) {
     for (auto& kv : items) {
       kv.first->SetCacheSize(kv.second.new_size);
     }
     notune_counter_ = 0;
+    for (auto prop: props) {
+      prop->profiler->StopSamplingAndReleaseResource();
+    }
+    sampling_active_.store(false, std::memory_order_release);
+    LOG(INFO) << "Stopped sampling";
+    return;
   } else {
     notune_counter_++;
   }
@@ -212,9 +221,19 @@ void CacheManager::TuneLoop() {
       } else {
         LOG(INFO) << "access count: " << access_count_ << ", tuning not active"; 
       }
+      LOG(INFO) << "LRU Time: "
+            << std::chrono::duration_cast<std::chrono::milliseconds>(
+                   std::chrono::nanoseconds(lru_nanos.load()))
+                   .count()
+            << "ms, Profiler Time: "
+            << std::chrono::duration_cast<std::chrono::milliseconds>(
+                   std::chrono::nanoseconds(profiler_nanos.load()))
+                   .count()
+            << "ms";
       step_ = std::round(access_count_.load(std::memory_order_relaxed) /
                           (tuning_interval_ * cache_count)) + 1;
 
+      reactivate = false;
       if (reactivate) {
         notune_counter_ = 0;
         for (auto &kv: registry_) {
