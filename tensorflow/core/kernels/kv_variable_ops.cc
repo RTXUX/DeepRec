@@ -530,7 +530,9 @@ class KvResourceInitCacheStrategyOp : public OpKernel {
     OP_REQUIRES_OK(ctx, LookupResource(ctx, HandleFromInput(ctx, 0), &ev));
     core::ScopedUnref unref_me(ev);
     auto worker_threads = *(ctx->device()->tensorflow_cpu_worker_threads());
-    ev->InitCache(static_cast<embedding::CacheStrategy>(cache_strategy_), worker_threads.num_threads);
+    if (!ev->IsAllSlotsInitialized()) {
+      ev->InitCache(static_cast<embedding::CacheStrategy>(cache_strategy_), worker_threads.num_threads);
+    }
   }
 
  private:

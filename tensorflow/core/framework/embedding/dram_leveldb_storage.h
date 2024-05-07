@@ -233,6 +233,10 @@ class DramLevelDBStore : public MultiTierStorage<K, V> {
     return dram_feat_desc_->total_dim();
   }
 
+  int data_bytes() override {
+    return dram_feat_desc_->data_bytes();
+  }
+
  private:
   DramStorage<K, V>* dram_;
   LevelDBStore<K, V>* leveldb_;

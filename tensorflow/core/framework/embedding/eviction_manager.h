@@ -16,6 +16,7 @@ limitations under the License.
 #ifndef TENSORFLOW_CORE_FRAMEWORK_EMBEDDING_EVICTION_MANAGER_H_
 #define TENSORFLOW_CORE_FRAMEWORK_EMBEDDING_EVICTION_MANAGER_H_
 
+#include "tensorflow/core/platform/mutex.h"
 #include "tensorflow/core/util/env_var.h"
 #include "tensorflow/core/lib/core/threadpool.h"
 
@@ -64,6 +65,7 @@ class EvictionManager {
   }
 
   void DeleteStorage(MultiTierStorage<K,V>* storage) {
+    mutex_lock l(mu_);
     auto storage_item = storage_table_[storage];
     bool delete_flag = false;
     while (!delete_flag) {

@@ -115,12 +115,12 @@ class EmbeddingVar : public ResourceBase {
             emb_config_.default_value_no_permission);
       }
     }
-    bool is_all_slots_initialized = 
+    is_all_slots_initialized_ = 
         feat_desc_->InitSlotInfo(
             emb_config_.emb_index, value_len_,
             std::pair<V*, int64>(
                 default_value_, emb_config_.default_value_dim));
-    if (is_all_slots_initialized) {
+    if (is_all_slots_initialized_) {
       storage_->Init();
     }
 
@@ -133,6 +133,10 @@ class EmbeddingVar : public ResourceBase {
 
   bool IsInitialized() const {
     return is_initialized_;
+  }
+
+  bool IsAllSlotsInitialized() const {
+    return is_all_slots_initialized_;
   }
 
   Status LookupKey(K key, void** value_ptr) {
@@ -780,6 +784,7 @@ class EmbeddingVar : public ResourceBase {
 
   std::string name_;
   bool is_initialized_ = false;
+  bool is_all_slots_initialized_ = false;
 
   mutex mu_;
 

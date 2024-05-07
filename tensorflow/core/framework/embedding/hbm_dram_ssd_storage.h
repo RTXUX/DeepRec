@@ -343,6 +343,10 @@ class HbmDramSsdStorage : public MultiTierStorage<K, V> {
     return hbm_feat_desc_->total_dim();
   }
 
+  int data_bytes() override {
+    return dram_feat_desc_->data_bytes();
+  }
+
   void Restore(const std::string& name_string,
                const std::string& file_name_string,
                int64 partition_id, int64 partition_num,

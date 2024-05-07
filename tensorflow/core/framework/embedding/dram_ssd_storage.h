@@ -45,7 +45,6 @@ class   DramSsdHashStorage : public MultiTierStorage<K, V> {
   TF_DISALLOW_COPY_AND_ASSIGN(DramSsdHashStorage);
 
   Status Get(K key, void** value_ptr) override {
-    this->cache_->update(&key, 1);
     Status s = dram_->Get(key, value_ptr);
     if (s.ok()) {
       return s;
@@ -80,7 +79,6 @@ class   DramSsdHashStorage : public MultiTierStorage<K, V> {
   }
 
   Status GetOrCreate(K key, void** value_ptr) override {
-    this->cache_->update(&key, 1);
     Status s = dram_->Get(key, value_ptr);
     if (s.ok()) {
       return s;
@@ -238,6 +236,10 @@ class   DramSsdHashStorage : public MultiTierStorage<K, V> {
  protected:
   int total_dim() const override {
     return dram_feat_desc_->total_dim();
+  }
+
+  int data_bytes() override {
+    return dram_feat_desc_->data_bytes();
   }
 
  private:

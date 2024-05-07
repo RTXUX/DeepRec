@@ -58,11 +58,10 @@ public:
 
 
   virtual void Init() override {
-    const size_t unit_size = total_dim() * sizeof(V);
-    cache_capacity_ = Storage<K, V>::storage_config_.size[0]
-                      / (unit_size);
+    const size_t unit_size = data_bytes();
+    cache_capacity_ = Storage<K, V>::storage_config_.size[0] / unit_size;
     if (cache_) {
-      cache_->SetSize(cache_capacity_);
+      cache_->set_capacity(cache_capacity_);
     } else {
       LOG(INFO) << "Init: Cache \"" << name_ << "\" not initialized";
     }
@@ -85,11 +84,11 @@ public:
   void SetCacheSize(size_t new_size) override {
     while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
     Storage<K, V>::storage_config_.size[0] = new_size;
-    const size_t unit_size = total_dim() * sizeof(V);
+    const size_t unit_size = data_bytes();
     cache_capacity_ = Storage<K, V>::storage_config_.size[0]
                       / (unit_size);
     if (cache_) {
-      cache_->SetSize(cache_capacity_);
+      cache_->set_capacity(cache_capacity_);
     } else {
       LOG(INFO) << "SetCacheSize: Cache \"" << name_ << "\" not initialized";
     }
@@ -201,9 +200,7 @@ public:
   }
 
   void UpdateCache(const Tensor& indices) override {
-    Schedule([this, indices]() {
-      cache_->update(indices);
-    });
+    cache_->update(indices);
   }
 
   virtual bool IsUseHbm() override {
@@ -237,28 +234,30 @@ public:
                                partition_num, value_len, is_filter,
                                false/*to_dram*/, is_incr, restore_buff);
  
-    // if (emb_config.is_primary()) {
-    //   K* key_buff = (K*)restore_buff.key_buffer;
-    //   V* value_buff = (V*)restore_buff.value_buffer;
-    //   int64* version_buff = (int64*)restore_buff.version_buffer;
-    //   int64* freq_buff = (int64*)restore_buff.freq_buffer;
-    //   if (cache_) {
-    //     cache_->update(key_buff, key_num, version_buff, freq_buff);
-    //     auto cache_size = CacheSize();
-    //     if (cache_->size() > cache_size) {
-    //       int64 evict_size = cache_->size() - cache_size;
-    //       std::vector<K> evict_ids(evict_size);
-    //       size_t true_size =
-    //           cache_->get_evic_ids(evict_ids.data(), evict_size);
-    //       Eviction(evict_ids.data(), true_size);
-    //     }
-    //   }
-    //   return s;
-    // }
+    if (emb_config.is_primary()) {
+      K* key_buff = (K*)restore_buff.key_buffer;
+      V* value_buff = (V*)restore_buff.value_buffer;
+      int64* version_buff = (int64*)restore_buff.version_buffer;
+      int64* freq_buff = (int64*)restore_buff.freq_buffer;
+      if (cache_) {
+        cache_->update(key_buff, key_num, version_buff, freq_buff);
+        auto cache_size = CacheSize();
+        if (cache_->size() > cache_size) {
+          int64 evict_size = cache_->size() - cache_size;
+          std::vector<K> evict_ids(evict_size);
+          size_t true_size =
+              cache_->get_evic_ids(evict_ids.data(), evict_size);
+          Eviction(evict_ids.data(), true_size);
+        }
+      }
+      return s;
+    }
     return s;
   }
   
   virtual int total_dim() const = 0;
+
+  virtual int data_bytes() = 0;
 
   void DeleteFromEvictionManager() {
     eviction_manager_->DeleteStorage(this);

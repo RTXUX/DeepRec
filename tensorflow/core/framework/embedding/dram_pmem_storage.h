@@ -226,6 +226,10 @@ class DramPmemStorage : public MultiTierStorage<K, V> {
     return pmem_feat_desc_->total_dim();
   }
 
+  int data_bytes() override {
+    return dram_feat_desc_->data_bytes();
+  }
+
  private:
   DramStorage<K, V>* dram_;
   PmemLibpmemStorage<K, V>* pmem_;
