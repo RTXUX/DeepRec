@@ -102,9 +102,9 @@ public:
     return total_dim() * sizeof(V);
   }
 
-  void InitCache(embedding::CacheStrategy cache_strategy) override {
+  void InitCache(embedding::CacheStrategy cache_strategy, int num_threads) override {
     if (cache_ == nullptr) {
-      cache_ = CacheFactory::Create<K>(cache_strategy, name_, this);
+      cache_ = CacheFactory::Create<K>(cache_strategy, name_, cache_capacity_, num_threads, this);
       if (cache_capacity_ != -1) {
         cache_->SetSize(cache_capacity_);
       }
@@ -188,6 +188,7 @@ public:
     if (cache_count > cache_capacity_) {
       // eviction
       int k_size = cache_count - cache_capacity_;
+      cache_capacity_ = cache_->get_capacity();
       k_size = std::min(k_size, EvictionSize);
       size_t true_size = cache_->get_evic_ids(evic_ids, k_size);
       EvictionWithDelayedDestroy(evic_ids, true_size);
@@ -196,9 +197,7 @@ public:
 
   void UpdateCache(const Tensor& indices,
                    const Tensor& indices_counts) override {
-    Schedule([this, indices, indices_counts]() {
-      cache_->update(indices, indices_counts);
-    });
+    cache_->update(indices, indices_counts);
   }
 
   void UpdateCache(const Tensor& indices) override {
@@ -212,15 +211,14 @@ public:
   }
 
   void AddToCachePrefetchList(const Tensor& indices) override {
-    Schedule([this, indices]() {
-      cache_->add_to_prefetch_list(indices);
-    });
+    cache_->add_to_prefetch_list(indices);
   }
 
   void AddToCache(const Tensor& indices) override {
     Schedule([this, indices]() {
       cache_->add_to_cache(indices);
     });
+    cache_->add_to_cache(indices);
   }
 
   std::pair<uint64, uint64> GetMoveCount() const {
@@ -239,24 +237,24 @@ public:
                                partition_num, value_len, is_filter,
                                false/*to_dram*/, is_incr, restore_buff);
  
-    if (emb_config.is_primary()) {
-      K* key_buff = (K*)restore_buff.key_buffer;
-      V* value_buff = (V*)restore_buff.value_buffer;
-      int64* version_buff = (int64*)restore_buff.version_buffer;
-      int64* freq_buff = (int64*)restore_buff.freq_buffer;
-      if (cache_) {
-        cache_->update(key_buff, key_num, version_buff, freq_buff);
-        auto cache_size = CacheSize();
-        if (cache_->size() > cache_size) {
-          int64 evict_size = cache_->size() - cache_size;
-          std::vector<K> evict_ids(evict_size);
-          size_t true_size =
-              cache_->get_evic_ids(evict_ids.data(), evict_size);
-          Eviction(evict_ids.data(), true_size);
-        }
-      }
-      return s;
-    }
+    // if (emb_config.is_primary()) {
+    //   K* key_buff = (K*)restore_buff.key_buffer;
+    //   V* value_buff = (V*)restore_buff.value_buffer;
+    //   int64* version_buff = (int64*)restore_buff.version_buffer;
+    //   int64* freq_buff = (int64*)restore_buff.freq_buffer;
+    //   if (cache_) {
+    //     cache_->update(key_buff, key_num, version_buff, freq_buff);
+    //     auto cache_size = CacheSize();
+    //     if (cache_->size() > cache_size) {
+    //       int64 evict_size = cache_->size() - cache_size;
+    //       std::vector<K> evict_ids(evict_size);
+    //       size_t true_size =
+    //           cache_->get_evic_ids(evict_ids.data(), evict_size);
+    //       Eviction(evict_ids.data(), true_size);
+    //     }
+    //   }
+    //   return s;
+    // }
     return s;
   }
   

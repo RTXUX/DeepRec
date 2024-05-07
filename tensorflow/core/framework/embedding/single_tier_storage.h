@@ -184,7 +184,7 @@ class SingleTierStorage : public Storage<K, V> {
     return nullptr;
   }
 
-  void InitCache(embedding::CacheStrategy cache_strategy) override {
+  void InitCache(embedding::CacheStrategy cache_strategy, int num_threads) override {
     LOG(FATAL) << "Unsupport InitCache in SingleTierStorage.";
   }
 

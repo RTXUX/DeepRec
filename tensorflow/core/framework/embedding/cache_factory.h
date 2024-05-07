@@ -26,7 +26,7 @@ class CacheFactory {
  public:
     template<typename K>
     static BatchCache<K> *
-    Create(CacheStrategy cache_strategy, std::string name, TunableCache *tunable_cache = nullptr) {
+    Create(CacheStrategy cache_strategy, std::string name, int64 capacity, int num_threads, TunableCache *tunable_cache = nullptr) {
       int64 shard_shift;
       switch (cache_strategy) {
         case CacheStrategy::LRU:
@@ -68,6 +68,8 @@ class CacheFactory {
             CacheManager::GetInstance().RegisterCache(*pscache->GetProfiler());
           }
           return pscache;
+        case CacheStrategy::B64LFU:
+          return new BlockLockLFUCache<K>(capacity, 64, num_threads);  
         default:
           LOG(INFO) << " Invalid Cache strategy, \
                        use LFU in multi-tier EmbeddingVariable "

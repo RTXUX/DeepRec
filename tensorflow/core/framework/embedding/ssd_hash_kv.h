@@ -520,7 +520,7 @@ class SSDHashKV : public KVInterface<K, V> {
       delete posi;
       pos_out_of_date_.pop_front();
     }
-    pos_out_of_date_.emplace_back(old_posi);
+    pos_out_of_date_.push_back(old_posi);
   }
 
   bool UpdatePosition(EmbPosition** pos, EmbPosition* old_posi,
@@ -608,7 +608,7 @@ class SSDHashKV : public KVInterface<K, V> {
       EmbPosition* posi = it.second;
       auto iter = evict_file_map_.find(posi->version_);
       if (iter != evict_file_map_.end()) {
-        (*iter).second.emplace_back(it);
+        (*iter).second.push_back(it);
       }
     }
   }
@@ -768,7 +768,7 @@ class SSDHashKV : public KVInterface<K, V> {
   volatile size_t evict_version_ = 0;
   volatile size_t compaction_version_ = 0;
   volatile size_t current_offset_ = 0;
-  volatile size_t buffer_cur_ = 0;
+  size_t buffer_cur_ = 0;
   size_t total_app_count_ = 0;
   size_t max_app_count_;
 

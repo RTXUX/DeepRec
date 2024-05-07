@@ -461,8 +461,8 @@ class EmbeddingVar : public ResourceBase {
     return storage_->IsUsePersistentStorage();
   }
 
-  void InitCache(embedding::CacheStrategy cache_strategy) {
-    storage_->InitCache(cache_strategy);
+  void InitCache(embedding::CacheStrategy cache_strategy, int num_threads) {
+    storage_->InitCache(cache_strategy, num_threads);
   }
 
   std::string DebugString() const {
