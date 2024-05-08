@@ -349,17 +349,21 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
   }
 
   virtual ~SamplingLRUAETProfiler() {
-    for (auto iter = last_access_map_->cbegin();
-         iter != last_access_map_->cend(); ++iter) {
-      delete iter->second;
+    if (last_access_map_) {
+      for (auto iter = last_access_map_->cbegin();
+          iter != last_access_map_->cend(); ++iter) {
+        delete iter->second;
+      }
+      last_access_map_ = nullptr;
     }
-    last_access_map_ = nullptr;
-
-    for (auto iter = reuse_time_hist_->cbegin();
-         iter != reuse_time_hist_->cend(); ++iter) {
-      delete iter->second;
+    
+    if (reuse_time_hist_) {
+      for (auto iter = reuse_time_hist_->cbegin();
+          iter != reuse_time_hist_->cend(); ++iter) {
+        delete iter->second;
+      }
+      reuse_time_hist_ = nullptr;
     }
-    reuse_time_hist_ = nullptr;
   }
 
  protected:
