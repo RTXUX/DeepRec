@@ -16,6 +16,7 @@ limitations under the License.
 #define TENSORFLOW_CORE_FRAMEWORK_EMBEDDING_CACHE_FACTORY_H_
 
 #include "cache.h"
+#include "tensorflow/core/framework/embedding/cache_manager.h"
 #include "tensorflow/core/framework/embedding/profiled_cache.h"
 #include "tensorflow/core/framework/embedding/config.pb.h"
 #include "tensorflow/core/util/env_var.h"
@@ -69,7 +70,31 @@ class CacheFactory {
           }
           return pscache;
         case CacheStrategy::B64LFU:
-          return new BlockLockLFUCache<K>(capacity, 64, num_threads);  
+          return new BlockLockLFUCache<K>(capacity, 64, num_threads);
+        case CacheStrategy::ProfiledB64LFU: {
+          ReadInt64FromEnvVar("CACHE_PROFILER_BUCKET_SIZE", 10, reinterpret_cast<int64 *>(&bucket_size));
+          ReadInt64FromEnvVar("CACHE_PROFILER_MAX_REUSE_DIST", 100000, reinterpret_cast<int64 *>(&max_reuse_dist));
+          ReadInt64FromEnvVar("CACHE_PROFILER_SAMPLING_INTERVAL", 1, reinterpret_cast<int64 *>(&sampling_interval));
+          BlockLockLFUCache<K> b64lfu_cache(capacity, 64, num_threads);
+          ProfiledCacheProxy<K, BlockLockLFUCache<K>> *pb64lfu_cache = new ProfiledCacheProxy<K, BlockLockLFUCache<K>>(name, bucket_size, max_reuse_dist, sampling_interval, std::move(b64lfu_cache), tunable_cache);
+          if (tunable_cache != nullptr) {
+            CacheManager::GetInstance().RegisterCache(*pb64lfu_cache->GetProfiler());
+          }
+          return pb64lfu_cache;
+        }
+        case CacheStrategy::B8LFU:
+          return new BlockLockLFUCache<K>(capacity, 8, num_threads);
+        case CacheStrategy::ProfiledB8LFU: {
+          ReadInt64FromEnvVar("CACHE_PROFILER_BUCKET_SIZE", 10, reinterpret_cast<int64 *>(&bucket_size));
+          ReadInt64FromEnvVar("CACHE_PROFILER_MAX_REUSE_DIST", 100000, reinterpret_cast<int64 *>(&max_reuse_dist));
+          ReadInt64FromEnvVar("CACHE_PROFILER_SAMPLING_INTERVAL", 1, reinterpret_cast<int64 *>(&sampling_interval));
+          BlockLockLFUCache<K> b8lfu_cache(capacity, 8, num_threads);
+          ProfiledCacheProxy<K, BlockLockLFUCache<K>> *pb8lfu_cache = new ProfiledCacheProxy<K, BlockLockLFUCache<K>>(name, bucket_size, max_reuse_dist, sampling_interval, std::move(b8lfu_cache), tunable_cache);
+          if (tunable_cache != nullptr) {
+            CacheManager::GetInstance().RegisterCache(*pb8lfu_cache->GetProfiler());
+          }
+          return pb8lfu_cache;
+        }
         default:
           LOG(INFO) << " Invalid Cache strategy, \
                        use LFU in multi-tier EmbeddingVariable "

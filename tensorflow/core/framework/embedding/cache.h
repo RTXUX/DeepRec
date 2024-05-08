@@ -176,8 +176,6 @@ class LRUCache : public BatchCache<K> {
     base_time = 0;
   }
 
-  size_t get_capacity() override { return 0; }
-
   size_t size() {
     mutex_lock l(mu_);
     #if STRICT_LRU
@@ -960,18 +958,16 @@ class BlockLockLFUCache : public BatchCache<K> {
     for (size_t i = 0; i < block_count_; i++) {
       cache_[i] = new CacheBlock(way_);
     }
-    size_ = new size_t[num_threads_ * 16]();
+    size_.reset(new size_t[num_threads_ * 16]());
     TF_CHECK_OK(ReadBoolFromEnvVar("TF_CACHE_RECORD_HITRATE", false,
                                    &is_record_hitrate_));
-    num_hit_ = new int64[num_threads_ * 16]();
-    num_miss_ = new int64[num_threads_ * 16]();
+    num_hit_.reset(new int64[num_threads_ * 16]());
+    num_miss_.reset(new int64[num_threads_ * 16]());
   }
 
-  ~BlockLockLFUCache() override {
-    delete[] size_;
-    delete[] num_hit_;
-    delete[] num_miss_;
-  }
+  BlockLockLFUCache(BlockLockLFUCache&& other) = default;
+
+  ~BlockLockLFUCache() override {}
 
   size_t get_capacity() override { return capacity_; }
 
@@ -1131,9 +1127,9 @@ class BlockLockLFUCache : public BatchCache<K> {
         CacheBlock& curr_block = *cache_[i % block_count_];
         std::vector<CacheItem>& curr_cached = curr_block.cached;
         size_t min_j = 0;
-        size_t min_count = std::numeric_limits<size_t>::max();
+        size_t min_count = curr_cached[0].count;
         mutex_lock l(curr_block.mtx_cached);
-        for (size_t j = 0; j < curr_cached.size(); ++j) {
+        for (size_t j = 1; j < curr_cached.size(); ++j) {
           if (curr_cached[j].id != BlockLockLFUCache<K>::EMPTY_CACHE_) {
             ++total_cached_size;
             if (min_count >= curr_cached[j].count) {
@@ -1393,12 +1389,12 @@ class BlockLockLFUCache : public BatchCache<K> {
   bool is_expanding_;
   bool is_rehash_;
   mutex rehash_mu_;
-  size_t* size_;
+  std::unique_ptr<size_t[]> size_;
   bool is_record_hitrate_;
   unsigned int sync_idx_count;
   static const K EMPTY_CACHE_;
-  int64* num_hit_;
-  int64* num_miss_;
+  std::unique_ptr<int64[]> num_hit_;
+  std::unique_ptr<int64[]> num_miss_;
 };
 template <class K>
 const K BlockLockLFUCache<K>::EMPTY_CACHE_ = -1;

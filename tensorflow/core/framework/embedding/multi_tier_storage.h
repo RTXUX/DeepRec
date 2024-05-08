@@ -58,7 +58,7 @@ public:
 
 
   virtual void Init() override {
-    const size_t unit_size = data_bytes();
+    const size_t unit_size = sizeof(V) * total_dim();
     cache_capacity_ = Storage<K, V>::storage_config_.size[0] / unit_size;
     if (cache_) {
       cache_->set_capacity(cache_capacity_);
@@ -84,7 +84,7 @@ public:
   void SetCacheSize(size_t new_size) override {
     while (Storage<K, V>::flag_.test_and_set(std::memory_order_acquire));
     Storage<K, V>::storage_config_.size[0] = new_size;
-    const size_t unit_size = data_bytes();
+    const size_t unit_size = sizeof(V) * total_dim();
     cache_capacity_ = Storage<K, V>::storage_config_.size[0]
                       / (unit_size);
     if (cache_) {
@@ -184,10 +184,10 @@ public:
     if (!ready_eviction_)
       return;
     int cache_count = cache_->size();
+    cache_capacity_ = cache_->get_capacity();
     if (cache_count > cache_capacity_) {
       // eviction
       int k_size = cache_count - cache_capacity_;
-      cache_capacity_ = cache_->get_capacity();
       k_size = std::min(k_size, EvictionSize);
       size_t true_size = cache_->get_evic_ids(evic_ids, k_size);
       EvictionWithDelayedDestroy(evic_ids, true_size);
@@ -212,9 +212,6 @@ public:
   }
 
   void AddToCache(const Tensor& indices) override {
-    Schedule([this, indices]() {
-      cache_->add_to_cache(indices);
-    });
     cache_->add_to_cache(indices);
   }
 
