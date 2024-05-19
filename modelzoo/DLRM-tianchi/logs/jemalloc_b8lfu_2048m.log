@@ -1,0 +1,569 @@
+Wed May  8 06:41:12 PM CST 2024
+declare -x CACHE_MIN_SIZE="2097152"
+declare -x CACHE_PROFILER_BUCKET_SIZE="100"
+declare -x CACHE_PROFILER_MAX_REUSE_DIST="100000000"
+declare -x CACHE_PROFILER_SAMPLING_INTERVAL="100"
+declare -x CACHE_PROFLER_CLEAR="true"
+declare -x CACHE_REPORT_INTERVAL="100"
+declare -x CACHE_SHARD_SHIFT="8"
+declare -x CACHE_TOTAL_SIZE="8589934592"
+declare -x CACHE_TUNING_INTERVAL="1000"
+declare -x CACHE_TUNING_STRATEGY="min_mc_dp"
+declare -x CACHE_TUNING_UNIT="262144"
+declare -x DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
+declare -x HOME="/home/rtxux"
+declare -x LANG="en_US.UTF-8"
+declare -x LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libjemalloc.so.2"
+declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
+declare -x LESSOPEN="| /usr/bin/lesspipe %s"
+declare -x LOGNAME="rtxux"
+declare -x LS_COLORS="rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:"
+declare -x MALLOC_CONF="background_thread:true,metadata_thp:auto,dirty_decay_ms:20000,muzzy_decay_ms:20000"
+declare -x MOTD_SHOWN="pam"
+declare -x OLDPWD="/home/rtxux"
+declare -x ONEAPI_ROOT="/opt/intel/oneapi"
+declare -x PATH="/opt/intel/oneapi/vtune/2024.1/bin64:/home/rtxux/.pyenv/plugins/pyenv-virtualenv/shims:/home/rtxux/.pyenv/shims:/home/rtxux/.pyenv/bin:/home/rtxux/.pyenv/plugins/pyenv-virtualenv/shims:/home/rtxux/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+declare -x PKG_CONFIG_PATH="/opt/intel/oneapi/vtune/2024.1/include/pkgconfig/lib64:"
+declare -x PWD="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi"
+declare -x PYENV_ROOT="/home/rtxux/.pyenv"
+declare -x PYENV_SHELL="bash"
+declare -x PYENV_VIRTUALENV_INIT="1"
+declare -x SETVARS_COMPLETED="1"
+declare -x SHELL="/bin/bash"
+declare -x SHLVL="3"
+declare -x SSH_AUTH_SOCK="/tmp/ssh-XXXX4HtMWG/agent.6573"
+declare -x SSH_CLIENT="114.214.169.31 50775 22"
+declare -x SSH_CONNECTION="114.214.169.31 50775 10.0.0.225 22"
+declare -x SSH_TTY="/dev/pts/0"
+declare -x TERM="screen-256color"
+declare -x TERM_PROGRAM="tmux"
+declare -x TERM_PROGRAM_VERSION="3.2a"
+declare -x TF_SSDHASH_ASYNC_COMPACTION="false"
+declare -x TMUX="/tmp/tmux-1000/default,6795,0"
+declare -x TMUX_PANE="%1"
+declare -x USER="rtxux"
+declare -x VTUNE_PROFILER_2024_DIR="/opt/intel/oneapi/vtune/2024.1"
+declare -x VTUNE_PROFILER_DIR="/opt/intel/oneapi/vtune/2024.1"
+declare -x XDG_RUNTIME_DIR="/run/user/1000"
+declare -x XDG_SESSION_CLASS="user"
+declare -x XDG_SESSION_ID="7"
+declare -x XDG_SESSION_TYPE="tty"
+time -v python3 ./train.py --no_eval --ev=b8lfu --cache_size=2048
+INFO:tensorflow:Parsing ./data/train.csv
+INFO:tensorflow:Parsing ./data/eval.csv
+INFO:tensorflow:Is using fused embedding lookup for this scope district_id_embedding_weights
+INFO:tensorflow:Is using fused embedding lookup for this scope time_type_embedding_weights
+INFO:tensorflow:Is using fused embedding lookup for this scope time_type_list_embedding_weights
+INFO:tensorflow:Is using fused embedding lookup for this scope timediff_list_embedding_weights
+INFO:tensorflow:Is using fused embedding lookup for this scope times_embedding_weights
+INFO:tensorflow:Is using fused embedding lookup for this scope user_id_embedding_weights
+INFO:tensorflow:Create CheckpointSaverHook.
+INFO:tensorflow:Init incremental saver , incremental_save:False, incremental_path:./result/model_DLRM_1715164958/.incremental_checkpoint/incremental_model.ckpt
+WARNING:tensorflow:Issue encountered when serializing embedding_variable_restore_dependency.
+Type is unsupported, or the types of the items don't match field type in CollectionDef. Note this is a warning and probably safe to ignore.
+'dict' object has no attribute 'name'
+INFO:tensorflow:Graph was finalized.
+2024-05-08 18:42:41.594009: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2699995000 Hz
+2024-05-08 18:42:41.596946: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x14a54159de40 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2024-05-08 18:42:41.596969: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+INFO:tensorflow:run without loading checkpoint
+2024-05-08 18:42:41.635030: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding/brand_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.635105: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding/brand_id_list_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.635151: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding/brand_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.635174: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding_1/brand_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.635214: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding_1/brand_id_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.635251: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding_1/brand_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.635268: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding/category_1_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.635305: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding/category_1_id_list_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.635339: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding/category_1_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.635356: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding_1/category_1_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.635395: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding_1/category_1_id_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.635430: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding_1/category_1_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.635446: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding/city_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.635481: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding/city_id_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.635517: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding/city_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.635533: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding/geohash12_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.635567: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding/geohash12_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.635601: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding/geohash12_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.635617: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding/item_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.635649: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding/item_id_list_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.635682: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding/item_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.635711: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding_1/item_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.635748: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding_1/item_id_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.635783: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding_1/item_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.635799: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding/merge_standard_food_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.635846: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding/merge_standard_food_id_list_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.635898: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding/merge_standard_food_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.635917: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding_1/merge_standard_food_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.635968: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding_1/merge_standard_food_id_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.636020: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding_1/merge_standard_food_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.636038: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding/shop_aoi_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.636090: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding/shop_aoi_id_list_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.636141: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding/shop_aoi_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.636160: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding_1/shop_aoi_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.636205: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding_1/shop_aoi_id_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.636241: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding_1/shop_aoi_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.636259: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding/shop_geohash6_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.636293: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding/shop_geohash6_list_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.636326: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding/shop_geohash6_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.636343: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding_1/shop_geohash_12_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.636379: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding_1/shop_geohash_12_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.636413: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding_1/shop_geohash_12_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.636429: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding_1/shop_geohash_6_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.636462: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding_1/shop_geohash_6_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.636496: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding_1/shop_geohash_6_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.636512: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding/shop_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.636545: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding/shop_id_list_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.636578: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding/shop_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.636594: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding_1/shop_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.636628: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding_1/shop_id_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.636663: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding_1/shop_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.636680: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding_1/visit_city_shared_embedding_weights_grad/zeros_like
+2024-05-08 18:42:41.636723: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding_1/visit_city_shared_embedding_weights_grad/Select
+2024-05-08 18:42:41.636759: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding_1/visit_city_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 18:42:41.637352: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding/brand_id_list_shared_embedding_weights][new_name:fused_op_1_select_then_scalar]
+2024-05-08 18:42:41.637404: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding_1/brand_id_shared_embedding_weights][new_name:fused_op_2_select_then_scalar]
+2024-05-08 18:42:41.637424: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding/category_1_id_list_shared_embedding_weights][new_name:fused_op_3_select_then_scalar]
+2024-05-08 18:42:41.637442: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding_1/category_1_id_shared_embedding_weights][new_name:fused_op_4_select_then_scalar]
+2024-05-08 18:42:41.637460: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding/city_id_shared_embedding_weights][new_name:fused_op_5_select_then_scalar]
+2024-05-08 18:42:41.637479: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding/geohash12_shared_embedding_weights][new_name:fused_op_6_select_then_scalar]
+2024-05-08 18:42:41.637497: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding/item_id_list_shared_embedding_weights][new_name:fused_op_7_select_then_scalar]
+2024-05-08 18:42:41.637515: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding_1/item_id_shared_embedding_weights][new_name:fused_op_8_select_then_scalar]
+2024-05-08 18:42:41.637533: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding/merge_standard_food_id_list_shared_embedding_weights][new_name:fused_op_9_select_then_scalar]
+2024-05-08 18:42:41.637550: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding_1/merge_standard_food_id_shared_embedding_weights][new_name:fused_op_10_select_then_scalar]
+2024-05-08 18:42:41.637571: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding/shop_aoi_id_list_shared_embedding_weights][new_name:fused_op_11_select_then_scalar]
+2024-05-08 18:42:41.637590: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding_1/shop_aoi_id_shared_embedding_weights][new_name:fused_op_12_select_then_scalar]
+2024-05-08 18:42:41.637608: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding/shop_geohash6_list_shared_embedding_weights][new_name:fused_op_13_select_then_scalar]
+2024-05-08 18:42:41.637625: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding_1/shop_geohash_12_shared_embedding_weights][new_name:fused_op_14_select_then_scalar]
+2024-05-08 18:42:41.637644: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding_1/shop_geohash_6_shared_embedding_weights][new_name:fused_op_15_select_then_scalar]
+2024-05-08 18:42:41.637663: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding/shop_id_list_shared_embedding_weights][new_name:fused_op_16_select_then_scalar]
+2024-05-08 18:42:41.637681: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding_1/shop_id_shared_embedding_weights][new_name:fused_op_17_select_then_scalar]
+2024-05-08 18:42:41.637716: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding_1/visit_city_shared_embedding_weights][new_name:fused_op_18_select_then_scalar]
+2024-05-08 18:42:41.639695: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding/brand_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_1_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639742: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding_1/brand_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_2_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639760: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding/category_1_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_3_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639785: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding_1/category_1_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_4_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639802: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding/city_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_5_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639820: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding/geohash12_shared_embedding_weights_grad/Select_1][new_name:fused_op_6_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639837: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding/item_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_7_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639854: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding_1/item_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_8_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639871: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding/merge_standard_food_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_9_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639888: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding_1/merge_standard_food_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_10_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639905: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding/shop_aoi_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_11_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639921: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding_1/shop_aoi_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_12_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639937: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding/shop_geohash6_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_13_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639953: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding_1/shop_geohash_12_shared_embedding_weights_grad/Select_1][new_name:fused_op_14_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639972: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding_1/shop_geohash_6_shared_embedding_weights_grad/Select_1][new_name:fused_op_15_select_then_scalar_in_grad]
+2024-05-08 18:42:41.639988: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding/shop_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_16_select_then_scalar_in_grad]
+2024-05-08 18:42:41.640004: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding_1/shop_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_17_select_then_scalar_in_grad]
+2024-05-08 18:42:41.640019: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding_1/visit_city_shared_embedding_weights_grad/Select_1][new_name:fused_op_18_select_then_scalar_in_grad]
+2024-05-08 18:42:43.970099: I ./tensorflow/core/framework/ev_allocator.h:555] EVAllocator set arena array size: 128
+2024-05-08 18:42:43.970655: I ./tensorflow/core/framework/embedding/ssd_hash_kv.h:167] Use Sync Compactor in SSDHashKV of Multi-tier Embedding Storage!
+2024-05-08 18:42:43.978599: I ./tensorflow/core/framework/embedding/ssd_hash_kv.h:167] Use Sync Compactor in SSDHashKV of Multi-tier Embedding Storage!
+2024-05-08 18:42:43.980307: I ./tensorflow/core/framework/embedding/ssd_hash_kv.h:167] Use Sync Compactor in SSDHashKV of Multi-tier Embedding Storage!
+2024-05-08 18:42:43.981163: I ./tensorflow/core/framework/embedding/ssd_hash_kv.h:167] Use Sync Compactor in SSDHashKV of Multi-tier Embedding Storage!
+2024-05-08 18:42:43.983342: I ./tensorflow/core/framework/embedding/cache.h:980] Use rehash to change cache capacity.++++++++++++++
+2024-05-08 18:42:44.028665: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:69] Init: Setting "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" cache capacity to 2796202, unit size=768
+2024-05-08 18:42:44.030619: I ./tensorflow/core/framework/embedding/cache.h:980] Use rehash to change cache capacity.++++++++++++++
+2024-05-08 18:42:44.076488: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:69] Init: Setting "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" cache capacity to 2796202, unit size=768
+2024-05-08 18:42:44.077021: I ./tensorflow/core/framework/embedding/cache.h:980] Use rehash to change cache capacity.++++++++++++++
+2024-05-08 18:42:44.122179: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:69] Init: Setting "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" cache capacity to 2796202, unit size=768
+2024-05-08 18:42:44.123302: I ./tensorflow/core/framework/embedding/cache.h:980] Use rehash to change cache capacity.++++++++++++++
+2024-05-08 18:42:44.167954: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:69] Init: Setting "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights" cache capacity to 2796202, unit size=768
+INFO:tensorflow:Running local_init_op.
+INFO:tensorflow:Done running local_init_op.
+WARNING:tensorflow:Issue encountered when serializing embedding_variable_restore_dependency.
+Type is unsupported, or the types of the items don't match field type in CollectionDef. Note this is a warning and probably safe to ignore.
+'dict' object has no attribute 'name'
+INFO:tensorflow:Saving checkpoints for 0 into ./result/model_DLRM_1715164958/model.ckpt.
+WARNING:tensorflow:Issue encountered when serializing embedding_variable_restore_dependency.
+Type is unsupported, or the types of the items don't match field type in CollectionDef. Note this is a warning and probably safe to ignore.
+'dict' object has no attribute 'name'
+INFO:tensorflow:Create incremental timer, incremental_save:False, incremental_save_secs:None
+INFO:tensorflow:loss = 0.727689, steps = 1
+INFO:tensorflow:global_step/sec: 44.1319
+INFO:tensorflow:loss = 0.12261229, steps = 101 (2.266 sec)
+INFO:tensorflow:global_step/sec: 67.5848
+INFO:tensorflow:loss = 0.06762817, steps = 201 (1.480 sec)
+INFO:tensorflow:global_step/sec: 62.7021
+INFO:tensorflow:loss = 0.053781662, steps = 301 (1.595 sec)
+INFO:tensorflow:global_step/sec: 66.3475
+INFO:tensorflow:loss = 0.097673945, steps = 401 (1.507 sec)
+INFO:tensorflow:global_step/sec: 48.5205
+INFO:tensorflow:loss = 0.100442976, steps = 501 (2.061 sec)
+INFO:tensorflow:global_step/sec: 50.958
+INFO:tensorflow:loss = 0.08429501, steps = 601 (1.962 sec)
+INFO:tensorflow:global_step/sec: 56.0446
+INFO:tensorflow:loss = 0.10961132, steps = 701 (1.784 sec)
+INFO:tensorflow:global_step/sec: 55.4243
+INFO:tensorflow:loss = 0.124895565, steps = 801 (1.804 sec)
+INFO:tensorflow:global_step/sec: 49.2345
+INFO:tensorflow:loss = 0.1434047, steps = 901 (2.031 sec)
+INFO:tensorflow:global_step/sec: 38.874
+INFO:tensorflow:loss = 0.057739653, steps = 1001 (2.572 sec)
+INFO:tensorflow:global_step/sec: 18.1737
+INFO:tensorflow:loss = 0.10285975, steps = 1101 (5.502 sec)
+INFO:tensorflow:global_step/sec: 52.4333
+INFO:tensorflow:loss = 0.08216383, steps = 1201 (1.907 sec)
+INFO:tensorflow:global_step/sec: 42.17
+INFO:tensorflow:loss = 0.056018688, steps = 1301 (2.371 sec)
+INFO:tensorflow:global_step/sec: 17.2609
+INFO:tensorflow:loss = 0.070748545, steps = 1401 (5.793 sec)
+INFO:tensorflow:global_step/sec: 47.387
+INFO:tensorflow:loss = 0.05058393, steps = 1501 (2.110 sec)
+INFO:tensorflow:global_step/sec: 19.6913
+INFO:tensorflow:loss = 0.05823087, steps = 1601 (5.078 sec)
+INFO:tensorflow:global_step/sec: 21.033
+INFO:tensorflow:loss = 0.09321813, steps = 1701 (4.754 sec)
+INFO:tensorflow:global_step/sec: 45.6019
+INFO:tensorflow:loss = 0.08262582, steps = 1801 (2.193 sec)
+INFO:tensorflow:global_step/sec: 47.5284
+INFO:tensorflow:loss = 0.09191258, steps = 1901 (2.104 sec)
+INFO:tensorflow:global_step/sec: 12.1943
+INFO:tensorflow:loss = 0.051218808, steps = 2001 (8.201 sec)
+INFO:tensorflow:global_step/sec: 39.2724
+INFO:tensorflow:loss = 0.07164562, steps = 2101 (2.546 sec)
+INFO:tensorflow:global_step/sec: 43.1697
+INFO:tensorflow:loss = 0.11591309, steps = 2201 (2.316 sec)
+INFO:tensorflow:global_step/sec: 13.314
+INFO:tensorflow:loss = 0.058856543, steps = 2301 (7.511 sec)
+INFO:tensorflow:global_step/sec: 37.1783
+INFO:tensorflow:loss = 0.0845765, steps = 2401 (2.690 sec)
+INFO:tensorflow:global_step/sec: 49.8706
+INFO:tensorflow:loss = 0.11314222, steps = 2501 (2.005 sec)
+INFO:tensorflow:global_step/sec: 10.669
+INFO:tensorflow:loss = 0.13429213, steps = 2601 (9.373 sec)
+INFO:tensorflow:global_step/sec: 48.8091
+INFO:tensorflow:loss = 0.07407968, steps = 2701 (2.049 sec)
+INFO:tensorflow:global_step/sec: 49.2767
+INFO:tensorflow:loss = 0.08640412, steps = 2801 (2.029 sec)
+INFO:tensorflow:global_step/sec: 11.5477
+INFO:tensorflow:loss = 0.061460663, steps = 2901 (8.660 sec)
+INFO:tensorflow:global_step/sec: 33.6104
+INFO:tensorflow:loss = 0.13169882, steps = 3001 (2.975 sec)
+INFO:tensorflow:global_step/sec: 50.4732
+INFO:tensorflow:loss = 0.097553484, steps = 3101 (1.981 sec)
+INFO:tensorflow:global_step/sec: 40.3061
+INFO:tensorflow:loss = 0.11315116, steps = 3201 (2.481 sec)
+INFO:tensorflow:global_step/sec: 8.94738
+INFO:tensorflow:loss = 0.10049884, steps = 3301 (11.177 sec)
+INFO:tensorflow:global_step/sec: 45.7973
+INFO:tensorflow:loss = 0.064330325, steps = 3401 (2.183 sec)
+INFO:tensorflow:global_step/sec: 48.0067
+INFO:tensorflow:loss = 0.1477493, steps = 3501 (2.083 sec)
+INFO:tensorflow:global_step/sec: 15.548
+INFO:tensorflow:loss = 0.07228316, steps = 3601 (6.432 sec)
+INFO:tensorflow:global_step/sec: 23.8488
+INFO:tensorflow:loss = 0.08267629, steps = 3701 (4.193 sec)
+INFO:tensorflow:global_step/sec: 47.5548
+INFO:tensorflow:loss = 0.10187422, steps = 3801 (2.103 sec)
+INFO:tensorflow:global_step/sec: 10.4077
+INFO:tensorflow:loss = 0.07621524, steps = 3901 (9.608 sec)
+INFO:tensorflow:global_step/sec: 26.5473
+INFO:tensorflow:loss = 0.13352719, steps = 4001 (3.767 sec)
+INFO:tensorflow:global_step/sec: 48.5431
+INFO:tensorflow:loss = 0.08372494, steps = 4101 (2.060 sec)
+INFO:tensorflow:global_step/sec: 47.3979
+INFO:tensorflow:loss = 0.12856236, steps = 4201 (2.110 sec)
+INFO:tensorflow:global_step/sec: 9.38628
+INFO:tensorflow:loss = 0.07504067, steps = 4301 (10.654 sec)
+INFO:tensorflow:global_step/sec: 38.0003
+INFO:tensorflow:loss = 0.067819804, steps = 4401 (2.632 sec)
+INFO:tensorflow:global_step/sec: 49.4682
+INFO:tensorflow:loss = 0.10054307, steps = 4501 (2.021 sec)
+INFO:tensorflow:global_step/sec: 32.4636
+INFO:tensorflow:loss = 0.09331679, steps = 4601 (3.080 sec)
+INFO:tensorflow:global_step/sec: 11.117
+INFO:tensorflow:loss = 0.0870011, steps = 4701 (8.995 sec)
+INFO:tensorflow:global_step/sec: 34.5048
+INFO:tensorflow:loss = 0.12719515, steps = 4801 (2.898 sec)
+INFO:tensorflow:global_step/sec: 36.1631
+INFO:tensorflow:loss = 0.08470981, steps = 4901 (2.765 sec)
+INFO:tensorflow:global_step/sec: 8.9547
+INFO:tensorflow:loss = 0.14144047, steps = 5001 (11.167 sec)
+INFO:tensorflow:global_step/sec: 38.0467
+INFO:tensorflow:loss = 0.090917766, steps = 5101 (2.628 sec)
+INFO:tensorflow:global_step/sec: 47.654
+INFO:tensorflow:loss = 0.09303893, steps = 5201 (2.098 sec)
+INFO:tensorflow:global_step/sec: 11.5037
+INFO:tensorflow:loss = 0.085451275, steps = 5301 (8.693 sec)
+INFO:tensorflow:global_step/sec: 15.8776
+INFO:tensorflow:loss = 0.14252257, steps = 5401 (6.298 sec)
+INFO:tensorflow:global_step/sec: 43.7629
+INFO:tensorflow:loss = 0.124892846, steps = 5501 (2.285 sec)
+INFO:tensorflow:global_step/sec: 42.4408
+INFO:tensorflow:loss = 0.06823975, steps = 5601 (2.356 sec)
+INFO:tensorflow:global_step/sec: 18.1695
+INFO:tensorflow:loss = 0.086804725, steps = 5701 (5.504 sec)
+INFO:tensorflow:global_step/sec: 12.6711
+INFO:tensorflow:loss = 0.056666944, steps = 5801 (7.892 sec)
+INFO:tensorflow:global_step/sec: 46.3666
+INFO:tensorflow:loss = 0.10622362, steps = 5901 (2.157 sec)
+INFO:tensorflow:global_step/sec: 35.9211
+INFO:tensorflow:loss = 0.087188244, steps = 6001 (2.784 sec)
+INFO:tensorflow:global_step/sec: 8.76454
+INFO:tensorflow:loss = 0.065940484, steps = 6101 (11.409 sec)
+INFO:tensorflow:global_step/sec: 35.2521
+INFO:tensorflow:loss = 0.12311435, steps = 6201 (2.837 sec)
+INFO:tensorflow:global_step/sec: 41.6439
+INFO:tensorflow:loss = 0.10221999, steps = 6301 (2.401 sec)
+INFO:tensorflow:global_step/sec: 9.08186
+INFO:tensorflow:loss = 0.067855984, steps = 6401 (11.011 sec)
+INFO:tensorflow:global_step/sec: 38.6449
+INFO:tensorflow:loss = 0.10273349, steps = 6501 (2.588 sec)
+INFO:tensorflow:global_step/sec: 43.5631
+INFO:tensorflow:loss = 0.06792134, steps = 6601 (2.296 sec)
+INFO:tensorflow:global_step/sec: 11.8165
+INFO:tensorflow:loss = 0.059592288, steps = 6701 (8.463 sec)
+INFO:tensorflow:global_step/sec: 11.0494
+INFO:tensorflow:loss = 0.0745119, steps = 6801 (9.050 sec)
+INFO:tensorflow:global_step/sec: 37.7112
+INFO:tensorflow:loss = 0.096786626, steps = 6901 (2.652 sec)
+INFO:tensorflow:global_step/sec: 44.1261
+INFO:tensorflow:loss = 0.080512345, steps = 7001 (2.266 sec)
+INFO:tensorflow:global_step/sec: 7.41748
+INFO:tensorflow:loss = 0.06798869, steps = 7101 (13.482 sec)
+INFO:tensorflow:global_step/sec: 36.0428
+INFO:tensorflow:loss = 0.11314972, steps = 7201 (2.775 sec)
+INFO:tensorflow:global_step/sec: 43.8902
+INFO:tensorflow:loss = 0.050749302, steps = 7301 (2.278 sec)
+INFO:tensorflow:global_step/sec: 13.5436
+INFO:tensorflow:loss = 0.119126685, steps = 7401 (7.384 sec)
+INFO:tensorflow:global_step/sec: 11.632
+INFO:tensorflow:loss = 0.062021576, steps = 7501 (8.597 sec)
+INFO:tensorflow:global_step/sec: 35.3046
+INFO:tensorflow:loss = 0.10280285, steps = 7601 (2.832 sec)
+INFO:tensorflow:global_step/sec: 26.7893
+INFO:tensorflow:loss = 0.124164775, steps = 7701 (3.733 sec)
+INFO:tensorflow:global_step/sec: 7.77198
+INFO:tensorflow:loss = 0.07569286, steps = 7801 (12.867 sec)
+INFO:tensorflow:global_step/sec: 33.953
+INFO:tensorflow:loss = 0.07404463, steps = 7901 (2.945 sec)
+INFO:tensorflow:global_step/sec: 44.2362
+INFO:tensorflow:loss = 0.08181114, steps = 8001 (2.261 sec)
+INFO:tensorflow:global_step/sec: 8.62822
+INFO:tensorflow:loss = 0.094546124, steps = 8101 (11.590 sec)
+INFO:tensorflow:global_step/sec: 17.0319
+INFO:tensorflow:loss = 0.080407, steps = 8201 (5.871 sec)
+INFO:tensorflow:global_step/sec: 36.538
+INFO:tensorflow:loss = 0.09554988, steps = 8301 (2.737 sec)
+INFO:tensorflow:global_step/sec: 19.8404
+INFO:tensorflow:loss = 0.103073746, steps = 8401 (5.040 sec)
+INFO:tensorflow:global_step/sec: 8.23047
+INFO:tensorflow:loss = 0.09075451, steps = 8501 (12.150 sec)
+INFO:tensorflow:global_step/sec: 32.2222
+INFO:tensorflow:loss = 0.13173667, steps = 8601 (3.103 sec)
+INFO:tensorflow:global_step/sec: 36.2062
+INFO:tensorflow:loss = 0.08605917, steps = 8701 (2.762 sec)
+INFO:tensorflow:global_step/sec: 7.98042
+INFO:tensorflow:loss = 0.11644181, steps = 8801 (12.531 sec)
+INFO:tensorflow:global_step/sec: 22.0388
+INFO:tensorflow:loss = 0.076136164, steps = 8901 (4.537 sec)
+INFO:tensorflow:global_step/sec: 8.4325
+INFO:tensorflow:loss = 0.06654735, steps = 9001 (11.859 sec)
+INFO:tensorflow:global_step/sec: 21.3598
+INFO:tensorflow:loss = 0.10779713, steps = 9101 (4.682 sec)
+INFO:tensorflow:global_step/sec: 30.2022
+INFO:tensorflow:loss = 0.07124867, steps = 9201 (3.311 sec)
+INFO:tensorflow:global_step/sec: 14.0642
+INFO:tensorflow:loss = 0.10571352, steps = 9301 (7.110 sec)
+INFO:tensorflow:global_step/sec: 9.29874
+INFO:tensorflow:loss = 0.122264996, steps = 9401 (10.754 sec)
+INFO:tensorflow:global_step/sec: 30.4555
+INFO:tensorflow:loss = 0.07793237, steps = 9501 (3.284 sec)
+INFO:tensorflow:global_step/sec: 18.6698
+INFO:tensorflow:loss = 0.07132469, steps = 9601 (5.356 sec)
+INFO:tensorflow:global_step/sec: 7.34867
+INFO:tensorflow:loss = 0.10445848, steps = 9701 (13.608 sec)
+INFO:tensorflow:global_step/sec: 26.0296
+INFO:tensorflow:loss = 0.07880251, steps = 9801 (3.842 sec)
+INFO:tensorflow:global_step/sec: 17.1147
+INFO:tensorflow:loss = 0.06325063, steps = 9901 (5.843 sec)
+INFO:tensorflow:global_step/sec: 9.93333
+INFO:tensorflow:loss = 0.1003999, steps = 10001 (10.067 sec)
+INFO:tensorflow:global_step/sec: 23.8416
+INFO:tensorflow:loss = 0.04593928, steps = 10101 (4.194 sec)
+INFO:tensorflow:global_step/sec: 8.60507
+INFO:tensorflow:loss = 0.06658773, steps = 10201 (11.621 sec)
+INFO:tensorflow:global_step/sec: 10.9621
+INFO:tensorflow:loss = 0.12628129, steps = 10301 (9.122 sec)
+INFO:tensorflow:global_step/sec: 22.7931
+INFO:tensorflow:loss = 0.05203691, steps = 10401 (4.387 sec)
+INFO:tensorflow:global_step/sec: 7.01462
+INFO:tensorflow:loss = 0.09209359, steps = 10501 (14.256 sec)
+INFO:tensorflow:global_step/sec: 23.373
+INFO:tensorflow:loss = 0.08018875, steps = 10601 (4.278 sec)
+INFO:tensorflow:global_step/sec: 31.1842
+INFO:tensorflow:loss = 0.071466446, steps = 10701 (3.207 sec)
+INFO:tensorflow:global_step/sec: 9.15306
+INFO:tensorflow:loss = 0.061908115, steps = 10801 (10.925 sec)
+INFO:tensorflow:global_step/sec: 12.8632
+INFO:tensorflow:loss = 0.05996003, steps = 10901 (7.774 sec)
+INFO:tensorflow:global_step/sec: 24.3412
+INFO:tensorflow:loss = 0.10536694, steps = 11001 (4.108 sec)
+INFO:tensorflow:global_step/sec: 6.08683
+INFO:tensorflow:loss = 0.11461814, steps = 11101 (16.429 sec)
+INFO:tensorflow:global_step/sec: 13.8212
+INFO:tensorflow:loss = 0.06480788, steps = 11201 (7.235 sec)
+INFO:tensorflow:global_step/sec: 25.2869
+INFO:tensorflow:loss = 0.11090818, steps = 11301 (3.955 sec)
+INFO:tensorflow:global_step/sec: 10.7767
+INFO:tensorflow:loss = 0.091643505, steps = 11401 (9.279 sec)
+INFO:tensorflow:global_step/sec: 8.9899
+INFO:tensorflow:loss = 0.087648615, steps = 11501 (11.124 sec)
+INFO:tensorflow:global_step/sec: 21.7405
+INFO:tensorflow:loss = 0.08909245, steps = 11601 (4.600 sec)
+INFO:tensorflow:global_step/sec: 10.2863
+INFO:tensorflow:loss = 0.11980826, steps = 11701 (9.722 sec)
+INFO:tensorflow:global_step/sec: 14.3075
+INFO:tensorflow:loss = 0.10353557, steps = 11801 (6.989 sec)
+INFO:tensorflow:global_step/sec: 16.0285
+INFO:tensorflow:loss = 0.081765994, steps = 11901 (6.239 sec)
+INFO:tensorflow:global_step/sec: 5.72288
+INFO:tensorflow:loss = 0.096579656, steps = 12001 (17.474 sec)
+INFO:tensorflow:global_step/sec: 19.9856
+INFO:tensorflow:loss = 0.07421189, steps = 12101 (5.004 sec)
+INFO:tensorflow:global_step/sec: 9.55953
+INFO:tensorflow:loss = 0.04811967, steps = 12201 (10.461 sec)
+INFO:tensorflow:global_step/sec: 8.60887
+INFO:tensorflow:loss = 0.09435753, steps = 12301 (11.616 sec)
+INFO:tensorflow:global_step/sec: 20.7823
+INFO:tensorflow:loss = 0.09049547, steps = 12401 (4.812 sec)
+INFO:tensorflow:global_step/sec: 12.1971
+INFO:tensorflow:loss = 0.15330365, steps = 12501 (8.199 sec)
+INFO:tensorflow:global_step/sec: 8.89805
+INFO:tensorflow:loss = 0.090732366, steps = 12601 (11.238 sec)
+INFO:tensorflow:global_step/sec: 28.2963
+INFO:tensorflow:loss = 0.08431431, steps = 12701 (3.534 sec)
+INFO:tensorflow:global_step/sec: 22.6014
+INFO:tensorflow:loss = 0.10042231, steps = 12801 (4.424 sec)
+INFO:tensorflow:global_step/sec: 6.30746
+INFO:tensorflow:loss = 0.04715936, steps = 12901 (15.854 sec)
+INFO:tensorflow:global_step/sec: 23.3386
+INFO:tensorflow:loss = 0.05945244, steps = 13001 (4.285 sec)
+INFO:tensorflow:global_step/sec: 11.0409
+INFO:tensorflow:loss = 0.10593645, steps = 13101 (9.057 sec)
+INFO:tensorflow:global_step/sec: 10.8706
+INFO:tensorflow:loss = 0.089843616, steps = 13201 (9.199 sec)
+INFO:tensorflow:global_step/sec: 23.7002
+INFO:tensorflow:loss = 0.08914608, steps = 13301 (4.219 sec)
+INFO:tensorflow:global_step/sec: 7.94731
+INFO:tensorflow:loss = 0.068184316, steps = 13401 (12.583 sec)
+INFO:tensorflow:global_step/sec: 16.5014
+INFO:tensorflow:loss = 0.062725365, steps = 13501 (6.060 sec)
+INFO:tensorflow:global_step/sec: 23.2555
+INFO:tensorflow:loss = 0.10506572, steps = 13601 (4.300 sec)
+INFO:tensorflow:global_step/sec: 5.91646
+INFO:tensorflow:loss = 0.06537071, steps = 13701 (16.902 sec)
+INFO:tensorflow:global_step/sec: 20.1551
+INFO:tensorflow:loss = 0.10773966, steps = 13801 (4.962 sec)
+INFO:tensorflow:global_step/sec: 33.9124
+INFO:tensorflow:loss = 0.095002055, steps = 13901 (2.949 sec)
+INFO:tensorflow:global_step/sec: 15.4182
+INFO:tensorflow:loss = 0.07589009, steps = 14001 (6.486 sec)
+INFO:tensorflow:global_step/sec: 6.13348
+INFO:tensorflow:loss = 0.11855176, steps = 14101 (16.304 sec)
+INFO:tensorflow:global_step/sec: 22.8729
+INFO:tensorflow:loss = 0.10926549, steps = 14201 (4.372 sec)
+INFO:tensorflow:global_step/sec: 30.8408
+INFO:tensorflow:loss = 0.09147963, steps = 14301 (3.243 sec)
+INFO:tensorflow:global_step/sec: 5.35959
+INFO:tensorflow:loss = 0.07421289, steps = 14401 (18.658 sec)
+INFO:tensorflow:global_step/sec: 21.8334
+INFO:tensorflow:loss = 0.054353856, steps = 14501 (4.580 sec)
+INFO:tensorflow:global_step/sec: 27.6944
+INFO:tensorflow:loss = 0.07780134, steps = 14601 (3.611 sec)
+INFO:tensorflow:global_step/sec: 20.9108
+INFO:tensorflow:loss = 0.08535205, steps = 14701 (4.782 sec)
+INFO:tensorflow:global_step/sec: 9.7245
+INFO:tensorflow:loss = 0.079878785, steps = 14801 (10.283 sec)
+INFO:tensorflow:global_step/sec: 19.6054
+INFO:tensorflow:loss = 0.10913382, steps = 14901 (5.101 sec)
+INFO:tensorflow:global_step/sec: 33.0042
+INFO:tensorflow:loss = 0.13210309, steps = 15001 (3.030 sec)
+INFO:tensorflow:global_step/sec: 7.02352
+INFO:tensorflow:loss = 0.0779379, steps = 15101 (14.238 sec)
+INFO:tensorflow:global_step/sec: 24.2189
+INFO:tensorflow:loss = 0.13793004, steps = 15201 (4.129 sec)
+INFO:tensorflow:global_step/sec: 30.738
+INFO:tensorflow:loss = 0.11792314, steps = 15301 (3.253 sec)
+INFO:tensorflow:global_step/sec: 19.1226
+INFO:tensorflow:loss = 0.06391532, steps = 15401 (5.229 sec)
+INFO:tensorflow:global_step/sec: 7.12674
+INFO:tensorflow:loss = 0.06533016, steps = 15501 (14.032 sec)
+INFO:tensorflow:global_step/sec: 23.9001
+INFO:tensorflow:loss = 0.068103455, steps = 15601 (4.184 sec)
+INFO:tensorflow:global_step/sec: 23.743
+INFO:tensorflow:loss = 0.08292997, steps = 15701 (4.212 sec)
+INFO:tensorflow:global_step/sec: 6.42203
+INFO:tensorflow:loss = 0.067594826, steps = 15801 (15.571 sec)
+INFO:tensorflow:global_step/sec: 24.3929
+INFO:tensorflow:loss = 0.09289524, steps = 15901 (4.100 sec)
+INFO:tensorflow:global_step/sec: 27.7052
+INFO:tensorflow:loss = 0.0679002, steps = 16001 (3.609 sec)
+INFO:tensorflow:global_step/sec: 18.1126
+INFO:tensorflow:loss = 0.07002313, steps = 16101 (5.521 sec)
+INFO:tensorflow:global_step/sec: 8.75733
+INFO:tensorflow:loss = 0.081549555, steps = 16201 (11.419 sec)
+INFO:tensorflow:global_step/sec: 17.7581
+INFO:tensorflow:loss = 0.10774252, steps = 16301 (5.631 sec)
+INFO:tensorflow:global_step/sec: 25.3692
+INFO:tensorflow:loss = 0.10746719, steps = 16401 (3.942 sec)
+INFO:tensorflow:global_step/sec: 32.6772
+INFO:tensorflow:loss = 0.080488354, steps = 16501 (3.060 sec)
+INFO:tensorflow:global_step/sec: 5.71117
+INFO:tensorflow:loss = 0.07262809, steps = 16601 (17.510 sec)
+INFO:tensorflow:global_step/sec: 23.6273
+INFO:tensorflow:loss = 0.080507725, steps = 16701 (4.232 sec)
+INFO:tensorflow:global_step/sec: 28.0176
+INFO:tensorflow:loss = 0.0791534, steps = 16801 (3.569 sec)
+INFO:tensorflow:global_step/sec: 14.6354
+INFO:tensorflow:loss = 0.051829383, steps = 16901 (6.833 sec)
+INFO:tensorflow:global_step/sec: 7.43619
+INFO:tensorflow:loss = 0.088422075, steps = 17001 (13.448 sec)
+INFO:tensorflow:global_step/sec: 31.0525
+INFO:tensorflow:loss = 0.08009747, steps = 17101 (3.220 sec)
+INFO:tensorflow:global_step/sec: 24.358
+INFO:tensorflow:loss = 0.122725576, steps = 17201 (4.105 sec)
+INFO:tensorflow:global_step/sec: 10.5833
+INFO:tensorflow:loss = 0.09398422, steps = 17301 (9.449 sec)
+INFO:tensorflow:global_step/sec: 8.34892
+INFO:tensorflow:loss = 0.088122465, steps = 17401 (11.978 sec)
+INFO:tensorflow:global_step/sec: 26.3174
+INFO:tensorflow:loss = 0.07585984, steps = 17501 (3.800 sec)
+INFO:tensorflow:global_step/sec: 25.3915
+INFO:tensorflow:loss = 0.10253225, steps = 17601 (3.938 sec)
+INFO:tensorflow:global_step/sec: 22.7744
+INFO:tensorflow:loss = 0.077273734, steps = 17701 (4.391 sec)
+INFO:tensorflow:global_step/sec: 5.73385
+INFO:tensorflow:loss = 0.108421095, steps = 17801 (17.440 sec)
+INFO:tensorflow:global_step/sec: 25.7518
+INFO:tensorflow:loss = 0.08648619, steps = 17901 (3.883 sec)
+INFO:tensorflow:global_step/sec: 25.2138
+INFO:tensorflow:loss = 0.071618006, steps = 18001 (3.966 sec)
+INFO:tensorflow:global_step/sec: 25.0198
+INFO:tensorflow:loss = 0.06404324, steps = 18101 (3.997 sec)
+INFO:tensorflow:global_step/sec: 5.94101
+INFO:tensorflow:loss = 0.06451443, steps = 18201 (16.832 sec)
+INFO:tensorflow:global_step/sec: 28.0742
+INFO:tensorflow:loss = 0.09702644, steps = 18301 (3.562 sec)
+INFO:tensorflow:global_step/sec: 25.7156
+INFO:tensorflow:loss = 0.11669128, steps = 18401 (3.889 sec)
+INFO:tensorflow:global_step/sec: 11.2619
+INFO:tensorflow:loss = 0.07195334, steps = 18501 (8.880 sec)
+INFO:tensorflow:global_step/sec: 7.36501
+INFO:tensorflow:loss = 0.066082, steps = 18601 (13.578 sec)
+INFO:tensorflow:global_step/sec: 28.8721
+INFO:tensorflow:loss = 0.06557309, steps = 18701 (3.464 sec)
+INFO:tensorflow:global_step/sec: 26.626
+INFO:tensorflow:loss = 0.071926475, steps = 18801 (3.756 sec)
+INFO:tensorflow:global_step/sec: 29.1022
+INFO:tensorflow:loss = 0.07395469, steps = 18901 (3.436 sec)
+INFO:tensorflow:global_step/sec: 7.9198
+INFO:tensorflow:loss = 0.106994286, steps = 19001 (12.627 sec)
+INFO:tensorflow:global_step/sec: 12.9494
+INFO:tensorflow:loss = 0.04991274, steps = 19101 (7.722 sec)
+INFO:tensorflow:global_step/sec: 30.6014
+INFO:tensorflow:loss = 0.088405505, steps = 19201 (3.268 sec)
+INFO:tensorflow:global_step/sec: 26.987
+INFO:tensorflow:loss = 0.043046586, steps = 19301 (3.705 sec)

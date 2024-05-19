@@ -1,0 +1,1998 @@
+Wed May  8 07:03:20 PM CST 2024
+declare -x CACHE_MIN_SIZE="2097152"
+declare -x CACHE_PROFILER_BUCKET_SIZE="100"
+declare -x CACHE_PROFILER_MAX_REUSE_DIST="100000000"
+declare -x CACHE_PROFILER_SAMPLING_INTERVAL="100"
+declare -x CACHE_PROFLER_CLEAR="true"
+declare -x CACHE_REPORT_INTERVAL="100"
+declare -x CACHE_SHARD_SHIFT="8"
+declare -x CACHE_TOTAL_SIZE="8589934592"
+declare -x CACHE_TUNING_INTERVAL="1000"
+declare -x CACHE_TUNING_STRATEGY="min_mc_dp"
+declare -x CACHE_TUNING_UNIT="262144"
+declare -x DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
+declare -x HOME="/home/rtxux"
+declare -x LANG="en_US.UTF-8"
+declare -x LD_PRELOAD="/usr/lib/x86_64-linux-gnu/libjemalloc.so.2"
+declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
+declare -x LESSOPEN="| /usr/bin/lesspipe %s"
+declare -x LOGNAME="rtxux"
+declare -x LS_COLORS="rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:"
+declare -x MALLOC_CONF="background_thread:true,metadata_thp:auto,dirty_decay_ms:20000,muzzy_decay_ms:20000"
+declare -x MOTD_SHOWN="pam"
+declare -x OLDPWD="/home/rtxux"
+declare -x ONEAPI_ROOT="/opt/intel/oneapi"
+declare -x PATH="/opt/intel/oneapi/vtune/2024.1/bin64:/home/rtxux/.pyenv/plugins/pyenv-virtualenv/shims:/home/rtxux/.pyenv/shims:/home/rtxux/.pyenv/bin:/home/rtxux/.pyenv/plugins/pyenv-virtualenv/shims:/home/rtxux/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+declare -x PKG_CONFIG_PATH="/opt/intel/oneapi/vtune/2024.1/include/pkgconfig/lib64:"
+declare -x PWD="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi"
+declare -x PYENV_ROOT="/home/rtxux/.pyenv"
+declare -x PYENV_SHELL="bash"
+declare -x PYENV_VIRTUALENV_INIT="1"
+declare -x SETVARS_COMPLETED="1"
+declare -x SHELL="/bin/bash"
+declare -x SHLVL="3"
+declare -x SSH_AUTH_SOCK="/tmp/ssh-XXXX4HtMWG/agent.6573"
+declare -x SSH_CLIENT="114.214.169.31 50775 22"
+declare -x SSH_CONNECTION="114.214.169.31 50775 10.0.0.225 22"
+declare -x SSH_TTY="/dev/pts/0"
+declare -x TERM="screen-256color"
+declare -x TERM_PROGRAM="tmux"
+declare -x TERM_PROGRAM_VERSION="3.2a"
+declare -x TF_SSDHASH_ASYNC_COMPACTION="false"
+declare -x TMUX="/tmp/tmux-1000/default,6795,0"
+declare -x TMUX_PANE="%1"
+declare -x USER="rtxux"
+declare -x VTUNE_PROFILER_2024_DIR="/opt/intel/oneapi/vtune/2024.1"
+declare -x VTUNE_PROFILER_DIR="/opt/intel/oneapi/vtune/2024.1"
+declare -x XDG_RUNTIME_DIR="/run/user/1000"
+declare -x XDG_SESSION_CLASS="user"
+declare -x XDG_SESSION_ID="7"
+declare -x XDG_SESSION_TYPE="tty"
+time -v python3 ./train.py --no_eval --ev=profiled_b8lfu --cache_size=2048
+INFO:tensorflow:Parsing ./data/train.csv
+INFO:tensorflow:Parsing ./data/eval.csv
+INFO:tensorflow:Is using fused embedding lookup for this scope district_id_embedding_weights
+INFO:tensorflow:Is using fused embedding lookup for this scope time_type_embedding_weights
+INFO:tensorflow:Is using fused embedding lookup for this scope time_type_list_embedding_weights
+INFO:tensorflow:Is using fused embedding lookup for this scope timediff_list_embedding_weights
+INFO:tensorflow:Is using fused embedding lookup for this scope times_embedding_weights
+INFO:tensorflow:Is using fused embedding lookup for this scope user_id_embedding_weights
+INFO:tensorflow:Create CheckpointSaverHook.
+INFO:tensorflow:Init incremental saver , incremental_save:False, incremental_path:./result/model_DLRM_1715166285/.incremental_checkpoint/incremental_model.ckpt
+WARNING:tensorflow:Issue encountered when serializing embedding_variable_restore_dependency.
+Type is unsupported, or the types of the items don't match field type in CollectionDef. Note this is a warning and probably safe to ignore.
+'dict' object has no attribute 'name'
+INFO:tensorflow:Graph was finalized.
+2024-05-08 19:04:48.782141: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2699995000 Hz
+2024-05-08 19:04:48.785422: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x154d1159de40 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2024-05-08 19:04:48.785441: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+INFO:tensorflow:run without loading checkpoint
+2024-05-08 19:04:48.821166: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding/brand_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821222: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding/brand_id_list_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821255: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding/brand_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821272: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding_1/brand_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821298: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding_1/brand_id_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821325: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding_1/brand_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821337: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding/category_1_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821361: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding/category_1_id_list_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821386: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding/category_1_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821397: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding_1/category_1_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821421: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding_1/category_1_id_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821446: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding_1/category_1_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821457: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding/city_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821483: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding/city_id_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821509: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding/city_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821520: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding/geohash12_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821546: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding/geohash12_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821571: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding/geohash12_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821582: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding/item_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821606: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding/item_id_list_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821631: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding/item_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821642: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding_1/item_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821669: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding_1/item_id_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821694: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding_1/item_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821706: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding/merge_standard_food_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821729: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding/merge_standard_food_id_list_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821753: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding/merge_standard_food_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821765: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding_1/merge_standard_food_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821789: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding_1/merge_standard_food_id_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821814: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding_1/merge_standard_food_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821825: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding/shop_aoi_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821850: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding/shop_aoi_id_list_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821888: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding/shop_aoi_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821902: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding_1/shop_aoi_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821930: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding_1/shop_aoi_id_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.821956: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding_1/shop_aoi_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.821967: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding/shop_geohash6_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.821993: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding/shop_geohash6_list_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.822018: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding/shop_geohash6_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.822029: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding_1/shop_geohash_12_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.822054: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding_1/shop_geohash_12_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.822079: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding_1/shop_geohash_12_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.822090: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding_1/shop_geohash_6_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.822115: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding_1/shop_geohash_6_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.822140: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding_1/shop_geohash_6_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.822151: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding/shop_id_list_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.822188: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding/shop_id_list_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.822216: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding/shop_id_list_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.822227: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding_1/shop_id_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.822253: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding_1/shop_id_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.822280: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding_1/shop_id_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.822291: I ./tensorflow/core/graph/template_select_pruning_base.h:70] Found match op by select_pruning_then_const head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding_1/visit_city_shared_embedding_weights_grad/zeros_like
+2024-05-08 19:04:48.822318: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding_1/visit_city_shared_embedding_weights_grad/Select
+2024-05-08 19:04:48.822345: I ./tensorflow/core/graph/template_select_pruning_base.h:77] remove node: head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding_1/visit_city_shared_embedding_weights_grad/tuple/control_dependency
+2024-05-08 19:04:48.822921: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding/brand_id_list_shared_embedding_weights][new_name:fused_op_1_select_then_scalar]
+2024-05-08 19:04:48.822964: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding_1/brand_id_shared_embedding_weights][new_name:fused_op_2_select_then_scalar]
+2024-05-08 19:04:48.822978: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding/category_1_id_list_shared_embedding_weights][new_name:fused_op_3_select_then_scalar]
+2024-05-08 19:04:48.822989: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding_1/category_1_id_shared_embedding_weights][new_name:fused_op_4_select_then_scalar]
+2024-05-08 19:04:48.823002: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding/city_id_shared_embedding_weights][new_name:fused_op_5_select_then_scalar]
+2024-05-08 19:04:48.823015: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding/geohash12_shared_embedding_weights][new_name:fused_op_6_select_then_scalar]
+2024-05-08 19:04:48.823027: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding/item_id_list_shared_embedding_weights][new_name:fused_op_7_select_then_scalar]
+2024-05-08 19:04:48.823040: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding_1/item_id_shared_embedding_weights][new_name:fused_op_8_select_then_scalar]
+2024-05-08 19:04:48.823052: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding/merge_standard_food_id_list_shared_embedding_weights][new_name:fused_op_9_select_then_scalar]
+2024-05-08 19:04:48.823063: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding_1/merge_standard_food_id_shared_embedding_weights][new_name:fused_op_10_select_then_scalar]
+2024-05-08 19:04:48.823076: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding/shop_aoi_id_list_shared_embedding_weights][new_name:fused_op_11_select_then_scalar]
+2024-05-08 19:04:48.823088: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding_1/shop_aoi_id_shared_embedding_weights][new_name:fused_op_12_select_then_scalar]
+2024-05-08 19:04:48.823100: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding/shop_geohash6_list_shared_embedding_weights][new_name:fused_op_13_select_then_scalar]
+2024-05-08 19:04:48.823113: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding_1/shop_geohash_12_shared_embedding_weights][new_name:fused_op_14_select_then_scalar]
+2024-05-08 19:04:48.823125: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding_1/shop_geohash_6_shared_embedding_weights][new_name:fused_op_15_select_then_scalar]
+2024-05-08 19:04:48.823138: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding/shop_id_list_shared_embedding_weights][new_name:fused_op_16_select_then_scalar]
+2024-05-08 19:04:48.823150: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding_1/shop_id_shared_embedding_weights][new_name:fused_op_17_select_then_scalar]
+2024-05-08 19:04:48.823184: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar] match op[input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding_1/visit_city_shared_embedding_weights][new_name:fused_op_18_select_then_scalar]
+2024-05-08 19:04:48.825148: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding/brand_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_1_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825198: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/brand_id_brand_id_list_shared_embedding_1/brand_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_2_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825211: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding/category_1_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_3_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825228: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/category_1_id_category_1_id_list_shared_embedding_1/category_1_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_4_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825239: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding/city_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_5_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825250: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding/geohash12_shared_embedding_weights_grad/Select_1][new_name:fused_op_6_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825262: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding/item_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_7_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825273: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/item_id_item_id_list_shared_embedding_1/item_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_8_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825285: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding/merge_standard_food_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_9_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825297: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/merge_standard_food_id_merge_standard_food_id_list_shared_embedding_1/merge_standard_food_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_10_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825308: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding/shop_aoi_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_11_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825319: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_aoi_id_shop_aoi_id_list_shared_embedding_1/shop_aoi_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_12_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825330: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding/shop_geohash6_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_13_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825340: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/geohash12_shop_geohash_12_shared_embedding_1/shop_geohash_12_shared_embedding_weights_grad/Select_1][new_name:fused_op_14_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825354: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_geohash6_list_shop_geohash_6_shared_embedding_1/shop_geohash_6_shared_embedding_weights_grad/Select_1][new_name:fused_op_15_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825367: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding/shop_id_list_shared_embedding_weights_grad/Select_1][new_name:fused_op_16_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825378: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/shop_id_shop_id_list_shared_embedding_1/shop_id_shared_embedding_weights_grad/Select_1][new_name:fused_op_17_select_then_scalar_in_grad]
+2024-05-08 19:04:48.825390: I ./tensorflow/core/graph/template_select_base.h:41] Fusion template[select_then_scalar_in_grad] match op[head/gradients/input_layer/sparse_input_layer/input_layer/city_id_visit_city_shared_embedding_1/visit_city_shared_embedding_weights_grad/Select_1][new_name:fused_op_18_select_then_scalar_in_grad]
+2024-05-08 19:04:51.107711: I ./tensorflow/core/framework/ev_allocator.h:555] EVAllocator set arena array size: 128
+2024-05-08 19:04:51.107871: I ./tensorflow/core/framework/embedding/ssd_hash_kv.h:167] Use Sync Compactor in SSDHashKV of Multi-tier Embedding Storage!
+2024-05-08 19:04:51.108606: I tensorflow/core/framework/embedding/cache_manager.cc:287] Using min_size 2097152
+2024-05-08 19:04:51.108626: I tensorflow/core/framework/embedding/cache_tuning_strategy.cc:467] Use MinimalizeMissCountDynamicProgrammingTuningStrategy
+2024-05-08 19:04:51.108634: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:93] SetCacheSize: Cache "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" not initialized
+2024-05-08 19:04:51.108638: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" cache capacity to 0, unit size=18446744073709551612
+2024-05-08 19:04:51.108641: I tensorflow/core/framework/embedding/cache_manager.cc:172] Scheduling Tuning Thread
+2024-05-08 19:04:51.108657: I tensorflow/core/framework/embedding/cache_manager.cc:174] Scheduled Tuning Thread
+2024-05-08 19:04:51.108684: I tensorflow/core/framework/embedding/cache_manager.cc:182] Tuning Loop Begin
+2024-05-08 19:04:51.108690: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 0
+2024-05-08 19:04:51.120871: I ./tensorflow/core/framework/embedding/ssd_hash_kv.h:167] Use Sync Compactor in SSDHashKV of Multi-tier Embedding Storage!
+2024-05-08 19:04:51.127591: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:93] SetCacheSize: Cache "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" not initialized
+2024-05-08 19:04:51.127634: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" cache capacity to 0, unit size=18446744073709551612
+2024-05-08 19:04:51.127642: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" cache capacity to 0, unit size=18446744073709551612
+2024-05-08 19:04:51.130114: I ./tensorflow/core/framework/embedding/ssd_hash_kv.h:167] Use Sync Compactor in SSDHashKV of Multi-tier Embedding Storage!
+2024-05-08 19:04:51.132532: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" cache capacity to 0, unit size=18446744073709551612
+2024-05-08 19:04:51.132681: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:93] SetCacheSize: Cache "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" not initialized
+2024-05-08 19:04:51.132685: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" cache capacity to 0, unit size=18446744073709551612
+2024-05-08 19:04:51.132689: I ./tensorflow/core/framework/embedding/cache.h:980] Use rehash to change cache capacity.++++++++++++++
+2024-05-08 19:04:51.135182: I ./tensorflow/core/framework/embedding/cache.h:980] Use rehash to change cache capacity.++++++++++++++
+2024-05-08 19:04:51.217086: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:69] Init: Setting "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" cache capacity to 3728270, unit size=768
+2024-05-08 19:04:51.217295: I ./tensorflow/core/framework/embedding/ssd_hash_kv.h:167] Use Sync Compactor in SSDHashKV of Multi-tier Embedding Storage!
+2024-05-08 19:04:51.219158: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:69] Init: Setting "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" cache capacity to 3728270, unit size=768
+2024-05-08 19:04:51.248970: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" cache capacity to 5592405, unit size=512
+2024-05-08 19:04:51.249008: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:93] SetCacheSize: Cache "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights" not initialized
+2024-05-08 19:04:51.249024: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights" cache capacity to 0, unit size=18446744073709551612
+2024-05-08 19:04:51.249028: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" cache capacity to 2796202, unit size=768
+2024-05-08 19:04:51.249032: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" cache capacity to 0, unit size=18446744073709551612
+2024-05-08 19:04:51.249036: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" cache capacity to 2796202, unit size=768
+2024-05-08 19:04:51.254117: I ./tensorflow/core/framework/embedding/cache.h:980] Use rehash to change cache capacity.++++++++++++++
+2024-05-08 19:04:51.302936: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:69] Init: Setting "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights" cache capacity to 2796202, unit size=768
+2024-05-08 19:04:51.303632: I ./tensorflow/core/framework/embedding/cache.h:980] Use rehash to change cache capacity.++++++++++++++
+2024-05-08 19:04:51.352346: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:69] Init: Setting "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" cache capacity to 2796202, unit size=768
+INFO:tensorflow:Running local_init_op.
+INFO:tensorflow:Done running local_init_op.
+2024-05-08 19:04:52.108762: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 0
+2024-05-08 19:04:53.108848: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 0
+WARNING:tensorflow:Issue encountered when serializing embedding_variable_restore_dependency.
+Type is unsupported, or the types of the items don't match field type in CollectionDef. Note this is a warning and probably safe to ignore.
+'dict' object has no attribute 'name'
+INFO:tensorflow:Saving checkpoints for 0 into ./result/model_DLRM_1715166285/model.ckpt.
+2024-05-08 19:04:54.108928: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 0
+WARNING:tensorflow:Issue encountered when serializing embedding_variable_restore_dependency.
+Type is unsupported, or the types of the items don't match field type in CollectionDef. Note this is a warning and probably safe to ignore.
+'dict' object has no attribute 'name'
+INFO:tensorflow:Create incremental timer, incremental_save:False, incremental_save_secs:None
+2024-05-08 19:04:55.109010: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 0
+INFO:tensorflow:loss = 0.727689, steps = 1
+2024-05-08 19:04:56.109103: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 24
+2024-05-08 19:04:57.109227: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 255
+INFO:tensorflow:global_step/sec: 42.7754
+INFO:tensorflow:loss = 0.12434326, steps = 101 (2.338 sec)
+2024-05-08 19:04:58.109328: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 499
+2024-05-08 19:04:59.109428: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 755
+INFO:tensorflow:global_step/sec: 64.1401
+INFO:tensorflow:loss = 0.06623809, steps = 201 (1.559 sec)
+2024-05-08 19:05:00.109531: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 987
+INFO:tensorflow:global_step/sec: 60.3097
+INFO:tensorflow:loss = 0.054205112, steps = 301 (1.658 sec)
+2024-05-08 19:05:01.109652: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 1243
+2024-05-08 19:05:02.109781: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 1495
+INFO:tensorflow:global_step/sec: 63.1943
+INFO:tensorflow:loss = 0.097706705, steps = 401 (1.582 sec)
+2024-05-08 19:05:03.109901: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 1744
+2024-05-08 19:05:04.110044: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 1996
+INFO:tensorflow:global_step/sec: 62.715
+INFO:tensorflow:loss = 0.1005277, steps = 501 (1.595 sec)
+2024-05-08 19:05:05.110150: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 2248
+INFO:tensorflow:global_step/sec: 62.4096
+INFO:tensorflow:loss = 0.08323658, steps = 601 (1.602 sec)
+2024-05-08 19:05:06.110257: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 2496
+2024-05-08 19:05:07.110378: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 2744
+INFO:tensorflow:global_step/sec: 61.7856
+INFO:tensorflow:loss = 0.10957432, steps = 701 (1.619 sec)
+2024-05-08 19:05:08.110516: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 2988
+2024-05-08 19:05:09.110638: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 3188
+INFO:tensorflow:global_step/sec: 54.4724
+INFO:tensorflow:loss = 0.12578554, steps = 801 (1.836 sec)
+2024-05-08 19:05:10.110768: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 3424
+INFO:tensorflow:global_step/sec: 55.1132
+INFO:tensorflow:loss = 0.1433926, steps = 901 (1.814 sec)
+2024-05-08 19:05:11.110895: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 3624
+2024-05-08 19:05:12.111012: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 3864
+INFO:tensorflow:global_step/sec: 59.5808
+INFO:tensorflow:loss = 0.057429582, steps = 1001 (1.678 sec)
+2024-05-08 19:05:13.111133: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 4059
+2024-05-08 19:05:14.111236: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 4296
+INFO:tensorflow:global_step/sec: 53.2174
+INFO:tensorflow:loss = 0.10502762, steps = 1101 (1.879 sec)
+2024-05-08 19:05:15.111342: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 4495
+2024-05-08 19:05:16.111445: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 4719
+INFO:tensorflow:global_step/sec: 52.7
+INFO:tensorflow:loss = 0.08174354, steps = 1201 (1.898 sec)
+2024-05-08 19:05:17.111546: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 4959
+2024-05-08 19:05:18.111659: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 5148
+INFO:tensorflow:global_step/sec: 53.0905
+INFO:tensorflow:loss = 0.05526572, steps = 1301 (1.884 sec)
+2024-05-08 19:05:19.111782: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 5383
+2024-05-08 19:05:20.111899: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 5599
+INFO:tensorflow:global_step/sec: 54.8873
+INFO:tensorflow:loss = 0.071746066, steps = 1401 (1.822 sec)
+2024-05-08 19:05:21.112042: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 5811
+INFO:tensorflow:global_step/sec: 56.5239
+INFO:tensorflow:loss = 0.05050271, steps = 1501 (1.769 sec)
+2024-05-08 19:05:22.112161: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 6043
+2024-05-08 19:05:23.112284: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 6280
+INFO:tensorflow:global_step/sec: 58.8554
+INFO:tensorflow:loss = 0.058869798, steps = 1601 (1.699 sec)
+2024-05-08 19:05:24.112388: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 6504
+2024-05-08 19:05:25.112499: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 6708
+INFO:tensorflow:global_step/sec: 53.1426
+INFO:tensorflow:loss = 0.09396424, steps = 1701 (1.882 sec)
+2024-05-08 19:05:26.112609: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 6936
+2024-05-08 19:05:27.112716: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 7043
+2024-05-08 19:05:28.112840: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 7100
+INFO:tensorflow:global_step/sec: 29.2262
+INFO:tensorflow:loss = 0.08504605, steps = 1801 (3.422 sec)
+2024-05-08 19:05:29.112938: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 7243
+2024-05-08 19:05:30.113067: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 7476
+INFO:tensorflow:global_step/sec: 58.5437
+INFO:tensorflow:loss = 0.09103347, steps = 1901 (1.708 sec)
+2024-05-08 19:05:31.113183: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 7715
+2024-05-08 19:05:32.113284: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 7903
+INFO:tensorflow:global_step/sec: 52.8072
+INFO:tensorflow:loss = 0.0465831, steps = 2001 (1.894 sec)
+2024-05-08 19:05:33.113396: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 8136
+2024-05-08 19:05:34.113529: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 8372
+INFO:tensorflow:global_step/sec: 58.6709
+INFO:tensorflow:loss = 0.07336621, steps = 2101 (1.705 sec)
+2024-05-08 19:05:35.113662: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 8560
+2024-05-08 19:05:36.113775: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 8792
+INFO:tensorflow:global_step/sec: 52.2488
+INFO:tensorflow:loss = 0.118799545, steps = 2201 (1.914 sec)
+2024-05-08 19:05:37.113901: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 9026
+INFO:tensorflow:global_step/sec: 51.403
+INFO:tensorflow:loss = 0.05990902, steps = 2301 (1.945 sec)
+2024-05-08 19:05:38.114029: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 9204
+2024-05-08 19:05:39.114128: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 9268
+2024-05-08 19:05:40.114221: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 9288
+2024-05-08 19:05:41.114319: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 9308
+2024-05-08 19:05:42.114421: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 9424
+INFO:tensorflow:global_step/sec: 20.8963
+INFO:tensorflow:loss = 0.08507907, steps = 2401 (4.786 sec)
+2024-05-08 19:05:43.114523: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 9655
+2024-05-08 19:05:44.114628: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 9891
+INFO:tensorflow:global_step/sec: 52.5205
+INFO:tensorflow:loss = 0.11354267, steps = 2501 (1.904 sec)
+2024-05-08 19:05:45.114731: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 10075
+2024-05-08 19:05:46.114847: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 10304
+INFO:tensorflow:global_step/sec: 57.1711
+INFO:tensorflow:loss = 0.14636546, steps = 2601 (1.749 sec)
+2024-05-08 19:05:47.114990: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 10532
+2024-05-08 19:05:48.115152: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 10720
+INFO:tensorflow:global_step/sec: 51.6352
+INFO:tensorflow:loss = 0.07341659, steps = 2701 (1.937 sec)
+2024-05-08 19:05:49.115260: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 10951
+2024-05-08 19:05:50.115360: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 11176
+INFO:tensorflow:global_step/sec: 57.1193
+INFO:tensorflow:loss = 0.08872449, steps = 2801 (1.751 sec)
+2024-05-08 19:05:51.115511: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 11292
+2024-05-08 19:05:52.115638: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 11336
+2024-05-08 19:05:53.115738: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 11364
+2024-05-08 19:05:54.115844: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 11392
+2024-05-08 19:05:55.115943: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 11587
+INFO:tensorflow:global_step/sec: 20.1794
+INFO:tensorflow:loss = 0.060506713, steps = 2901 (4.956 sec)
+2024-05-08 19:05:56.116048: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 11816
+2024-05-08 19:05:57.116166: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 11993
+INFO:tensorflow:global_step/sec: 50.5918
+INFO:tensorflow:loss = 0.12741774, steps = 3001 (1.977 sec)
+2024-05-08 19:05:58.116306: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 12216
+INFO:tensorflow:global_step/sec: 56.3428
+INFO:tensorflow:loss = 0.09874202, steps = 3101 (1.775 sec)
+2024-05-08 19:05:59.116438: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 12443
+2024-05-08 19:06:00.116540: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 12627
+INFO:tensorflow:global_step/sec: 50.9104
+INFO:tensorflow:loss = 0.1095844, steps = 3201 (1.964 sec)
+2024-05-08 19:06:01.116650: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 12852
+2024-05-08 19:06:02.116796: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 13032
+2024-05-08 19:06:03.116898: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 13124
+2024-05-08 19:06:04.117027: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 13176
+INFO:tensorflow:global_step/sec: 26.6553
+INFO:tensorflow:loss = 0.10174817, steps = 3301 (3.752 sec)
+2024-05-08 19:06:05.117164: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 13236
+2024-05-08 19:06:06.117294: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 13312
+2024-05-08 19:06:07.117431: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 13539
+INFO:tensorflow:global_step/sec: 36.3604
+INFO:tensorflow:loss = 0.06828728, steps = 3401 (2.750 sec)
+2024-05-08 19:06:08.117534: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 13767
+2024-05-08 19:06:09.117643: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 13956
+INFO:tensorflow:global_step/sec: 51.8992
+INFO:tensorflow:loss = 0.14278068, steps = 3501 (1.927 sec)
+2024-05-08 19:06:10.117769: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 14183
+INFO:tensorflow:global_step/sec: 56.9588
+INFO:tensorflow:loss = 0.06767568, steps = 3601 (1.756 sec)
+2024-05-08 19:06:11.117893: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 14411
+2024-05-08 19:06:12.117994: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 14599
+2024-05-08 19:06:13.118098: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 14760
+2024-05-08 19:06:14.118234: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 14792
+INFO:tensorflow:global_step/sec: 30.492
+INFO:tensorflow:loss = 0.08327119, steps = 3701 (3.280 sec)
+2024-05-08 19:06:15.118361: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 14812
+2024-05-08 19:06:16.118461: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 14836
+2024-05-08 19:06:17.118567: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 15008
+2024-05-08 19:06:18.118690: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 15192
+INFO:tensorflow:global_step/sec: 26.1803
+INFO:tensorflow:loss = 0.09953734, steps = 3801 (3.820 sec)
+2024-05-08 19:06:19.118791: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 15411
+INFO:tensorflow:global_step/sec: 56.0432
+INFO:tensorflow:loss = 0.07701165, steps = 3901 (1.784 sec)
+2024-05-08 19:06:20.118893: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 15639
+2024-05-08 19:06:21.118998: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 15819
+INFO:tensorflow:global_step/sec: 50.9787
+INFO:tensorflow:loss = 0.13607053, steps = 4001 (1.962 sec)
+2024-05-08 19:06:22.119101: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 16047
+2024-05-08 19:06:23.119206: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 16272
+INFO:tensorflow:global_step/sec: 47.4672
+INFO:tensorflow:loss = 0.08392616, steps = 4101 (2.107 sec)
+2024-05-08 19:06:24.119329: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 16408
+2024-05-08 19:06:25.119479: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 16484
+2024-05-08 19:06:26.119614: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 16508
+2024-05-08 19:06:27.119713: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 16540
+2024-05-08 19:06:28.119812: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 16568
+2024-05-08 19:06:29.119909: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 16747
+INFO:tensorflow:global_step/sec: 18.693
+INFO:tensorflow:loss = 0.12607889, steps = 4201 (5.350 sec)
+2024-05-08 19:06:30.120016: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 16967
+2024-05-08 19:06:31.120125: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 17152
+INFO:tensorflow:global_step/sec: 50.9234
+INFO:tensorflow:loss = 0.0749539, steps = 4301 (1.964 sec)
+2024-05-08 19:06:32.120239: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 17379
+2024-05-08 19:06:33.120360: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 17604
+INFO:tensorflow:global_step/sec: 56.524
+INFO:tensorflow:loss = 0.07123013, steps = 4401 (1.769 sec)
+2024-05-08 19:06:34.120475: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 17787
+2024-05-08 19:06:35.120587: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 17980
+INFO:tensorflow:global_step/sec: 45.2453
+INFO:tensorflow:loss = 0.10070036, steps = 4501 (2.210 sec)
+2024-05-08 19:06:36.120709: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 18028
+2024-05-08 19:06:37.120856: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 18052
+2024-05-08 19:06:38.120984: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 18068
+2024-05-08 19:06:39.121083: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 18215
+INFO:tensorflow:global_step/sec: 21.5961
+INFO:tensorflow:loss = 0.09323463, steps = 4601 (4.631 sec)
+2024-05-08 19:06:40.121193: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 18439
+2024-05-08 19:06:41.121298: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 18615
+INFO:tensorflow:global_step/sec: 50.0028
+INFO:tensorflow:loss = 0.08753401, steps = 4701 (2.000 sec)
+2024-05-08 19:06:42.121401: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 18839
+2024-05-08 19:06:43.121514: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 19020
+INFO:tensorflow:global_step/sec: 50.0028
+INFO:tensorflow:loss = 0.13009952, steps = 4801 (2.000 sec)
+2024-05-08 19:06:44.121642: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 19239
+2024-05-08 19:06:45.121783: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 19460
+2024-05-08 19:06:46.121940: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 19600
+INFO:tensorflow:global_step/sec: 43.8514
+INFO:tensorflow:loss = 0.08583106, steps = 4901 (2.280 sec)
+2024-05-08 19:06:47.122083: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 19648
+2024-05-08 19:06:48.122214: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 19728
+2024-05-08 19:06:49.122344: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 19784
+2024-05-08 19:06:50.122470: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 19836
+2024-05-08 19:06:51.122589: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 19888
+2024-05-08 19:06:52.122720: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 19955
+INFO:tensorflow:global_step/sec: 16.3729
+INFO:tensorflow:loss = 0.1319639, steps = 5001 (6.108 sec)
+2024-05-08 19:06:53.122840: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 20172
+2024-05-08 19:06:54.122962: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 20396
+INFO:tensorflow:global_step/sec: 55.5083
+INFO:tensorflow:loss = 0.09223741, steps = 5101 (1.801 sec)
+2024-05-08 19:06:55.123073: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 20579
+2024-05-08 19:06:56.123178: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 20800
+INFO:tensorflow:global_step/sec: 50.3889
+INFO:tensorflow:loss = 0.09196177, steps = 5201 (1.985 sec)
+2024-05-08 19:06:57.123289: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 21024
+INFO:tensorflow:global_step/sec: 50.4341
+INFO:tensorflow:loss = 0.086043, steps = 5301 (1.983 sec)
+2024-05-08 19:06:58.123398: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 21204
+2024-05-08 19:06:59.123518: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 21407
+2024-05-08 19:07:00.123683: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 21472
+2024-05-08 19:07:01.123815: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 21496
+2024-05-08 19:07:02.123915: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 21520
+2024-05-08 19:07:03.124015: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 21536
+INFO:tensorflow:global_step/sec: 17.1564
+INFO:tensorflow:loss = 0.14236918, steps = 5401 (5.829 sec)
+2024-05-08 19:07:04.124135: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 21640
+2024-05-08 19:07:05.124272: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 21860
+INFO:tensorflow:global_step/sec: 55.0768
+INFO:tensorflow:loss = 0.12568028, steps = 5501 (1.816 sec)
+2024-05-08 19:07:06.124392: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 22048
+2024-05-08 19:07:07.124516: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 22260
+INFO:tensorflow:global_step/sec: 49.9697
+INFO:tensorflow:loss = 0.069378056, steps = 5601 (2.001 sec)
+2024-05-08 19:07:08.124625: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 22484
+2024-05-08 19:07:09.124754: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 22660
+INFO:tensorflow:global_step/sec: 49.5324
+INFO:tensorflow:loss = 0.08726827, steps = 5701 (2.019 sec)
+2024-05-08 19:07:10.124896: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 22880
+2024-05-08 19:07:11.125020: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 23063
+2024-05-08 19:07:12.125125: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 23160
+INFO:tensorflow:global_step/sec: 35.3314
+INFO:tensorflow:loss = 0.057195365, steps = 5801 (2.830 sec)
+2024-05-08 19:07:13.125251: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 23216
+2024-05-08 19:07:14.125389: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 23232
+2024-05-08 19:07:15.125480: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 23248
+2024-05-08 19:07:16.125581: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 23316
+2024-05-08 19:07:17.125687: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 23535
+INFO:tensorflow:global_step/sec: 20.7517
+INFO:tensorflow:loss = 0.10825208, steps = 5901 (4.819 sec)
+2024-05-08 19:07:18.125812: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 23712
+2024-05-08 19:07:19.125895: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 23935
+INFO:tensorflow:global_step/sec: 50.0737
+INFO:tensorflow:loss = 0.08786914, steps = 6001 (1.997 sec)
+2024-05-08 19:07:20.126000: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 24159
+2024-05-08 19:07:21.126099: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 24339
+INFO:tensorflow:global_step/sec: 50.3512
+INFO:tensorflow:loss = 0.06545693, steps = 6101 (1.986 sec)
+2024-05-08 19:07:22.126210: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 24564
+2024-05-08 19:07:23.126334: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 24791
+INFO:tensorflow:global_step/sec: 56.5509
+INFO:tensorflow:loss = 0.12047004, steps = 6201 (1.768 sec)
+2024-05-08 19:07:24.126445: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 24952
+2024-05-08 19:07:25.126559: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 25112
+2024-05-08 19:07:26.126669: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 25180
+INFO:tensorflow:global_step/sec: 28.3882
+INFO:tensorflow:loss = 0.10216114, steps = 6301 (3.523 sec)
+2024-05-08 19:07:27.126806: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 25216
+2024-05-08 19:07:28.126944: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 25232
+2024-05-08 19:07:29.127047: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 25252
+2024-05-08 19:07:30.127144: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 25296
+2024-05-08 19:07:31.127254: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 25332
+2024-05-08 19:07:32.127369: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 25519
+INFO:tensorflow:global_step/sec: 17.186
+INFO:tensorflow:loss = 0.06748858, steps = 6401 (5.819 sec)
+2024-05-08 19:07:33.127481: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 25736
+2024-05-08 19:07:34.127607: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 25935
+INFO:tensorflow:global_step/sec: 49.122
+INFO:tensorflow:loss = 0.105097294, steps = 6501 (2.036 sec)
+2024-05-08 19:07:35.127713: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 26127
+2024-05-08 19:07:36.127818: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 26344
+INFO:tensorflow:global_step/sec: 54.8181
+INFO:tensorflow:loss = 0.068492755, steps = 6601 (1.824 sec)
+2024-05-08 19:07:37.127945: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 26531
+2024-05-08 19:07:38.128048: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 26747
+INFO:tensorflow:global_step/sec: 50.2173
+INFO:tensorflow:loss = 0.06104861, steps = 6701 (1.991 sec)
+2024-05-08 19:07:39.128152: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 26935
+2024-05-08 19:07:40.128263: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 27008
+2024-05-08 19:07:41.128414: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 27032
+2024-05-08 19:07:42.128563: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 27060
+2024-05-08 19:07:43.128690: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 27084
+INFO:tensorflow:global_step/sec: 17.4475
+INFO:tensorflow:loss = 0.07361523, steps = 6801 (5.731 sec)
+2024-05-08 19:07:44.128798: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 27208
+2024-05-08 19:07:45.128916: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 27423
+2024-05-08 19:07:46.129019: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 27603
+INFO:tensorflow:global_step/sec: 49.3932
+INFO:tensorflow:loss = 0.09661074, steps = 6901 (2.025 sec)
+2024-05-08 19:07:47.129126: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 27819
+INFO:tensorflow:global_step/sec: 54.1753
+INFO:tensorflow:loss = 0.0806449, steps = 7001 (1.846 sec)
+2024-05-08 19:07:48.129244: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 28036
+2024-05-08 19:07:49.129373: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 28219
+INFO:tensorflow:global_step/sec: 50.2218
+INFO:tensorflow:loss = 0.06815033, steps = 7101 (1.991 sec)
+2024-05-08 19:07:50.129484: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 28436
+2024-05-08 19:07:51.129611: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 28627
+2024-05-08 19:07:52.129728: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 28788
+INFO:tensorflow:global_step/sec: 44.4771
+INFO:tensorflow:loss = 0.11408146, steps = 7201 (2.248 sec)
+2024-05-08 19:07:53.129859: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 28844
+2024-05-08 19:07:54.130031: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 28872
+2024-05-08 19:07:55.130157: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 28892
+2024-05-08 19:07:56.130285: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 29024
+2024-05-08 19:07:57.130381: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 29100
+INFO:tensorflow:global_step/sec: 18.1624
+INFO:tensorflow:loss = 0.052439205, steps = 7301 (5.506 sec)
+2024-05-08 19:07:58.130478: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 29291
+2024-05-08 19:07:59.130595: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 29512
+INFO:tensorflow:global_step/sec: 54.5301
+INFO:tensorflow:loss = 0.120026484, steps = 7401 (1.834 sec)
+2024-05-08 19:08:00.130724: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 29679
+2024-05-08 19:08:01.130840: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 29896
+INFO:tensorflow:global_step/sec: 48.4581
+INFO:tensorflow:loss = 0.06084257, steps = 7501 (2.064 sec)
+2024-05-08 19:08:02.130957: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 30116
+2024-05-08 19:08:03.131091: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 30280
+INFO:tensorflow:global_step/sec: 43.2626
+INFO:tensorflow:loss = 0.10402347, steps = 7601 (2.311 sec)
+2024-05-08 19:08:04.131204: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 30427
+2024-05-08 19:08:05.131335: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 30537
+2024-05-08 19:08:06.131471: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 30624
+2024-05-08 19:08:07.131609: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 30704
+2024-05-08 19:08:08.131758: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 30736
+2024-05-08 19:08:09.131899: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 30764
+2024-05-08 19:08:10.132022: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 30788
+INFO:tensorflow:global_step/sec: 14.5785
+INFO:tensorflow:loss = 0.12358944, steps = 7701 (6.859 sec)
+2024-05-08 19:08:11.132154: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 30816
+2024-05-08 19:08:12.132260: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 30902
+2024-05-08 19:08:13.132380: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 31099
+INFO:tensorflow:global_step/sec: 32.2591
+INFO:tensorflow:loss = 0.07543133, steps = 7801 (3.100 sec)
+2024-05-08 19:08:14.132488: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 31256
+2024-05-08 19:08:15.132625: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 31475
+INFO:tensorflow:global_step/sec: 54.8388
+INFO:tensorflow:loss = 0.07406207, steps = 7901 (1.824 sec)
+2024-05-08 19:08:16.132759: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 31676
+2024-05-08 19:08:17.132858: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 31859
+INFO:tensorflow:global_step/sec: 47.9762
+INFO:tensorflow:loss = 0.08189079, steps = 8001 (2.084 sec)
+2024-05-08 19:08:18.132966: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 32079
+2024-05-08 19:08:19.133072: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 32252
+INFO:tensorflow:global_step/sec: 49.4343
+INFO:tensorflow:loss = 0.09473345, steps = 8101 (2.023 sec)
+2024-05-08 19:08:20.133181: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 32472
+2024-05-08 19:08:21.133309: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 32668
+2024-05-08 19:08:22.133449: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 32756
+2024-05-08 19:08:23.133553: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 32800
+INFO:tensorflow:global_step/sec: 30.0048
+INFO:tensorflow:loss = 0.080550015, steps = 8201 (3.333 sec)
+2024-05-08 19:08:24.133657: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 32840
+2024-05-08 19:08:25.133754: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 32860
+2024-05-08 19:08:26.133865: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 32932
+2024-05-08 19:08:27.133999: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 33144
+INFO:tensorflow:global_step/sec: 23.555
+INFO:tensorflow:loss = 0.09555945, steps = 8301 (4.245 sec)
+2024-05-08 19:08:28.134128: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 33359
+2024-05-08 19:08:29.134241: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 33524
+INFO:tensorflow:global_step/sec: 47.7374
+INFO:tensorflow:loss = 0.103167966, steps = 8401 (2.095 sec)
+2024-05-08 19:08:30.134370: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 33744
+2024-05-08 19:08:31.134503: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 33952
+INFO:tensorflow:global_step/sec: 50.0214
+INFO:tensorflow:loss = 0.090994805, steps = 8501 (1.999 sec)
+2024-05-08 19:08:32.134626: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 34143
+2024-05-08 19:08:32.134660: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:08:32.134680: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:08:32.134683: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" promotions: 9013875, demotions:9841414
+2024-05-08 19:08:32.134689: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:08:32.134691: I tensorflow/core/framework/embedding/cache_manager.cc:219] access count: 34143, do tune
+2024-05-08 19:08:32.134853: I tensorflow/core/framework/embedding/cache_manager.cc:107] Cache "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights" visit count=2813655, estimated hit count=2810793, actual hit count=0, relative error=inf
+2024-05-08 19:08:32.134951: I ./tensorflow/core/framework/embedding/cache_profiler.h:468] map info size:505, bucket_count:1024, load_factor:0.250977, max_load_factor:1.5, min_load_factor:0.5
+2024-05-08 19:08:32.134955: I ./tensorflow/core/framework/embedding/cache_profiler.h:474] Resetting Access Map: 505
+2024-05-08 19:08:32.135172: I ./tensorflow/core/framework/embedding/cache_profiler.h:443] map info size:2000, bucket_count:4096, load_factor:0.250244, max_load_factor:1.5, min_load_factor:0.5
+2024-05-08 19:08:32.135176: I ./tensorflow/core/framework/embedding/cache_profiler.h:449] Resetting Access Map: 2000
+2024-05-08 19:08:32.185731: I tensorflow/core/framework/embedding/cache_manager.cc:107] Cache "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" visit count=168145563, estimated hit count=137815280, actual hit count=0, relative error=inf
+2024-05-08 19:08:32.203350: I ./tensorflow/core/framework/embedding/cache_profiler.h:468] map info size:221963, bucket_count:524288, load_factor:0.250002, max_load_factor:1.5, min_load_factor:0.5
+2024-05-08 19:08:32.203408: I ./tensorflow/core/framework/embedding/cache_profiler.h:474] Resetting Access Map: 221963
+2024-05-08 19:08:32.311779: I ./tensorflow/core/framework/embedding/cache_profiler.h:443] map info size:1128715, bucket_count:4194304, load_factor:0.25, max_load_factor:1.5, min_load_factor:0.5
+2024-05-08 19:08:32.311809: I ./tensorflow/core/framework/embedding/cache_profiler.h:449] Resetting Access Map: 1128715
+2024-05-08 19:08:32.319162: I tensorflow/core/framework/embedding/cache_manager.cc:107] Cache "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" visit count=4340698, estimated hit count=4255182, actual hit count=0, relative error=inf
+2024-05-08 19:08:32.319750: I ./tensorflow/core/framework/embedding/cache_profiler.h:468] map info size:4015, bucket_count:8192, load_factor:0.250122, max_load_factor:1.5, min_load_factor:0.5
+2024-05-08 19:08:32.319759: I ./tensorflow/core/framework/embedding/cache_profiler.h:474] Resetting Access Map: 4015
+2024-05-08 19:08:32.323163: I ./tensorflow/core/framework/embedding/cache_profiler.h:443] map info size:29326, bucket_count:65536, load_factor:0.250015, max_load_factor:1.5, min_load_factor:0.5
+2024-05-08 19:08:32.323207: I ./tensorflow/core/framework/embedding/cache_profiler.h:449] Resetting Access Map: 29326
+2024-05-08 19:08:32.325092: I tensorflow/core/framework/embedding/cache_manager.cc:107] Cache "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" visit count=4362360, estimated hit count=2351914, actual hit count=0, relative error=inf
+2024-05-08 19:08:32.326137: I ./tensorflow/core/framework/embedding/cache_profiler.h:468] map info size:13825, bucket_count:32768, load_factor:0.250031, max_load_factor:1.5, min_load_factor:0.5
+2024-05-08 19:08:32.326145: I ./tensorflow/core/framework/embedding/cache_profiler.h:474] Resetting Access Map: 13825
+2024-05-08 19:08:32.329784: I ./tensorflow/core/framework/embedding/cache_profiler.h:443] map info size:42390, bucket_count:131072, load_factor:0.250008, max_load_factor:1.5, min_load_factor:0.5
+2024-05-08 19:08:32.329805: I ./tensorflow/core/framework/embedding/cache_profiler.h:449] Resetting Access Map: 42390
+2024-05-08 19:08:32.329842: I tensorflow/core/framework/embedding/cache_tuning_strategy.cc:280] "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights": max_unit=7208, hi=7208, high_sum=7208
+2024-05-08 19:08:32.329848: I tensorflow/core/framework/embedding/cache_tuning_strategy.cc:280] "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights": max_unit=398, hi=398, high_sum=7606
+2024-05-08 19:08:32.329852: I tensorflow/core/framework/embedding/cache_tuning_strategy.cc:280] "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights": max_unit=10, hi=10, high_sum=7616
+2024-05-08 19:08:32.329856: I tensorflow/core/framework/embedding/cache_tuning_strategy.cc:280] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights": max_unit=27031, hi=27031, high_sum=34647
+INFO:tensorflow:global_step/sec: 57.7408
+INFO:tensorflow:loss = 0.12978736, steps = 8601 (1.732 sec)
+2024-05-08 19:08:37.900870: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" cache capacity to 2396160, unit size=768
+2024-05-08 19:08:37.900901: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" cache capacity to 129365, unit size=768
+2024-05-08 19:08:37.900906: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights" cache capacity to 3413, unit size=768
+2024-05-08 19:08:37.900910: I ./tensorflow/core/framework/embedding/cache.h:980] Use rehash to change cache capacity.++++++++++++++
+2024-05-08 19:08:38.298083: I ./tensorflow/core/framework/embedding/multi_tier_storage.h:97] SetCacheSize: Setting "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" cache capacity to 8655872, unit size=768
+2024-05-08 19:08:38.300325: I tensorflow/core/framework/embedding/cache_manager.cc:133] Stopped sampling
+2024-05-08 19:08:38.300344: I tensorflow/core/framework/embedding/cache_manager.cc:76] LRU Time: 0ms, Profiler Time: 0ms
+2024-05-08 19:08:38.300349: I tensorflow/core/framework/embedding/cache_manager.cc:224] LRU Time: 0ms, Profiler Time: 0ms
+2024-05-08 19:08:39.300422: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 34703
+2024-05-08 19:08:40.300527: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 34768
+INFO:tensorflow:global_step/sec: 13.8558
+INFO:tensorflow:loss = 0.08546089, steps = 8701 (7.217 sec)
+2024-05-08 19:08:41.300631: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 35019
+INFO:tensorflow:global_step/sec: 63.0352
+INFO:tensorflow:loss = 0.11519192, steps = 8801 (1.586 sec)
+2024-05-08 19:08:42.300748: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 35275
+2024-05-08 19:08:43.300868: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 35540
+INFO:tensorflow:global_step/sec: 66.1065
+INFO:tensorflow:loss = 0.07529585, steps = 8901 (1.513 sec)
+2024-05-08 19:08:44.300997: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 35808
+INFO:tensorflow:global_step/sec: 67.8452
+INFO:tensorflow:loss = 0.066318706, steps = 9001 (1.474 sec)
+2024-05-08 19:08:45.301105: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 36080
+2024-05-08 19:08:46.301330: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 36356
+INFO:tensorflow:global_step/sec: 68.4607
+INFO:tensorflow:loss = 0.10777296, steps = 9101 (1.461 sec)
+2024-05-08 19:08:47.301465: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 36626
+INFO:tensorflow:global_step/sec: 67.6531
+INFO:tensorflow:loss = 0.06858516, steps = 9201 (1.478 sec)
+2024-05-08 19:08:48.301584: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 36900
+2024-05-08 19:08:49.301740: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 37179
+INFO:tensorflow:global_step/sec: 69.4292
+INFO:tensorflow:loss = 0.10412444, steps = 9301 (1.440 sec)
+2024-05-08 19:08:50.301905: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 37457
+INFO:tensorflow:global_step/sec: 66.6434
+INFO:tensorflow:loss = 0.12235012, steps = 9401 (1.501 sec)
+2024-05-08 19:08:51.302190: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 37719
+2024-05-08 19:08:52.302336: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 37999
+INFO:tensorflow:global_step/sec: 70.166
+INFO:tensorflow:loss = 0.07677608, steps = 9501 (1.425 sec)
+2024-05-08 19:08:53.302460: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 38276
+INFO:tensorflow:global_step/sec: 69.7959
+INFO:tensorflow:loss = 0.07154076, steps = 9601 (1.433 sec)
+2024-05-08 19:08:54.302575: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 38560
+INFO:tensorflow:global_step/sec: 70.9592
+INFO:tensorflow:loss = 0.10536083, steps = 9701 (1.409 sec)
+2024-05-08 19:08:55.302682: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 38843
+2024-05-08 19:08:56.302786: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 39128
+INFO:tensorflow:global_step/sec: 70.9179
+INFO:tensorflow:loss = 0.07867192, steps = 9801 (1.410 sec)
+2024-05-08 19:08:57.302899: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 39411
+INFO:tensorflow:global_step/sec: 70.7636
+INFO:tensorflow:loss = 0.06522362, steps = 9901 (1.413 sec)
+2024-05-08 19:08:58.303018: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 39692
+2024-05-08 19:08:59.303162: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 39972
+INFO:tensorflow:global_step/sec: 70.2771
+INFO:tensorflow:loss = 0.10103695, steps = 10001 (1.423 sec)
+2024-05-08 19:09:00.303272: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 40260
+INFO:tensorflow:global_step/sec: 71.1718
+INFO:tensorflow:loss = 0.04656501, steps = 10101 (1.405 sec)
+2024-05-08 19:09:01.303382: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 40540
+INFO:tensorflow:global_step/sec: 70.0299
+INFO:tensorflow:loss = 0.06759868, steps = 10201 (1.428 sec)
+2024-05-08 19:09:02.303485: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 40820
+2024-05-08 19:09:03.303598: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 41104
+INFO:tensorflow:global_step/sec: 71.3179
+INFO:tensorflow:loss = 0.12612113, steps = 10301 (1.402 sec)
+2024-05-08 19:09:04.303717: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 41391
+INFO:tensorflow:global_step/sec: 70.803
+INFO:tensorflow:loss = 0.05054243, steps = 10401 (1.412 sec)
+2024-05-08 19:09:05.303849: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 41675
+2024-05-08 19:09:06.303949: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 41963
+INFO:tensorflow:global_step/sec: 71.8644
+INFO:tensorflow:loss = 0.09194806, steps = 10501 (1.392 sec)
+2024-05-08 19:09:07.304067: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 42248
+INFO:tensorflow:global_step/sec: 71.7315
+INFO:tensorflow:loss = 0.08110003, steps = 10601 (1.394 sec)
+2024-05-08 19:09:08.304175: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 42535
+INFO:tensorflow:global_step/sec: 71.4703
+INFO:tensorflow:loss = 0.071852624, steps = 10701 (1.399 sec)
+2024-05-08 19:09:09.304297: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 42820
+2024-05-08 19:09:10.304435: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 43108
+INFO:tensorflow:global_step/sec: 71.6121
+INFO:tensorflow:loss = 0.062310383, steps = 10801 (1.396 sec)
+2024-05-08 19:09:11.304585: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 43395
+INFO:tensorflow:global_step/sec: 71.9268
+INFO:tensorflow:loss = 0.05984415, steps = 10901 (1.390 sec)
+2024-05-08 19:09:12.304697: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 43683
+2024-05-08 19:09:13.304814: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 43968
+INFO:tensorflow:global_step/sec: 71.5201
+INFO:tensorflow:loss = 0.10552848, steps = 11001 (1.398 sec)
+2024-05-08 19:09:14.304923: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 44259
+INFO:tensorflow:global_step/sec: 72.6804
+INFO:tensorflow:loss = 0.115354516, steps = 11101 (1.376 sec)
+2024-05-08 19:09:15.305027: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 44551
+INFO:tensorflow:global_step/sec: 72.7747
+INFO:tensorflow:loss = 0.06433265, steps = 11201 (1.374 sec)
+2024-05-08 19:09:16.305133: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 44840
+2024-05-08 19:09:17.305259: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 45127
+INFO:tensorflow:global_step/sec: 71.5277
+INFO:tensorflow:loss = 0.10983221, steps = 11301 (1.398 sec)
+2024-05-08 19:09:18.305369: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 45412
+INFO:tensorflow:global_step/sec: 71.9139
+INFO:tensorflow:loss = 0.09189961, steps = 11401 (1.391 sec)
+2024-05-08 19:09:19.305471: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 45703
+2024-05-08 19:09:20.305581: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 45992
+INFO:tensorflow:global_step/sec: 72.6627
+INFO:tensorflow:loss = 0.08640924, steps = 11501 (1.376 sec)
+2024-05-08 19:09:21.305688: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 46283
+INFO:tensorflow:global_step/sec: 72.427
+INFO:tensorflow:loss = 0.088732794, steps = 11601 (1.381 sec)
+2024-05-08 19:09:22.305802: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 46572
+INFO:tensorflow:global_step/sec: 73.1443
+INFO:tensorflow:loss = 0.119788274, steps = 11701 (1.367 sec)
+2024-05-08 19:09:23.305896: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 46864
+2024-05-08 19:09:24.305997: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 47152
+INFO:tensorflow:global_step/sec: 71.8325
+INFO:tensorflow:loss = 0.102307305, steps = 11801 (1.392 sec)
+2024-05-08 19:09:25.306107: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 47436
+INFO:tensorflow:global_step/sec: 71.2833
+INFO:tensorflow:loss = 0.08218558, steps = 11901 (1.403 sec)
+2024-05-08 19:09:26.306249: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 47724
+INFO:tensorflow:global_step/sec: 72.4801
+INFO:tensorflow:loss = 0.09706353, steps = 12001 (1.380 sec)
+2024-05-08 19:09:27.306358: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 48016
+2024-05-08 19:09:28.306475: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 48300
+INFO:tensorflow:global_step/sec: 71.7406
+INFO:tensorflow:loss = 0.073405705, steps = 12101 (1.394 sec)
+2024-05-08 19:09:29.306600: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 48590
+INFO:tensorflow:global_step/sec: 72.2362
+INFO:tensorflow:loss = 0.049241237, steps = 12201 (1.384 sec)
+2024-05-08 19:09:30.306730: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 48880
+2024-05-08 19:09:31.306857: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 49171
+INFO:tensorflow:global_step/sec: 72.6653
+INFO:tensorflow:loss = 0.094701245, steps = 12301 (1.376 sec)
+2024-05-08 19:09:32.306961: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 49460
+INFO:tensorflow:global_step/sec: 72.4138
+INFO:tensorflow:loss = 0.0897741, steps = 12401 (1.381 sec)
+2024-05-08 19:09:33.307073: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 49751
+INFO:tensorflow:global_step/sec: 72.5071
+INFO:tensorflow:loss = 0.1533078, steps = 12501 (1.379 sec)
+2024-05-08 19:09:34.307225: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 50040
+2024-05-08 19:09:35.307327: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 50331
+INFO:tensorflow:global_step/sec: 72.3196
+INFO:tensorflow:loss = 0.090825275, steps = 12601 (1.383 sec)
+2024-05-08 19:09:36.307449: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 50618
+INFO:tensorflow:global_step/sec: 72.5065
+INFO:tensorflow:loss = 0.085195266, steps = 12701 (1.379 sec)
+2024-05-08 19:09:37.307588: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 50911
+2024-05-08 19:09:38.307693: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 51199
+INFO:tensorflow:global_step/sec: 72.331
+INFO:tensorflow:loss = 0.10180122, steps = 12801 (1.383 sec)
+2024-05-08 19:09:39.307805: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 51488
+INFO:tensorflow:global_step/sec: 72.0922
+INFO:tensorflow:loss = 0.045698404, steps = 12901 (1.387 sec)
+2024-05-08 19:09:40.307925: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 51776
+INFO:tensorflow:global_step/sec: 72.4104
+INFO:tensorflow:loss = 0.059470437, steps = 13001 (1.381 sec)
+2024-05-08 19:09:41.308042: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 52067
+2024-05-08 19:09:42.308144: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 52351
+INFO:tensorflow:global_step/sec: 71.6948
+INFO:tensorflow:loss = 0.106336534, steps = 13101 (1.395 sec)
+2024-05-08 19:09:43.308263: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 52640
+INFO:tensorflow:global_step/sec: 72.7168
+INFO:tensorflow:loss = 0.08959927, steps = 13201 (1.375 sec)
+2024-05-08 19:09:44.308368: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 52936
+INFO:tensorflow:global_step/sec: 73.6006
+INFO:tensorflow:loss = 0.088277474, steps = 13301 (1.359 sec)
+2024-05-08 19:09:45.308477: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 53228
+2024-05-08 19:09:46.308587: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 53519
+INFO:tensorflow:global_step/sec: 72.6622
+INFO:tensorflow:loss = 0.06956182, steps = 13401 (1.376 sec)
+2024-05-08 19:09:47.308699: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 53808
+INFO:tensorflow:global_step/sec: 71.6242
+INFO:tensorflow:loss = 0.06338492, steps = 13501 (1.396 sec)
+2024-05-08 19:09:48.308813: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 54096
+2024-05-08 19:09:49.308919: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 54391
+INFO:tensorflow:global_step/sec: 73.5306
+INFO:tensorflow:loss = 0.107734814, steps = 13601 (1.360 sec)
+2024-05-08 19:09:50.309032: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 54683
+INFO:tensorflow:global_step/sec: 72.8122
+INFO:tensorflow:loss = 0.066587865, steps = 13701 (1.373 sec)
+2024-05-08 19:09:51.309188: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 54972
+INFO:tensorflow:global_step/sec: 71.9355
+INFO:tensorflow:loss = 0.10757288, steps = 13801 (1.390 sec)
+2024-05-08 19:09:52.309311: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 55260
+2024-05-08 19:09:53.309416: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 55547
+INFO:tensorflow:global_step/sec: 71.8606
+INFO:tensorflow:loss = 0.09391825, steps = 13901 (1.392 sec)
+2024-05-08 19:09:54.309524: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 55835
+INFO:tensorflow:global_step/sec: 72.1335
+INFO:tensorflow:loss = 0.076398805, steps = 14001 (1.386 sec)
+2024-05-08 19:09:55.309634: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 56124
+INFO:tensorflow:global_step/sec: 73.1281
+INFO:tensorflow:loss = 0.117422014, steps = 14101 (1.367 sec)
+2024-05-08 19:09:56.309762: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 56419
+2024-05-08 19:09:57.309894: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 56707
+INFO:tensorflow:global_step/sec: 72.0548
+INFO:tensorflow:loss = 0.111223295, steps = 14201 (1.388 sec)
+2024-05-08 19:09:58.309998: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 56995
+INFO:tensorflow:global_step/sec: 72.391
+INFO:tensorflow:loss = 0.091611, steps = 14301 (1.381 sec)
+2024-05-08 19:09:59.310106: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 57283
+2024-05-08 19:10:00.310237: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 57572
+INFO:tensorflow:global_step/sec: 71.9481
+INFO:tensorflow:loss = 0.07518524, steps = 14401 (1.390 sec)
+2024-05-08 19:10:01.310353: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 57856
+INFO:tensorflow:global_step/sec: 71.6086
+INFO:tensorflow:loss = 0.054512862, steps = 14501 (1.396 sec)
+2024-05-08 19:10:02.310459: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 58148
+INFO:tensorflow:global_step/sec: 72.2434
+INFO:tensorflow:loss = 0.07845931, steps = 14601 (1.384 sec)
+2024-05-08 19:10:03.310567: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 58435
+2024-05-08 19:10:04.310689: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 58728
+INFO:tensorflow:global_step/sec: 72.9102
+INFO:tensorflow:loss = 0.08574707, steps = 14701 (1.372 sec)
+2024-05-08 19:10:05.310805: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 59015
+INFO:tensorflow:global_step/sec: 71.7738
+INFO:tensorflow:loss = 0.08114972, steps = 14801 (1.393 sec)
+2024-05-08 19:10:06.310909: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 59303
+2024-05-08 19:10:07.311018: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 59592
+INFO:tensorflow:global_step/sec: 72.3309
+INFO:tensorflow:loss = 0.10760516, steps = 14901 (1.383 sec)
+2024-05-08 19:10:08.311144: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 59884
+INFO:tensorflow:global_step/sec: 72.3224
+INFO:tensorflow:loss = 0.13364728, steps = 15001 (1.383 sec)
+2024-05-08 19:10:09.311267: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 60171
+INFO:tensorflow:global_step/sec: 72.1642
+INFO:tensorflow:loss = 0.07628215, steps = 15101 (1.386 sec)
+2024-05-08 19:10:10.311370: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 60460
+2024-05-08 19:10:11.311472: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 60747
+INFO:tensorflow:global_step/sec: 71.9864
+INFO:tensorflow:loss = 0.1377941, steps = 15201 (1.389 sec)
+2024-05-08 19:10:12.311583: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 61036
+INFO:tensorflow:global_step/sec: 72.8171
+INFO:tensorflow:loss = 0.11996487, steps = 15301 (1.373 sec)
+2024-05-08 19:10:13.311697: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 61331
+INFO:tensorflow:global_step/sec: 73.0618
+INFO:tensorflow:loss = 0.06333563, steps = 15401 (1.369 sec)
+2024-05-08 19:10:14.311844: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 61620
+2024-05-08 19:10:15.311964: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 61912
+INFO:tensorflow:global_step/sec: 72.0127
+INFO:tensorflow:loss = 0.06478872, steps = 15501 (1.389 sec)
+2024-05-08 19:10:16.312067: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 62199
+INFO:tensorflow:global_step/sec: 72.028
+INFO:tensorflow:loss = 0.06867796, steps = 15601 (1.388 sec)
+2024-05-08 19:10:17.312169: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 62487
+2024-05-08 19:10:18.312279: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 62779
+INFO:tensorflow:global_step/sec: 72.6929
+INFO:tensorflow:loss = 0.08364752, steps = 15701 (1.376 sec)
+2024-05-08 19:10:19.312404: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 63070
+INFO:tensorflow:global_step/sec: 73.2872
+INFO:tensorflow:loss = 0.06928157, steps = 15801 (1.364 sec)
+2024-05-08 19:10:20.312531: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 63364
+INFO:tensorflow:global_step/sec: 73.4987
+INFO:tensorflow:loss = 0.09312391, steps = 15901 (1.361 sec)
+2024-05-08 19:10:21.312658: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 63656
+2024-05-08 19:10:22.312788: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 63948
+INFO:tensorflow:global_step/sec: 72.3965
+INFO:tensorflow:loss = 0.06778239, steps = 16001 (1.381 sec)
+2024-05-08 19:10:23.312918: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 64236
+INFO:tensorflow:global_step/sec: 72.8417
+INFO:tensorflow:loss = 0.07074733, steps = 16101 (1.373 sec)
+2024-05-08 19:10:24.313045: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 64528
+INFO:tensorflow:global_step/sec: 72.5702
+INFO:tensorflow:loss = 0.08062266, steps = 16201 (1.378 sec)
+2024-05-08 19:10:25.313176: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 64820
+2024-05-08 19:10:26.313296: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 65111
+INFO:tensorflow:global_step/sec: 72.8549
+INFO:tensorflow:loss = 0.10719756, steps = 16301 (1.373 sec)
+2024-05-08 19:10:27.313405: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 65400
+INFO:tensorflow:global_step/sec: 72.6505
+INFO:tensorflow:loss = 0.10592131, steps = 16401 (1.376 sec)
+2024-05-08 19:10:28.313509: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 65691
+2024-05-08 19:10:29.313615: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 65984
+INFO:tensorflow:global_step/sec: 72.8367
+INFO:tensorflow:loss = 0.08001706, steps = 16501 (1.373 sec)
+2024-05-08 19:10:30.313733: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 66276
+INFO:tensorflow:global_step/sec: 73.4546
+INFO:tensorflow:loss = 0.07211012, steps = 16601 (1.361 sec)
+2024-05-08 19:10:31.313853: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 66572
+INFO:tensorflow:global_step/sec: 73.3211
+INFO:tensorflow:loss = 0.08008143, steps = 16701 (1.364 sec)
+2024-05-08 19:10:32.313989: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 66864
+2024-05-08 19:10:33.314097: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 67159
+INFO:tensorflow:global_step/sec: 73.2618
+INFO:tensorflow:loss = 0.08065337, steps = 16801 (1.365 sec)
+2024-05-08 19:10:34.314199: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 67452
+INFO:tensorflow:global_step/sec: 73.6116
+INFO:tensorflow:loss = 0.052276365, steps = 16901 (1.359 sec)
+2024-05-08 19:10:35.314328: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 67747
+INFO:tensorflow:global_step/sec: 73.2369
+INFO:tensorflow:loss = 0.088688, steps = 17001 (1.365 sec)
+2024-05-08 19:10:36.314440: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 68039
+2024-05-08 19:10:36.314473: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:10:36.314490: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:10:36.314494: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" promotions: 993083, demotions:183871
+2024-05-08 19:10:36.314502: I tensorflow/core/framework/embedding/cache_manager.cc:203] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" promotion diff: 0.889827, reactivating sampling
+2024-05-08 19:10:36.314509: I tensorflow/core/framework/embedding/cache_manager.cc:211] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" demotion diff: 0.981317, reactivating sampling
+2024-05-08 19:10:36.314513: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:10:36.314515: I tensorflow/core/framework/embedding/cache_manager.cc:222] access count: 68039, tuning not active
+2024-05-08 19:10:36.314519: I tensorflow/core/framework/embedding/cache_manager.cc:224] LRU Time: 0ms, Profiler Time: 0ms
+2024-05-08 19:10:37.314589: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 68332
+INFO:tensorflow:global_step/sec: 73.4453
+INFO:tensorflow:loss = 0.07964528, steps = 17101 (1.362 sec)
+2024-05-08 19:10:38.314717: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 68627
+INFO:tensorflow:global_step/sec: 73.1733
+INFO:tensorflow:loss = 0.12032361, steps = 17201 (1.367 sec)
+2024-05-08 19:10:39.314830: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 68920
+INFO:tensorflow:global_step/sec: 73.2196
+INFO:tensorflow:loss = 0.09478915, steps = 17301 (1.366 sec)
+2024-05-08 19:10:40.314932: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 69212
+2024-05-08 19:10:41.315043: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 69500
+INFO:tensorflow:global_step/sec: 72.3475
+INFO:tensorflow:loss = 0.088697955, steps = 17401 (1.382 sec)
+2024-05-08 19:10:42.315168: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 69788
+INFO:tensorflow:global_step/sec: 72.0807
+INFO:tensorflow:loss = 0.07566362, steps = 17501 (1.387 sec)
+2024-05-08 19:10:43.315292: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 70076
+2024-05-08 19:10:44.315407: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 70371
+INFO:tensorflow:global_step/sec: 72.7982
+INFO:tensorflow:loss = 0.101402044, steps = 17601 (1.374 sec)
+2024-05-08 19:10:45.315560: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 70661
+INFO:tensorflow:global_step/sec: 73.0712
+INFO:tensorflow:loss = 0.07710363, steps = 17701 (1.368 sec)
+2024-05-08 19:10:46.315691: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 70952
+INFO:tensorflow:global_step/sec: 72.16
+INFO:tensorflow:loss = 0.10810487, steps = 17801 (1.386 sec)
+2024-05-08 19:10:47.315800: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 71240
+2024-05-08 19:10:48.315908: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 71535
+INFO:tensorflow:global_step/sec: 73.3022
+INFO:tensorflow:loss = 0.08660208, steps = 17901 (1.364 sec)
+2024-05-08 19:10:49.316051: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 71830
+INFO:tensorflow:global_step/sec: 73.6126
+INFO:tensorflow:loss = 0.07185969, steps = 18001 (1.358 sec)
+2024-05-08 19:10:50.316171: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 72123
+INFO:tensorflow:global_step/sec: 73.0672
+INFO:tensorflow:loss = 0.06443572, steps = 18101 (1.369 sec)
+2024-05-08 19:10:51.316273: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 72416
+2024-05-08 19:10:52.316374: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 72711
+INFO:tensorflow:global_step/sec: 73.6802
+INFO:tensorflow:loss = 0.06424932, steps = 18201 (1.357 sec)
+2024-05-08 19:10:53.316480: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 73004
+INFO:tensorflow:global_step/sec: 73.7911
+INFO:tensorflow:loss = 0.09836215, steps = 18301 (1.355 sec)
+2024-05-08 19:10:54.316588: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 73296
+2024-05-08 19:10:55.316703: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 73588
+INFO:tensorflow:global_step/sec: 72.4362
+INFO:tensorflow:loss = 0.1125866, steps = 18401 (1.380 sec)
+2024-05-08 19:10:56.316827: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 73879
+INFO:tensorflow:global_step/sec: 72.6081
+INFO:tensorflow:loss = 0.07110146, steps = 18501 (1.377 sec)
+2024-05-08 19:10:57.316942: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 74168
+INFO:tensorflow:global_step/sec: 73.145
+INFO:tensorflow:loss = 0.06607456, steps = 18601 (1.367 sec)
+2024-05-08 19:10:58.317047: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 74464
+2024-05-08 19:10:59.317163: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 74756
+INFO:tensorflow:global_step/sec: 73.5177
+INFO:tensorflow:loss = 0.06593426, steps = 18701 (1.360 sec)
+2024-05-08 19:11:00.317291: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 75048
+INFO:tensorflow:global_step/sec: 72.7857
+INFO:tensorflow:loss = 0.0718766, steps = 18801 (1.374 sec)
+2024-05-08 19:11:01.317408: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 75340
+INFO:tensorflow:global_step/sec: 72.6128
+INFO:tensorflow:loss = 0.074009314, steps = 18901 (1.377 sec)
+2024-05-08 19:11:02.317530: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 75631
+2024-05-08 19:11:03.317636: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 75920
+INFO:tensorflow:global_step/sec: 72.9239
+INFO:tensorflow:loss = 0.105924204, steps = 19001 (1.371 sec)
+2024-05-08 19:11:04.317759: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 76211
+INFO:tensorflow:global_step/sec: 72.1773
+INFO:tensorflow:loss = 0.05084766, steps = 19101 (1.385 sec)
+2024-05-08 19:11:05.317897: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 76500
+2024-05-08 19:11:06.318003: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 76792
+INFO:tensorflow:global_step/sec: 72.8142
+INFO:tensorflow:loss = 0.087608054, steps = 19201 (1.373 sec)
+2024-05-08 19:11:07.318116: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 77083
+INFO:tensorflow:global_step/sec: 72.533
+INFO:tensorflow:loss = 0.042377606, steps = 19301 (1.379 sec)
+2024-05-08 19:11:08.318224: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 77372
+INFO:tensorflow:global_step/sec: 72.1649
+INFO:tensorflow:loss = 0.10142609, steps = 19401 (1.386 sec)
+2024-05-08 19:11:09.318351: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 77660
+2024-05-08 19:11:10.318480: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 77952
+INFO:tensorflow:global_step/sec: 72.5108
+INFO:tensorflow:loss = 0.08154231, steps = 19501 (1.379 sec)
+2024-05-08 19:11:11.318610: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 78244
+INFO:tensorflow:global_step/sec: 73.5706
+INFO:tensorflow:loss = 0.06978939, steps = 19601 (1.359 sec)
+2024-05-08 19:11:12.318726: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 78540
+INFO:tensorflow:global_step/sec: 73.818
+INFO:tensorflow:loss = 0.108917326, steps = 19701 (1.355 sec)
+2024-05-08 19:11:13.318833: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 78835
+2024-05-08 19:11:14.318951: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 79123
+INFO:tensorflow:global_step/sec: 72.6937
+INFO:tensorflow:loss = 0.090606734, steps = 19801 (1.376 sec)
+2024-05-08 19:11:15.319100: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 79419
+INFO:tensorflow:global_step/sec: 73.1736
+INFO:tensorflow:loss = 0.10882302, steps = 19901 (1.367 sec)
+2024-05-08 19:11:16.319237: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 79711
+2024-05-08 19:11:17.319343: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 80004
+INFO:tensorflow:global_step/sec: 73.2845
+INFO:tensorflow:loss = 0.058203865, steps = 20001 (1.365 sec)
+2024-05-08 19:11:18.319456: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 80295
+INFO:tensorflow:global_step/sec: 72.7248
+INFO:tensorflow:loss = 0.06711953, steps = 20101 (1.375 sec)
+2024-05-08 19:11:19.319562: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 80584
+INFO:tensorflow:global_step/sec: 72.5474
+INFO:tensorflow:loss = 0.0948932, steps = 20201 (1.378 sec)
+2024-05-08 19:11:20.319667: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 80876
+2024-05-08 19:11:21.319783: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 81168
+INFO:tensorflow:global_step/sec: 73.1291
+INFO:tensorflow:loss = 0.051021777, steps = 20301 (1.367 sec)
+2024-05-08 19:11:22.319891: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 81459
+INFO:tensorflow:global_step/sec: 72.7525
+INFO:tensorflow:loss = 0.097571425, steps = 20401 (1.375 sec)
+2024-05-08 19:11:23.320008: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 81748
+INFO:tensorflow:global_step/sec: 72.5592
+INFO:tensorflow:loss = 0.114233375, steps = 20501 (1.378 sec)
+2024-05-08 19:11:24.320134: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 82039
+2024-05-08 19:11:25.320258: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 82332
+INFO:tensorflow:global_step/sec: 72.954
+INFO:tensorflow:loss = 0.120312005, steps = 20601 (1.371 sec)
+2024-05-08 19:11:26.320408: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 82627
+INFO:tensorflow:global_step/sec: 73.9109
+INFO:tensorflow:loss = 0.14668016, steps = 20701 (1.353 sec)
+2024-05-08 19:11:27.320521: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 82924
+INFO:tensorflow:global_step/sec: 72.9051
+INFO:tensorflow:loss = 0.060141135, steps = 20801 (1.372 sec)
+2024-05-08 19:11:28.320634: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 83212
+2024-05-08 19:11:29.320743: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 83504
+INFO:tensorflow:global_step/sec: 73.2228
+INFO:tensorflow:loss = 0.11022785, steps = 20901 (1.366 sec)
+2024-05-08 19:11:30.320852: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 83799
+INFO:tensorflow:global_step/sec: 72.8146
+INFO:tensorflow:loss = 0.09750669, steps = 21001 (1.373 sec)
+2024-05-08 19:11:31.320991: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 84091
+2024-05-08 19:11:32.321108: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 84383
+INFO:tensorflow:global_step/sec: 73.3669
+INFO:tensorflow:loss = 0.12273888, steps = 21101 (1.363 sec)
+2024-05-08 19:11:33.321214: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 84676
+INFO:tensorflow:global_step/sec: 73.4267
+INFO:tensorflow:loss = 0.062569074, steps = 21201 (1.362 sec)
+2024-05-08 19:11:34.321334: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 84971
+INFO:tensorflow:global_step/sec: 72.3105
+INFO:tensorflow:loss = 0.0681012, steps = 21301 (1.383 sec)
+2024-05-08 19:11:35.321448: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 85256
+2024-05-08 19:11:36.321572: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 85547
+INFO:tensorflow:global_step/sec: 72.4222
+INFO:tensorflow:loss = 0.104138, steps = 21401 (1.381 sec)
+2024-05-08 19:11:37.321727: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 85840
+INFO:tensorflow:global_step/sec: 72.553
+INFO:tensorflow:loss = 0.08074711, steps = 21501 (1.378 sec)
+2024-05-08 19:11:38.321846: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 86128
+INFO:tensorflow:global_step/sec: 72.7538
+INFO:tensorflow:loss = 0.053106256, steps = 21601 (1.375 sec)
+2024-05-08 19:11:39.321977: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 86419
+2024-05-08 19:11:40.322086: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 86711
+INFO:tensorflow:global_step/sec: 73.1746
+INFO:tensorflow:loss = 0.07056674, steps = 21701 (1.367 sec)
+2024-05-08 19:11:41.322197: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 87004
+INFO:tensorflow:global_step/sec: 72.6869
+INFO:tensorflow:loss = 0.13460052, steps = 21801 (1.376 sec)
+2024-05-08 19:11:42.322313: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 87291
+2024-05-08 19:11:43.322420: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 87583
+INFO:tensorflow:global_step/sec: 72.3225
+INFO:tensorflow:loss = 0.055730347, steps = 21901 (1.383 sec)
+2024-05-08 19:11:44.322544: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 87873
+INFO:tensorflow:global_step/sec: 72.7983
+INFO:tensorflow:loss = 0.0508454, steps = 22001 (1.374 sec)
+2024-05-08 19:11:45.322717: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 88160
+INFO:tensorflow:global_step/sec: 71.1782
+INFO:tensorflow:loss = 0.096398555, steps = 22101 (1.405 sec)
+2024-05-08 19:11:46.322842: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 88447
+2024-05-08 19:11:47.322946: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 88731
+INFO:tensorflow:global_step/sec: 71.1347
+INFO:tensorflow:loss = 0.08462475, steps = 22201 (1.406 sec)
+2024-05-08 19:11:48.323071: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 89023
+INFO:tensorflow:global_step/sec: 72.529
+INFO:tensorflow:loss = 0.081486374, steps = 22301 (1.379 sec)
+2024-05-08 19:11:49.323211: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 89308
+2024-05-08 19:11:50.323327: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 89600
+INFO:tensorflow:global_step/sec: 72.5679
+INFO:tensorflow:loss = 0.07101583, steps = 22401 (1.378 sec)
+2024-05-08 19:11:51.323449: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 89892
+INFO:tensorflow:global_step/sec: 72.4901
+INFO:tensorflow:loss = 0.072954714, steps = 22501 (1.380 sec)
+2024-05-08 19:11:52.323561: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 90180
+INFO:tensorflow:global_step/sec: 72.7904
+INFO:tensorflow:loss = 0.069869414, steps = 22601 (1.374 sec)
+2024-05-08 19:11:53.323666: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 90472
+2024-05-08 19:11:54.323767: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 90760
+INFO:tensorflow:global_step/sec: 72.4807
+INFO:tensorflow:loss = 0.08256199, steps = 22701 (1.380 sec)
+2024-05-08 19:11:55.323875: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 91052
+INFO:tensorflow:global_step/sec: 72.5727
+INFO:tensorflow:loss = 0.069313034, steps = 22801 (1.378 sec)
+2024-05-08 19:11:56.323998: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 91343
+INFO:tensorflow:global_step/sec: 72.2723
+INFO:tensorflow:loss = 0.08424939, steps = 22901 (1.384 sec)
+2024-05-08 19:11:57.324129: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 91628
+2024-05-08 19:11:58.324246: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 91920
+INFO:tensorflow:global_step/sec: 72.481
+INFO:tensorflow:loss = 0.13530174, steps = 23001 (1.380 sec)
+2024-05-08 19:11:59.324388: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 92211
+INFO:tensorflow:global_step/sec: 72.7713
+INFO:tensorflow:loss = 0.096607804, steps = 23101 (1.374 sec)
+2024-05-08 19:12:00.324497: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 92500
+2024-05-08 19:12:01.324598: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 92792
+INFO:tensorflow:global_step/sec: 72.3319
+INFO:tensorflow:loss = 0.0740287, steps = 23201 (1.383 sec)
+2024-05-08 19:12:02.324730: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 93084
+INFO:tensorflow:global_step/sec: 73.3074
+INFO:tensorflow:loss = 0.09214954, steps = 23301 (1.364 sec)
+2024-05-08 19:12:03.324851: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 93372
+INFO:tensorflow:global_step/sec: 72.4595
+INFO:tensorflow:loss = 0.10476732, steps = 23401 (1.380 sec)
+2024-05-08 19:12:04.324976: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 93663
+2024-05-08 19:12:05.325101: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 93952
+INFO:tensorflow:global_step/sec: 71.9821
+INFO:tensorflow:loss = 0.09256486, steps = 23501 (1.389 sec)
+2024-05-08 19:12:06.325236: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 94244
+INFO:tensorflow:global_step/sec: 72.4944
+INFO:tensorflow:loss = 0.088066086, steps = 23601 (1.379 sec)
+2024-05-08 19:12:07.325394: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 94532
+INFO:tensorflow:global_step/sec: 71.8823
+INFO:tensorflow:loss = 0.060472824, steps = 23701 (1.391 sec)
+2024-05-08 19:12:08.325499: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 94820
+2024-05-08 19:12:09.325613: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 95107
+INFO:tensorflow:global_step/sec: 72.0147
+INFO:tensorflow:loss = 0.08544089, steps = 23801 (1.389 sec)
+2024-05-08 19:12:10.325743: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 95396
+INFO:tensorflow:global_step/sec: 72.1807
+INFO:tensorflow:loss = 0.100030415, steps = 23901 (1.386 sec)
+2024-05-08 19:12:11.325855: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 95684
+2024-05-08 19:12:12.325969: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 95976
+INFO:tensorflow:global_step/sec: 72.9028
+INFO:tensorflow:loss = 0.08462347, steps = 24001 (1.372 sec)
+2024-05-08 19:12:13.326071: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 96267
+INFO:tensorflow:global_step/sec: 72.3048
+INFO:tensorflow:loss = 0.067552015, steps = 24101 (1.383 sec)
+2024-05-08 19:12:14.326179: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 96556
+INFO:tensorflow:global_step/sec: 72.8661
+INFO:tensorflow:loss = 0.076016545, steps = 24201 (1.372 sec)
+2024-05-08 19:12:15.326295: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 96848
+2024-05-08 19:12:16.326403: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 97140
+INFO:tensorflow:global_step/sec: 72.6379
+INFO:tensorflow:loss = 0.08135767, steps = 24301 (1.377 sec)
+2024-05-08 19:12:17.326512: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 97428
+INFO:tensorflow:global_step/sec: 72.8479
+INFO:tensorflow:loss = 0.08830571, steps = 24401 (1.373 sec)
+2024-05-08 19:12:18.326611: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 97720
+INFO:tensorflow:global_step/sec: 72.5742
+INFO:tensorflow:loss = 0.101603076, steps = 24501 (1.378 sec)
+2024-05-08 19:12:19.326713: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 98012
+2024-05-08 19:12:20.326817: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 98300
+INFO:tensorflow:global_step/sec: 72.4666
+INFO:tensorflow:loss = 0.1591114, steps = 24601 (1.380 sec)
+2024-05-08 19:12:21.326932: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 98592
+INFO:tensorflow:global_step/sec: 73.5104
+INFO:tensorflow:loss = 0.114435576, steps = 24701 (1.360 sec)
+2024-05-08 19:12:22.327025: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 98887
+2024-05-08 19:12:23.327148: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 99179
+INFO:tensorflow:global_step/sec: 72.4861
+INFO:tensorflow:loss = 0.107669085, steps = 24801 (1.380 sec)
+2024-05-08 19:12:24.327300: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 99467
+INFO:tensorflow:global_step/sec: 72.4271
+INFO:tensorflow:loss = 0.090386085, steps = 24901 (1.381 sec)
+2024-05-08 19:12:25.327472: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 99756
+INFO:tensorflow:global_step/sec: 72.3984
+INFO:tensorflow:loss = 0.08662185, steps = 25001 (1.381 sec)
+2024-05-08 19:12:26.327591: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 100044
+2024-05-08 19:12:27.327717: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 100336
+INFO:tensorflow:global_step/sec: 72.541
+INFO:tensorflow:loss = 0.09921026, steps = 25101 (1.379 sec)
+2024-05-08 19:12:28.327841: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 100620
+INFO:tensorflow:global_step/sec: 70.8278
+INFO:tensorflow:loss = 0.08935487, steps = 25201 (1.412 sec)
+2024-05-08 19:12:29.327956: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 100904
+2024-05-08 19:12:30.328082: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 101196
+INFO:tensorflow:global_step/sec: 72.1862
+INFO:tensorflow:loss = 0.084001176, steps = 25301 (1.385 sec)
+2024-05-08 19:12:31.328192: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 101484
+INFO:tensorflow:global_step/sec: 72.27
+INFO:tensorflow:loss = 0.059911326, steps = 25401 (1.384 sec)
+2024-05-08 19:12:32.328312: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 101772
+INFO:tensorflow:global_step/sec: 71.0991
+INFO:tensorflow:loss = 0.07832554, steps = 25501 (1.406 sec)
+2024-05-08 19:12:33.328419: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 102056
+2024-05-08 19:12:34.328542: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 102343
+2024-05-08 19:12:34.328601: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:12:34.328608: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:12:34.328613: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" promotions: 14139, demotions:0
+2024-05-08 19:12:34.328623: I tensorflow/core/framework/embedding/cache_manager.cc:203] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" promotion diff: 0.985763, reactivating sampling
+2024-05-08 19:12:34.328628: I tensorflow/core/framework/embedding/cache_manager.cc:211] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" demotion diff: 1, reactivating sampling
+2024-05-08 19:12:34.328631: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:12:34.328641: I tensorflow/core/framework/embedding/cache_manager.cc:222] access count: 102343, tuning not active
+2024-05-08 19:12:34.328649: I tensorflow/core/framework/embedding/cache_manager.cc:224] LRU Time: 0ms, Profiler Time: 0ms
+INFO:tensorflow:global_step/sec: 71.5242
+INFO:tensorflow:loss = 0.1150142, steps = 25601 (1.398 sec)
+2024-05-08 19:12:35.328722: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 102628
+INFO:tensorflow:global_step/sec: 72.6011
+INFO:tensorflow:loss = 0.07907673, steps = 25701 (1.377 sec)
+2024-05-08 19:12:36.328849: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 102923
+INFO:tensorflow:global_step/sec: 72.5268
+INFO:tensorflow:loss = 0.03664964, steps = 25801 (1.379 sec)
+2024-05-08 19:12:37.328993: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 103212
+2024-05-08 19:12:38.329104: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 103500
+INFO:tensorflow:global_step/sec: 72.6386
+INFO:tensorflow:loss = 0.09050059, steps = 25901 (1.377 sec)
+2024-05-08 19:12:39.329231: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 103795
+INFO:tensorflow:global_step/sec: 72.6884
+INFO:tensorflow:loss = 0.08231718, steps = 26001 (1.376 sec)
+2024-05-08 19:12:40.329382: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 104084
+2024-05-08 19:12:41.329505: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 104379
+INFO:tensorflow:global_step/sec: 73.3612
+INFO:tensorflow:loss = 0.06466158, steps = 26101 (1.363 sec)
+2024-05-08 19:12:42.329639: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 104668
+INFO:tensorflow:global_step/sec: 72.5536
+INFO:tensorflow:loss = 0.0787601, steps = 26201 (1.378 sec)
+2024-05-08 19:12:43.329776: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 104960
+INFO:tensorflow:global_step/sec: 73.0552
+INFO:tensorflow:loss = 0.13052551, steps = 26301 (1.369 sec)
+2024-05-08 19:12:44.329896: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 105252
+2024-05-08 19:12:45.330006: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 105544
+INFO:tensorflow:global_step/sec: 73.0677
+INFO:tensorflow:loss = 0.07794676, steps = 26401 (1.369 sec)
+2024-05-08 19:12:46.330108: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 105835
+INFO:tensorflow:global_step/sec: 72.6456
+INFO:tensorflow:loss = 0.06639439, steps = 26501 (1.377 sec)
+2024-05-08 19:12:47.330209: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 106127
+INFO:tensorflow:global_step/sec: 73.1514
+INFO:tensorflow:loss = 0.12215172, steps = 26601 (1.367 sec)
+2024-05-08 19:12:48.330311: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 106419
+2024-05-08 19:12:49.330418: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 106712
+INFO:tensorflow:global_step/sec: 72.6279
+INFO:tensorflow:loss = 0.088796414, steps = 26701 (1.377 sec)
+2024-05-08 19:12:50.330534: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 107000
+INFO:tensorflow:global_step/sec: 73.8965
+INFO:tensorflow:loss = 0.06598933, steps = 26801 (1.353 sec)
+2024-05-08 19:12:51.330649: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 107300
+2024-05-08 19:12:52.330756: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 107596
+INFO:tensorflow:global_step/sec: 74.1797
+INFO:tensorflow:loss = 0.07467699, steps = 26901 (1.348 sec)
+2024-05-08 19:12:53.330889: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 107891
+INFO:tensorflow:global_step/sec: 73.527
+INFO:tensorflow:loss = 0.07775334, steps = 27001 (1.360 sec)
+2024-05-08 19:12:54.331022: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 108183
+INFO:tensorflow:global_step/sec: 72.7545
+INFO:tensorflow:loss = 0.067210734, steps = 27101 (1.375 sec)
+2024-05-08 19:12:55.331125: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 108475
+2024-05-08 19:12:56.331233: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 108768
+INFO:tensorflow:global_step/sec: 73.4649
+INFO:tensorflow:loss = 0.08188912, steps = 27201 (1.361 sec)
+2024-05-08 19:12:57.331381: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 109060
+INFO:tensorflow:global_step/sec: 73.0617
+INFO:tensorflow:loss = 0.1099008, steps = 27301 (1.369 sec)
+2024-05-08 19:12:58.331504: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 109356
+INFO:tensorflow:global_step/sec: 74.2785
+INFO:tensorflow:loss = 0.08322875, steps = 27401 (1.346 sec)
+2024-05-08 19:12:59.331620: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 109652
+2024-05-08 19:13:00.331725: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 109947
+INFO:tensorflow:global_step/sec: 73.6976
+INFO:tensorflow:loss = 0.16196086, steps = 27501 (1.357 sec)
+2024-05-08 19:13:01.331832: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 110239
+INFO:tensorflow:global_step/sec: 72.6533
+INFO:tensorflow:loss = 0.0763847, steps = 27601 (1.376 sec)
+2024-05-08 19:13:02.331944: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 110531
+INFO:tensorflow:global_step/sec: 73.2946
+INFO:tensorflow:loss = 0.062717035, steps = 27701 (1.364 sec)
+2024-05-08 19:13:03.332085: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 110824
+2024-05-08 19:13:04.332199: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 111116
+INFO:tensorflow:global_step/sec: 73.0023
+INFO:tensorflow:loss = 0.10161899, steps = 27801 (1.370 sec)
+2024-05-08 19:13:05.332308: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 111407
+INFO:tensorflow:global_step/sec: 72.9025
+INFO:tensorflow:loss = 0.076288655, steps = 27901 (1.372 sec)
+2024-05-08 19:13:06.332416: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 111700
+2024-05-08 19:13:07.332523: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 111991
+INFO:tensorflow:global_step/sec: 72.6526
+INFO:tensorflow:loss = 0.057039615, steps = 28001 (1.376 sec)
+2024-05-08 19:13:08.332627: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 112283
+INFO:tensorflow:global_step/sec: 72.4796
+INFO:tensorflow:loss = 0.04261913, steps = 28101 (1.380 sec)
+2024-05-08 19:13:09.332777: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 112571
+INFO:tensorflow:global_step/sec: 72.5001
+INFO:tensorflow:loss = 0.09703368, steps = 28201 (1.379 sec)
+2024-05-08 19:13:10.332906: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 112860
+2024-05-08 19:13:11.333021: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 113151
+INFO:tensorflow:global_step/sec: 72.8026
+INFO:tensorflow:loss = 0.10643068, steps = 28301 (1.374 sec)
+2024-05-08 19:13:12.333140: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 113444
+INFO:tensorflow:global_step/sec: 73.5638
+INFO:tensorflow:loss = 0.07215494, steps = 28401 (1.359 sec)
+2024-05-08 19:13:13.333265: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 113736
+INFO:tensorflow:global_step/sec: 72.6835
+INFO:tensorflow:loss = 0.10145329, steps = 28501 (1.376 sec)
+2024-05-08 19:13:14.333371: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 114028
+2024-05-08 19:13:15.333486: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 114320
+INFO:tensorflow:global_step/sec: 73.2451
+INFO:tensorflow:loss = 0.11567347, steps = 28601 (1.365 sec)
+2024-05-08 19:13:16.333598: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 114612
+INFO:tensorflow:global_step/sec: 72.4503
+INFO:tensorflow:loss = 0.06692355, steps = 28701 (1.380 sec)
+2024-05-08 19:13:17.333716: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 114899
+2024-05-08 19:13:18.333833: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 115192
+INFO:tensorflow:global_step/sec: 72.4537
+INFO:tensorflow:loss = 0.057014007, steps = 28801 (1.380 sec)
+2024-05-08 19:13:19.333967: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 115484
+INFO:tensorflow:global_step/sec: 73.1066
+INFO:tensorflow:loss = 0.112928666, steps = 28901 (1.368 sec)
+2024-05-08 19:13:20.334087: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 115776
+INFO:tensorflow:global_step/sec: 73.203
+INFO:tensorflow:loss = 0.06845304, steps = 29001 (1.366 sec)
+2024-05-08 19:13:21.334203: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 116068
+2024-05-08 19:13:22.334305: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 116359
+INFO:tensorflow:global_step/sec: 72.5915
+INFO:tensorflow:loss = 0.05731983, steps = 29101 (1.378 sec)
+2024-05-08 19:13:23.334416: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 116651
+INFO:tensorflow:global_step/sec: 72.4275
+INFO:tensorflow:loss = 0.066798784, steps = 29201 (1.381 sec)
+2024-05-08 19:13:24.334530: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 116936
+INFO:tensorflow:global_step/sec: 72.2773
+INFO:tensorflow:loss = 0.06032032, steps = 29301 (1.384 sec)
+2024-05-08 19:13:25.334668: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 117228
+2024-05-08 19:13:26.334781: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 117520
+INFO:tensorflow:global_step/sec: 72.901
+INFO:tensorflow:loss = 0.08417519, steps = 29401 (1.372 sec)
+2024-05-08 19:13:27.334906: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 117812
+INFO:tensorflow:global_step/sec: 72.9565
+INFO:tensorflow:loss = 0.09232855, steps = 29501 (1.371 sec)
+2024-05-08 19:13:28.335009: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 118104
+2024-05-08 19:13:29.335114: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 118399
+INFO:tensorflow:global_step/sec: 73.4344
+INFO:tensorflow:loss = 0.08968596, steps = 29601 (1.362 sec)
+2024-05-08 19:13:30.335232: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 118692
+INFO:tensorflow:global_step/sec: 73.6969
+INFO:tensorflow:loss = 0.11118349, steps = 29701 (1.357 sec)
+2024-05-08 19:13:31.335346: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 118988
+INFO:tensorflow:global_step/sec: 73.3909
+INFO:tensorflow:loss = 0.06300346, steps = 29801 (1.363 sec)
+2024-05-08 19:13:32.335483: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 119279
+2024-05-08 19:13:33.335630: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 119571
+INFO:tensorflow:global_step/sec: 72.7281
+INFO:tensorflow:loss = 0.045880355, steps = 29901 (1.375 sec)
+2024-05-08 19:13:34.335769: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 119860
+INFO:tensorflow:global_step/sec: 72.8744
+INFO:tensorflow:loss = 0.08122718, steps = 30001 (1.372 sec)
+2024-05-08 19:13:35.335898: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 120155
+INFO:tensorflow:global_step/sec: 73.0648
+INFO:tensorflow:loss = 0.0569611, steps = 30101 (1.369 sec)
+2024-05-08 19:13:36.335998: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 120448
+2024-05-08 19:13:37.336126: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 120740
+INFO:tensorflow:global_step/sec: 73.2958
+INFO:tensorflow:loss = 0.08429305, steps = 30201 (1.364 sec)
+2024-05-08 19:13:38.336263: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 121033
+INFO:tensorflow:global_step/sec: 72.8104
+INFO:tensorflow:loss = 0.052018102, steps = 30301 (1.373 sec)
+2024-05-08 19:13:39.336380: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 121323
+INFO:tensorflow:global_step/sec: 72.641
+INFO:tensorflow:loss = 0.10455062, steps = 30401 (1.377 sec)
+2024-05-08 19:13:40.336479: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 121612
+2024-05-08 19:13:41.336624: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 121904
+INFO:tensorflow:global_step/sec: 72.8048
+INFO:tensorflow:loss = 0.12131859, steps = 30501 (1.373 sec)
+2024-05-08 19:13:42.336736: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 122192
+INFO:tensorflow:global_step/sec: 71.1841
+INFO:tensorflow:loss = 0.084322, steps = 30601 (1.405 sec)
+2024-05-08 19:13:43.336853: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 122476
+2024-05-08 19:13:44.336955: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 122768
+INFO:tensorflow:global_step/sec: 72.9524
+INFO:tensorflow:loss = 0.041398913, steps = 30701 (1.371 sec)
+2024-05-08 19:13:45.337057: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 123060
+INFO:tensorflow:global_step/sec: 72.2992
+INFO:tensorflow:loss = 0.09433306, steps = 30801 (1.383 sec)
+2024-05-08 19:13:46.337161: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 123348
+INFO:tensorflow:global_step/sec: 72.002
+INFO:tensorflow:loss = 0.06574183, steps = 30901 (1.389 sec)
+2024-05-08 19:13:47.337274: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 123636
+2024-05-08 19:13:48.337414: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 123924
+INFO:tensorflow:global_step/sec: 72.317
+INFO:tensorflow:loss = 0.11135782, steps = 31001 (1.383 sec)
+2024-05-08 19:13:49.337526: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 124216
+INFO:tensorflow:global_step/sec: 72.4352
+INFO:tensorflow:loss = 0.09306643, steps = 31101 (1.381 sec)
+2024-05-08 19:13:50.337638: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 124504
+2024-05-08 19:13:51.337742: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 124799
+INFO:tensorflow:global_step/sec: 73.1451
+INFO:tensorflow:loss = 0.08168678, steps = 31201 (1.367 sec)
+2024-05-08 19:13:52.337847: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 125092
+INFO:tensorflow:global_step/sec: 73.1501
+INFO:tensorflow:loss = 0.07929401, steps = 31301 (1.367 sec)
+2024-05-08 19:13:53.337956: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 125384
+INFO:tensorflow:global_step/sec: 73.1521
+INFO:tensorflow:loss = 0.06268951, steps = 31401 (1.367 sec)
+2024-05-08 19:13:54.338059: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 125676
+2024-05-08 19:13:55.338172: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 125972
+INFO:tensorflow:global_step/sec: 73.6655
+INFO:tensorflow:loss = 0.058824923, steps = 31501 (1.357 sec)
+2024-05-08 19:13:56.338272: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 126264
+INFO:tensorflow:global_step/sec: 73.0422
+INFO:tensorflow:loss = 0.096131265, steps = 31601 (1.369 sec)
+2024-05-08 19:13:57.338395: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 126556
+INFO:tensorflow:global_step/sec: 72.7675
+INFO:tensorflow:loss = 0.073504314, steps = 31701 (1.374 sec)
+2024-05-08 19:13:58.338524: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 126847
+2024-05-08 19:13:59.338632: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 127139
+INFO:tensorflow:global_step/sec: 72.8859
+INFO:tensorflow:loss = 0.07516869, steps = 31801 (1.372 sec)
+2024-05-08 19:14:00.338737: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 127424
+INFO:tensorflow:global_step/sec: 71.5675
+INFO:tensorflow:loss = 0.040331148, steps = 31901 (1.397 sec)
+2024-05-08 19:14:01.338839: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 127712
+2024-05-08 19:14:02.338948: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 127996
+INFO:tensorflow:global_step/sec: 71.3921
+INFO:tensorflow:loss = 0.05879539, steps = 32001 (1.401 sec)
+2024-05-08 19:14:03.339090: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 128289
+INFO:tensorflow:global_step/sec: 72.7398
+INFO:tensorflow:loss = 0.07023378, steps = 32101 (1.375 sec)
+2024-05-08 19:14:04.339219: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 128579
+INFO:tensorflow:global_step/sec: 72.4419
+INFO:tensorflow:loss = 0.083550915, steps = 32201 (1.380 sec)
+2024-05-08 19:14:05.339332: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 128869
+2024-05-08 19:14:06.339461: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 129159
+INFO:tensorflow:global_step/sec: 72.7182
+INFO:tensorflow:loss = 0.09007469, steps = 32301 (1.375 sec)
+2024-05-08 19:14:07.339586: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 129448
+INFO:tensorflow:global_step/sec: 72.1282
+INFO:tensorflow:loss = 0.065158516, steps = 32401 (1.386 sec)
+2024-05-08 19:14:08.339703: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 129736
+INFO:tensorflow:global_step/sec: 72.9241
+INFO:tensorflow:loss = 0.055494633, steps = 32501 (1.371 sec)
+2024-05-08 19:14:09.339824: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 130031
+2024-05-08 19:14:10.339945: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 130323
+INFO:tensorflow:global_step/sec: 72.6844
+INFO:tensorflow:loss = 0.08046671, steps = 32601 (1.376 sec)
+2024-05-08 19:14:11.340052: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 130612
+INFO:tensorflow:global_step/sec: 73.131
+INFO:tensorflow:loss = 0.069359444, steps = 32701 (1.367 sec)
+2024-05-08 19:14:12.340168: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 130904
+2024-05-08 19:14:13.340304: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 131194
+INFO:tensorflow:global_step/sec: 72.0614
+INFO:tensorflow:loss = 0.054489326, steps = 32801 (1.388 sec)
+2024-05-08 19:14:14.340453: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 131484
+INFO:tensorflow:global_step/sec: 72.9146
+INFO:tensorflow:loss = 0.05277299, steps = 32901 (1.371 sec)
+2024-05-08 19:14:15.340555: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 131772
+INFO:tensorflow:global_step/sec: 72.7773
+INFO:tensorflow:loss = 0.10927788, steps = 33001 (1.374 sec)
+2024-05-08 19:14:16.340678: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 132067
+2024-05-08 19:14:17.340785: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 132355
+INFO:tensorflow:global_step/sec: 72.0801
+INFO:tensorflow:loss = 0.07830624, steps = 33101 (1.387 sec)
+2024-05-08 19:14:18.340891: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 132647
+INFO:tensorflow:global_step/sec: 73.4009
+INFO:tensorflow:loss = 0.09691255, steps = 33201 (1.362 sec)
+2024-05-08 19:14:19.341015: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 132940
+INFO:tensorflow:global_step/sec: 73.2411
+INFO:tensorflow:loss = 0.105971396, steps = 33301 (1.365 sec)
+2024-05-08 19:14:20.341143: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 133232
+2024-05-08 19:14:21.341271: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 133523
+INFO:tensorflow:global_step/sec: 72.4366
+INFO:tensorflow:loss = 0.09242238, steps = 33401 (1.381 sec)
+2024-05-08 19:14:22.341421: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 133812
+INFO:tensorflow:global_step/sec: 72.3727
+INFO:tensorflow:loss = 0.060872696, steps = 33501 (1.382 sec)
+2024-05-08 19:14:23.341546: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 134104
+2024-05-08 19:14:24.341653: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 134392
+INFO:tensorflow:global_step/sec: 72.476
+INFO:tensorflow:loss = 0.10543056, steps = 33601 (1.380 sec)
+2024-05-08 19:14:25.341779: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 134684
+INFO:tensorflow:global_step/sec: 73.7783
+INFO:tensorflow:loss = 0.09328023, steps = 33701 (1.355 sec)
+2024-05-08 19:14:26.341898: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 134980
+INFO:tensorflow:global_step/sec: 72.6561
+INFO:tensorflow:loss = 0.07569708, steps = 33801 (1.376 sec)
+2024-05-08 19:14:27.342031: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 135271
+2024-05-08 19:14:28.342138: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 135556
+INFO:tensorflow:global_step/sec: 72.123
+INFO:tensorflow:loss = 0.12711705, steps = 33901 (1.387 sec)
+2024-05-08 19:14:29.342248: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 135847
+INFO:tensorflow:global_step/sec: 71.4639
+INFO:tensorflow:loss = 0.07377696, steps = 34001 (1.399 sec)
+2024-05-08 19:14:30.342370: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 136135
+2024-05-08 19:14:30.342433: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:14:30.342443: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:14:30.342448: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" promotions: 2886, demotions:0
+2024-05-08 19:14:30.342463: I tensorflow/core/framework/embedding/cache_manager.cc:203] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" promotion diff: 0.795884, reactivating sampling
+2024-05-08 19:14:30.342469: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:14:30.342474: I tensorflow/core/framework/embedding/cache_manager.cc:222] access count: 136135, tuning not active
+2024-05-08 19:14:30.342479: I tensorflow/core/framework/embedding/cache_manager.cc:224] LRU Time: 0ms, Profiler Time: 0ms
+INFO:tensorflow:global_step/sec: 72.6728
+INFO:tensorflow:loss = 0.062847055, steps = 34101 (1.376 sec)
+2024-05-08 19:14:31.342554: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 136423
+2024-05-08 19:14:32.342660: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 136708
+INFO:tensorflow:global_step/sec: 71.4642
+INFO:tensorflow:loss = 0.12854129, steps = 34201 (1.399 sec)
+2024-05-08 19:14:33.342789: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 136995
+INFO:tensorflow:global_step/sec: 72.3681
+INFO:tensorflow:loss = 0.055500656, steps = 34301 (1.382 sec)
+2024-05-08 19:14:34.342930: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 137287
+2024-05-08 19:14:35.343037: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 137580
+INFO:tensorflow:global_step/sec: 72.9415
+INFO:tensorflow:loss = 0.082573906, steps = 34401 (1.371 sec)
+2024-05-08 19:14:36.343145: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 137867
+INFO:tensorflow:global_step/sec: 72.1459
+INFO:tensorflow:loss = 0.09390817, steps = 34501 (1.386 sec)
+2024-05-08 19:14:37.343265: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 138156
+INFO:tensorflow:global_step/sec: 72.6242
+INFO:tensorflow:loss = 0.08592163, steps = 34601 (1.377 sec)
+2024-05-08 19:14:38.343389: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 138448
+2024-05-08 19:14:39.343491: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 138736
+INFO:tensorflow:global_step/sec: 72.277
+INFO:tensorflow:loss = 0.087720394, steps = 34701 (1.384 sec)
+2024-05-08 19:14:40.343605: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 139028
+INFO:tensorflow:global_step/sec: 72.5473
+INFO:tensorflow:loss = 0.07907451, steps = 34801 (1.378 sec)
+2024-05-08 19:14:41.343753: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 139319
+2024-05-08 19:14:42.343892: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 139603
+INFO:tensorflow:global_step/sec: 71.683
+INFO:tensorflow:loss = 0.076038614, steps = 34901 (1.395 sec)
+2024-05-08 19:14:43.344015: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 139895
+INFO:tensorflow:global_step/sec: 73.2504
+INFO:tensorflow:loss = 0.061888352, steps = 35001 (1.365 sec)
+2024-05-08 19:14:44.344173: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 140188
+INFO:tensorflow:global_step/sec: 73.4109
+INFO:tensorflow:loss = 0.075376846, steps = 35101 (1.362 sec)
+2024-05-08 19:14:45.344289: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 140483
+2024-05-08 19:14:46.344394: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 140768
+INFO:tensorflow:global_step/sec: 71.9303
+INFO:tensorflow:loss = 0.07341321, steps = 35201 (1.390 sec)
+2024-05-08 19:14:47.344509: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 141052
+INFO:tensorflow:global_step/sec: 71.1323
+INFO:tensorflow:loss = 0.11455761, steps = 35301 (1.406 sec)
+2024-05-08 19:14:48.344636: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 141340
+INFO:tensorflow:global_step/sec: 72.9134
+INFO:tensorflow:loss = 0.06506057, steps = 35401 (1.372 sec)
+2024-05-08 19:14:49.344742: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 141632
+2024-05-08 19:14:50.344848: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 141928
+INFO:tensorflow:global_step/sec: 73.1463
+INFO:tensorflow:loss = 0.06623737, steps = 35501 (1.367 sec)
+2024-05-08 19:14:51.344961: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 142216
+INFO:tensorflow:global_step/sec: 72.7127
+INFO:tensorflow:loss = 0.073648386, steps = 35601 (1.375 sec)
+2024-05-08 19:14:52.345106: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 142508
+2024-05-08 19:14:53.345248: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 142799
+INFO:tensorflow:global_step/sec: 72.4255
+INFO:tensorflow:loss = 0.11772157, steps = 35701 (1.381 sec)
+2024-05-08 19:14:54.345374: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 143091
+INFO:tensorflow:global_step/sec: 72.5031
+INFO:tensorflow:loss = 0.059719037, steps = 35801 (1.379 sec)
+2024-05-08 19:14:55.345497: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 143379
+INFO:tensorflow:global_step/sec: 72.8179
+INFO:tensorflow:loss = 0.08409716, steps = 35901 (1.373 sec)
+2024-05-08 19:14:56.345623: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 143671
+2024-05-08 19:14:57.345764: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 143963
+INFO:tensorflow:global_step/sec: 73.1769
+INFO:tensorflow:loss = 0.10168804, steps = 36001 (1.367 sec)
+2024-05-08 19:14:58.345901: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 144259
+INFO:tensorflow:global_step/sec: 73.7426
+INFO:tensorflow:loss = 0.115806125, steps = 36101 (1.356 sec)
+2024-05-08 19:14:59.346031: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 144551
+INFO:tensorflow:global_step/sec: 72.5415
+INFO:tensorflow:loss = 0.08645131, steps = 36201 (1.379 sec)
+2024-05-08 19:15:00.346134: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 144840
+2024-05-08 19:15:01.346244: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 145132
+INFO:tensorflow:global_step/sec: 72.6107
+INFO:tensorflow:loss = 0.100020945, steps = 36301 (1.377 sec)
+2024-05-08 19:15:02.346372: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 145420
+INFO:tensorflow:global_step/sec: 72.5376
+INFO:tensorflow:loss = 0.06282446, steps = 36401 (1.379 sec)
+2024-05-08 19:15:03.346496: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 145708
+2024-05-08 19:15:04.346604: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 145999
+INFO:tensorflow:global_step/sec: 72.0511
+INFO:tensorflow:loss = 0.1068267, steps = 36501 (1.388 sec)
+2024-05-08 19:15:05.346708: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 146291
+INFO:tensorflow:global_step/sec: 73.1027
+INFO:tensorflow:loss = 0.07868016, steps = 36601 (1.368 sec)
+2024-05-08 19:15:06.346813: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 146583
+INFO:tensorflow:global_step/sec: 72.4119
+INFO:tensorflow:loss = 0.06766546, steps = 36701 (1.381 sec)
+2024-05-08 19:15:07.346941: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 146871
+2024-05-08 19:15:08.347044: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 147160
+INFO:tensorflow:global_step/sec: 72.3166
+INFO:tensorflow:loss = 0.054421462, steps = 36801 (1.383 sec)
+2024-05-08 19:15:09.347158: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 147452
+INFO:tensorflow:global_step/sec: 72.4123
+INFO:tensorflow:loss = 0.08777258, steps = 36901 (1.381 sec)
+2024-05-08 19:15:10.347282: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 147740
+INFO:tensorflow:global_step/sec: 72.8398
+INFO:tensorflow:loss = 0.0840248, steps = 37001 (1.373 sec)
+2024-05-08 19:15:11.347425: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 148032
+2024-05-08 19:15:12.347529: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 148324
+INFO:tensorflow:global_step/sec: 72.8968
+INFO:tensorflow:loss = 0.13233057, steps = 37101 (1.372 sec)
+2024-05-08 19:15:13.347633: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 148616
+INFO:tensorflow:global_step/sec: 73.524
+INFO:tensorflow:loss = 0.12972105, steps = 37201 (1.360 sec)
+2024-05-08 19:15:14.347755: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 148911
+INFO:tensorflow:global_step/sec: 73.2265
+INFO:tensorflow:loss = 0.08534082, steps = 37301 (1.366 sec)
+2024-05-08 19:15:15.347868: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 149204
+2024-05-08 19:15:16.347983: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 149496
+INFO:tensorflow:global_step/sec: 72.7323
+INFO:tensorflow:loss = 0.1006815, steps = 37401 (1.375 sec)
+2024-05-08 19:15:17.348089: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 149787
+INFO:tensorflow:global_step/sec: 72.4996
+INFO:tensorflow:loss = 0.06473776, steps = 37501 (1.379 sec)
+2024-05-08 19:15:18.348197: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 150076
+2024-05-08 19:15:19.348313: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 150372
+INFO:tensorflow:global_step/sec: 73.8063
+INFO:tensorflow:loss = 0.099598214, steps = 37601 (1.355 sec)
+2024-05-08 19:15:20.348423: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 150664
+INFO:tensorflow:global_step/sec: 73.0072
+INFO:tensorflow:loss = 0.0477838, steps = 37701 (1.370 sec)
+2024-05-08 19:15:21.348529: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 150956
+INFO:tensorflow:global_step/sec: 72.5806
+INFO:tensorflow:loss = 0.10469096, steps = 37801 (1.378 sec)
+2024-05-08 19:15:22.348640: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 151247
+2024-05-08 19:15:23.348750: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 151536
+INFO:tensorflow:global_step/sec: 72.3849
+INFO:tensorflow:loss = 0.06292254, steps = 37901 (1.382 sec)
+2024-05-08 19:15:24.348858: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 151824
+INFO:tensorflow:global_step/sec: 72.7709
+INFO:tensorflow:loss = 0.053803273, steps = 38001 (1.374 sec)
+2024-05-08 19:15:25.348973: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 152116
+INFO:tensorflow:global_step/sec: 72.561
+INFO:tensorflow:loss = 0.079770975, steps = 38101 (1.378 sec)
+2024-05-08 19:15:26.349058: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 152407
+2024-05-08 19:15:27.349168: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 152700
+INFO:tensorflow:global_step/sec: 72.6978
+INFO:tensorflow:loss = 0.09021869, steps = 38201 (1.375 sec)
+2024-05-08 19:15:28.349275: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 152987
+INFO:tensorflow:global_step/sec: 72.6602
+INFO:tensorflow:loss = 0.12841284, steps = 38301 (1.376 sec)
+2024-05-08 19:15:29.349384: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 153279
+2024-05-08 19:15:30.349499: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 153567
+INFO:tensorflow:global_step/sec: 71.7808
+INFO:tensorflow:loss = 0.09970799, steps = 38401 (1.393 sec)
+2024-05-08 19:15:31.349643: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 153855
+INFO:tensorflow:global_step/sec: 72.2663
+INFO:tensorflow:loss = 0.09694683, steps = 38501 (1.384 sec)
+2024-05-08 19:15:32.349749: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 154144
+INFO:tensorflow:global_step/sec: 72.2955
+INFO:tensorflow:loss = 0.06147202, steps = 38601 (1.383 sec)
+2024-05-08 19:15:33.349853: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 154432
+2024-05-08 19:15:34.349970: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 154723
+INFO:tensorflow:global_step/sec: 72.4431
+INFO:tensorflow:loss = 0.0803621, steps = 38701 (1.380 sec)
+2024-05-08 19:15:35.350087: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 155012
+INFO:tensorflow:global_step/sec: 72.6044
+INFO:tensorflow:loss = 0.10220472, steps = 38801 (1.377 sec)
+2024-05-08 19:15:36.350206: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 155304
+2024-05-08 19:15:37.350307: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 155596
+INFO:tensorflow:global_step/sec: 72.8745
+INFO:tensorflow:loss = 0.13718241, steps = 38901 (1.372 sec)
+2024-05-08 19:15:38.350409: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 155884
+INFO:tensorflow:global_step/sec: 72.5204
+INFO:tensorflow:loss = 0.0846466, steps = 39001 (1.379 sec)
+2024-05-08 19:15:39.350534: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 156175
+INFO:tensorflow:global_step/sec: 72.261
+INFO:tensorflow:loss = 0.07477593, steps = 39101 (1.384 sec)
+2024-05-08 19:15:40.350650: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 156463
+2024-05-08 19:15:41.350764: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 156755
+INFO:tensorflow:global_step/sec: 72.5242
+INFO:tensorflow:loss = 0.08279284, steps = 39201 (1.379 sec)
+2024-05-08 19:15:42.350919: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 157044
+INFO:tensorflow:global_step/sec: 72.1568
+INFO:tensorflow:loss = 0.07719636, steps = 39301 (1.386 sec)
+2024-05-08 19:15:43.351046: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 157332
+INFO:tensorflow:global_step/sec: 72.5919
+INFO:tensorflow:loss = 0.085377276, steps = 39401 (1.378 sec)
+2024-05-08 19:15:44.351147: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 157623
+2024-05-08 19:15:45.351262: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 157912
+INFO:tensorflow:global_step/sec: 72.4791
+INFO:tensorflow:loss = 0.07489793, steps = 39501 (1.380 sec)
+2024-05-08 19:15:46.351376: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 158207
+INFO:tensorflow:global_step/sec: 73.0809
+INFO:tensorflow:loss = 0.07253799, steps = 39601 (1.368 sec)
+2024-05-08 19:15:47.351487: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 158492
+2024-05-08 19:15:48.351603: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 158784
+INFO:tensorflow:global_step/sec: 71.9426
+INFO:tensorflow:loss = 0.09107915, steps = 39701 (1.390 sec)
+2024-05-08 19:15:49.351705: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 159076
+INFO:tensorflow:global_step/sec: 72.8021
+INFO:tensorflow:loss = 0.066044606, steps = 39801 (1.374 sec)
+2024-05-08 19:15:50.351807: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 159364
+INFO:tensorflow:global_step/sec: 72.6866
+INFO:tensorflow:loss = 0.08248607, steps = 39901 (1.376 sec)
+2024-05-08 19:15:51.351906: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 159656
+2024-05-08 19:15:52.352008: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 159948
+INFO:tensorflow:global_step/sec: 73.0403
+INFO:tensorflow:loss = 0.08057508, steps = 40001 (1.369 sec)
+2024-05-08 19:15:53.352126: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 160236
+INFO:tensorflow:global_step/sec: 72.3299
+INFO:tensorflow:loss = 0.06948458, steps = 40101 (1.383 sec)
+2024-05-08 19:15:54.352243: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 160527
+INFO:tensorflow:global_step/sec: 72.0836
+INFO:tensorflow:loss = 0.09676849, steps = 40201 (1.387 sec)
+2024-05-08 19:15:55.352346: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 160815
+2024-05-08 19:15:56.352448: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 161108
+INFO:tensorflow:global_step/sec: 72.8155
+INFO:tensorflow:loss = 0.045319118, steps = 40301 (1.373 sec)
+2024-05-08 19:15:57.352555: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 161395
+INFO:tensorflow:global_step/sec: 72.1714
+INFO:tensorflow:loss = 0.07039349, steps = 40401 (1.386 sec)
+2024-05-08 19:15:58.352679: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 161685
+2024-05-08 19:15:59.352809: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 161976
+INFO:tensorflow:global_step/sec: 72.7862
+INFO:tensorflow:loss = 0.0559406, steps = 40501 (1.374 sec)
+2024-05-08 19:16:00.352921: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 162268
+INFO:tensorflow:global_step/sec: 73.0454
+INFO:tensorflow:loss = 0.12946701, steps = 40601 (1.369 sec)
+2024-05-08 19:16:01.353007: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 162563
+INFO:tensorflow:global_step/sec: 72.5039
+INFO:tensorflow:loss = 0.088631034, steps = 40701 (1.379 sec)
+2024-05-08 19:16:02.353144: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 162851
+2024-05-08 19:16:03.353274: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 163140
+INFO:tensorflow:global_step/sec: 71.953
+INFO:tensorflow:loss = 0.052738395, steps = 40801 (1.390 sec)
+2024-05-08 19:16:04.353391: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 163428
+INFO:tensorflow:global_step/sec: 72.5361
+INFO:tensorflow:loss = 0.08341259, steps = 40901 (1.379 sec)
+2024-05-08 19:16:05.353501: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 163719
+INFO:tensorflow:global_step/sec: 72.5586
+INFO:tensorflow:loss = 0.056805782, steps = 41001 (1.378 sec)
+2024-05-08 19:16:06.353610: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 164008
+2024-05-08 19:16:07.353722: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 164304
+INFO:tensorflow:global_step/sec: 73.46
+INFO:tensorflow:loss = 0.078945965, steps = 41101 (1.361 sec)
+2024-05-08 19:16:08.353840: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 164595
+INFO:tensorflow:global_step/sec: 73.3746
+INFO:tensorflow:loss = 0.08571644, steps = 41201 (1.363 sec)
+2024-05-08 19:16:09.353956: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 164888
+2024-05-08 19:16:10.354064: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 165176
+INFO:tensorflow:global_step/sec: 72.2459
+INFO:tensorflow:loss = 0.08612693, steps = 41301 (1.384 sec)
+2024-05-08 19:16:11.354185: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 165467
+INFO:tensorflow:global_step/sec: 72.5722
+INFO:tensorflow:loss = 0.090365395, steps = 41401 (1.378 sec)
+2024-05-08 19:16:12.354300: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 165759
+INFO:tensorflow:global_step/sec: 73.0206
+INFO:tensorflow:loss = 0.05997543, steps = 41501 (1.370 sec)
+2024-05-08 19:16:13.354426: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 166051
+2024-05-08 19:16:14.354554: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 166340
+INFO:tensorflow:global_step/sec: 72.789
+INFO:tensorflow:loss = 0.062051088, steps = 41601 (1.374 sec)
+2024-05-08 19:16:15.354664: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 166631
+INFO:tensorflow:global_step/sec: 72.0711
+INFO:tensorflow:loss = 0.046268594, steps = 41701 (1.388 sec)
+2024-05-08 19:16:16.354779: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 166920
+INFO:tensorflow:global_step/sec: 72.9601
+INFO:tensorflow:loss = 0.06633564, steps = 41801 (1.371 sec)
+2024-05-08 19:16:17.354894: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 167212
+2024-05-08 19:16:18.354998: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 167500
+INFO:tensorflow:global_step/sec: 72.5377
+INFO:tensorflow:loss = 0.09707194, steps = 41901 (1.379 sec)
+2024-05-08 19:16:19.355107: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 167792
+INFO:tensorflow:global_step/sec: 72.6038
+INFO:tensorflow:loss = 0.07112928, steps = 42001 (1.377 sec)
+2024-05-08 19:16:20.355212: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 168083
+2024-05-08 19:16:21.355336: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 168372
+INFO:tensorflow:global_step/sec: 72.4579
+INFO:tensorflow:loss = 0.06674737, steps = 42101 (1.380 sec)
+2024-05-08 19:16:22.355474: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 168664
+INFO:tensorflow:global_step/sec: 72.9622
+INFO:tensorflow:loss = 0.050868824, steps = 42201 (1.371 sec)
+2024-05-08 19:16:23.355613: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 168956
+INFO:tensorflow:global_step/sec: 71.8598
+INFO:tensorflow:loss = 0.1158877, steps = 42301 (1.392 sec)
+2024-05-08 19:16:24.355722: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 169240
+2024-05-08 19:16:25.355855: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 169532
+INFO:tensorflow:global_step/sec: 72.4715
+INFO:tensorflow:loss = 0.108244404, steps = 42401 (1.380 sec)
+2024-05-08 19:16:26.355987: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 169819
+INFO:tensorflow:global_step/sec: 71.898
+INFO:tensorflow:loss = 0.110584244, steps = 42501 (1.391 sec)
+2024-05-08 19:16:27.356090: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 170111
+2024-05-08 19:16:27.356127: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/district_id_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:16:27.356133: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/times_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:16:27.356136: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" promotions: 923, demotions:0
+2024-05-08 19:16:27.356144: I tensorflow/core/framework/embedding/cache_manager.cc:203] "input_layer/sparse_input_layer/input_layer/timediff_list_embedding/embedding_weights" promotion diff: 0.68018, reactivating sampling
+2024-05-08 19:16:27.356148: I tensorflow/core/framework/embedding/cache_manager.cc:195] "input_layer/sparse_input_layer/input_layer/user_id_embedding/embedding_weights" promotions: 0, demotions:0
+2024-05-08 19:16:27.356150: I tensorflow/core/framework/embedding/cache_manager.cc:222] access count: 170112, tuning not active
+2024-05-08 19:16:27.356154: I tensorflow/core/framework/embedding/cache_manager.cc:224] LRU Time: 0ms, Profiler Time: 0ms
+2024-05-08 19:16:28.356231: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 170399
+INFO:tensorflow:global_step/sec: 72.4268
+INFO:tensorflow:loss = 0.07031141, steps = 42601 (1.381 sec)
+2024-05-08 19:16:29.356353: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 170684
+INFO:tensorflow:global_step/sec: 71.6372
+INFO:tensorflow:loss = 0.06706855, steps = 42701 (1.396 sec)
+2024-05-08 19:16:30.356466: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 170971
+INFO:tensorflow:global_step/sec: 72.0528
+INFO:tensorflow:loss = 0.061511677, steps = 42801 (1.388 sec)
+2024-05-08 19:16:31.356572: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 171264
+2024-05-08 19:16:32.356680: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 171553
+INFO:tensorflow:global_step/sec: 72.9965
+INFO:tensorflow:loss = 0.07678263, steps = 42901 (1.370 sec)
+2024-05-08 19:16:33.356822: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 171845
+INFO:tensorflow:global_step/sec: 72.872
+INFO:tensorflow:loss = 0.07713453, steps = 43001 (1.372 sec)
+2024-05-08 19:16:34.356956: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 172136
+INFO:tensorflow:global_step/sec: 72.5185
+INFO:tensorflow:loss = 0.117092445, steps = 43101 (1.379 sec)
+2024-05-08 19:16:35.357067: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 172427
+2024-05-08 19:16:36.357192: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 172720
+INFO:tensorflow:global_step/sec: 73.1294
+INFO:tensorflow:loss = 0.047214076, steps = 43201 (1.367 sec)
+2024-05-08 19:16:37.357311: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 173011
+INFO:tensorflow:global_step/sec: 72.7718
+INFO:tensorflow:loss = 0.060418263, steps = 43301 (1.374 sec)
+2024-05-08 19:16:38.357419: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 173300
+2024-05-08 19:16:39.357530: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 173596
+INFO:tensorflow:global_step/sec: 73.4551
+INFO:tensorflow:loss = 0.13252904, steps = 43401 (1.361 sec)
+2024-05-08 19:16:40.357641: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 173887
+INFO:tensorflow:global_step/sec: 72.6321
+INFO:tensorflow:loss = 0.097480625, steps = 43501 (1.377 sec)
+2024-05-08 19:16:41.357913: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 174176
+INFO:tensorflow:global_step/sec: 72.2364
+INFO:tensorflow:loss = 0.07118984, steps = 43601 (1.384 sec)
+2024-05-08 19:16:42.358043: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 174464
+2024-05-08 19:16:43.358165: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 174759
+INFO:tensorflow:global_step/sec: 73.0933
+INFO:tensorflow:loss = 0.11124168, steps = 43701 (1.368 sec)
+2024-05-08 19:16:44.358283: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 175051
+INFO:tensorflow:global_step/sec: 72.6319
+INFO:tensorflow:loss = 0.061850835, steps = 43801 (1.377 sec)
+2024-05-08 19:16:45.358414: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 175343
+INFO:tensorflow:global_step/sec: 73.0095
+INFO:tensorflow:loss = 0.108697996, steps = 43901 (1.370 sec)
+2024-05-08 19:16:46.358517: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 175632
+2024-05-08 19:16:47.358635: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 175923
+INFO:tensorflow:global_step/sec: 72.1825
+INFO:tensorflow:loss = 0.12956513, steps = 44001 (1.385 sec)
+2024-05-08 19:16:48.358742: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 176208
+INFO:tensorflow:global_step/sec: 72.24
+INFO:tensorflow:loss = 0.0817775, steps = 44101 (1.384 sec)
+2024-05-08 19:16:49.358844: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 176499
+2024-05-08 19:16:50.358961: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 176792
+INFO:tensorflow:global_step/sec: 72.7924
+INFO:tensorflow:loss = 0.06769213, steps = 44201 (1.374 sec)
+2024-05-08 19:16:51.359097: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 177084
+INFO:tensorflow:global_step/sec: 73.4067
+INFO:tensorflow:loss = 0.094094604, steps = 44301 (1.362 sec)
+2024-05-08 19:16:52.359211: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 177376
+INFO:tensorflow:global_step/sec: 73.0261
+INFO:tensorflow:loss = 0.05524277, steps = 44401 (1.369 sec)
+2024-05-08 19:16:53.359325: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 177668
+2024-05-08 19:16:54.359437: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 177964
+INFO:tensorflow:global_step/sec: 73.705
+INFO:tensorflow:loss = 0.08785483, steps = 44501 (1.357 sec)
+2024-05-08 19:16:55.359557: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 178263
+INFO:tensorflow:global_step/sec: 74.4835
+INFO:tensorflow:loss = 0.10483911, steps = 44601 (1.343 sec)
+2024-05-08 19:16:56.359705: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 178560
+INFO:tensorflow:global_step/sec: 73.6239
+INFO:tensorflow:loss = 0.105481505, steps = 44701 (1.358 sec)
+2024-05-08 19:16:57.359828: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 178852
+2024-05-08 19:16:58.359938: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 179144
+INFO:tensorflow:global_step/sec: 72.9803
+INFO:tensorflow:loss = 0.064820334, steps = 44801 (1.370 sec)
+2024-05-08 19:16:59.360043: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 179439
+INFO:tensorflow:global_step/sec: 73.7885
+INFO:tensorflow:loss = 0.0927535, steps = 44901 (1.355 sec)
+2024-05-08 19:17:00.360148: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 179732
+INFO:tensorflow:global_step/sec: 72.5293
+INFO:tensorflow:loss = 0.09278826, steps = 45001 (1.379 sec)
+2024-05-08 19:17:01.360257: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 180023
+2024-05-08 19:17:02.360369: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 180308
+INFO:tensorflow:global_step/sec: 71.9748
+INFO:tensorflow:loss = 0.0914046, steps = 45101 (1.389 sec)
+2024-05-08 19:17:03.360501: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 180600
+INFO:tensorflow:global_step/sec: 73.2806
+INFO:tensorflow:loss = 0.16139331, steps = 45201 (1.365 sec)
+2024-05-08 19:17:04.360608: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 180892
+2024-05-08 19:17:05.360726: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 181184
+INFO:tensorflow:global_step/sec: 72.6835
+INFO:tensorflow:loss = 0.09609361, steps = 45301 (1.376 sec)
+2024-05-08 19:17:06.360849: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 181476
+INFO:tensorflow:global_step/sec: 73.1515
+INFO:tensorflow:loss = 0.06489531, steps = 45401 (1.367 sec)
+2024-05-08 19:17:07.360985: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 181772
+INFO:tensorflow:global_step/sec: 73.2049
+INFO:tensorflow:loss = 0.08364974, steps = 45501 (1.366 sec)
+2024-05-08 19:17:08.361099: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 182063
+2024-05-08 19:17:09.361213: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 182355
+INFO:tensorflow:global_step/sec: 72.9271
+INFO:tensorflow:loss = 0.10491745, steps = 45601 (1.371 sec)
+2024-05-08 19:17:10.361332: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 182647
+INFO:tensorflow:global_step/sec: 72.9139
+INFO:tensorflow:loss = 0.10874679, steps = 45701 (1.371 sec)
+2024-05-08 19:17:11.361438: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 182940
+INFO:tensorflow:global_step/sec: 72.827
+INFO:tensorflow:loss = 0.07242291, steps = 45801 (1.373 sec)
+2024-05-08 19:17:12.361546: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 183228
+2024-05-08 19:17:13.361654: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 183524
+INFO:tensorflow:global_step/sec: 73.4077
+INFO:tensorflow:loss = 0.07357095, steps = 45901 (1.362 sec)
+2024-05-08 19:17:14.361755: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 183816
+INFO:tensorflow:global_step/sec: 72.9189
+INFO:tensorflow:loss = 0.06984468, steps = 46001 (1.371 sec)
+INFO:tensorflow:Saving checkpoints for 46015 into ./result/model_DLRM_1715166285/model.ckpt.
+2024-05-08 19:17:15.361884: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:16.361991: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:17.362098: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:18.362206: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:19.362308: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:20.362411: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:21.362515: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:22.362617: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:23.362723: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:24.362833: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:25.362931: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:26.363032: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:27.363135: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:28.363236: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:29.363338: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:30.363439: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:31.363539: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:32.363640: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:33.363742: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:34.363843: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:35.363945: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:36.364046: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:37.364144: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:38.364244: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:39.364345: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:40.364446: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:41.364546: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:42.364648: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:43.364756: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:44.364859: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:45.364961: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:46.365065: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:47.365166: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:48.365274: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:49.365378: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+WARNING:tensorflow:Issue encountered when serializing embedding_variable_restore_dependency.
+Type is unsupported, or the types of the items don't match field type in CollectionDef. Note this is a warning and probably safe to ignore.
+'dict' object has no attribute 'name'
+2024-05-08 19:17:50.365484: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+2024-05-08 19:17:51.365591: I tensorflow/core/framework/embedding/cache_manager.cc:184] access count: 184060
+Using TensorFlow version 1.15.5
+Checking dataset...
+The training steps is 46015
+The testing steps is 1
+Saving model checkpoints to ./result/model_DLRM_1715166285
+Training completed.
+2024-05-08 19:17:52.365715: I tensorflow/core/framework/embedding/cache_manager.cc:248] Tuning thread exit
+	Command being timed: "python3 ./train.py --no_eval --ev=profiled_b8lfu --cache_size=2048"
+	User time (seconds): 13619.48
+	System time (seconds): 1788.27
+	Percent of CPU this job got: 1765%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 14:32.85
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 12668920
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 285204
+	Minor (reclaiming a frame) page faults: 58945066
+	Voluntary context switches: 134230838
+	Involuntary context switches: 1543449
+	Swaps: 0
+	File system inputs: 30719992
+	File system outputs: 54550848
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

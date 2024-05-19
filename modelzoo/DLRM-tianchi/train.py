@@ -391,6 +391,48 @@ def build_feature_columns():
                 storage_size=[args.cache_size * 1024 * 1024],
                 cache_strategy=config_pb2.CacheStrategy.ProfiledShardedLRU
             ))
+        elif args.ev == 'b64lfu':
+            ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
+                storage_type=config_pb2.StorageType.DRAM_SSDHASH,
+                storage_path=f"/opt/ev/{column}",
+                storage_size=[args.cache_size * 1024 * 1024],
+                cache_strategy=config_pb2.CacheStrategy.B64LFU
+            ))
+        elif args.ev == 'profiled_b64lfu':
+            ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
+                storage_type=config_pb2.StorageType.DRAM_SSDHASH,
+                storage_path=f"/opt/ev/{column}",
+                storage_size=[args.cache_size * 1024 * 1024],
+                cache_strategy=config_pb2.CacheStrategy.ProfiledB64LFU
+            ))
+        elif args.ev == 'b64lfu_optimal':
+            ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
+                storage_type=config_pb2.StorageType.DRAM_SSDHASH,
+                storage_path=f"/opt/ev/{column}",
+                storage_size=[CACHE_SIZES[column] * 768],
+                cache_strategy=config_pb2.CacheStrategy.B64LFU
+            ))
+        elif args.ev == 'b8lfu_optimal':
+            ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
+                storage_type=config_pb2.StorageType.DRAM_SSDHASH,
+                storage_path=f"/opt/ev/{column}",
+                storage_size=[CACHE_SIZES[column] * 768],
+                cache_strategy=config_pb2.CacheStrategy.B8LFU
+            ))
+        elif args.ev == 'b8lfu':
+            ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
+                storage_type=config_pb2.StorageType.DRAM_SSDHASH,
+                storage_path=f"/opt/ev/{column}",
+                storage_size=[args.cache_size * 1024 * 1024],
+                cache_strategy=config_pb2.CacheStrategy.B8LFU
+            ))
+        elif args.ev == 'profiled_b8lfu':
+            ev_opt = tf.EmbeddingVariableOption(storage_option=tf.StorageOption(
+                storage_type=config_pb2.StorageType.DRAM_SSDHASH,
+                storage_path=f"/opt/ev/{column}",
+                storage_size=[args.cache_size * 1024 * 1024],
+                cache_strategy=config_pb2.CacheStrategy.ProfiledB8LFU
+            ))
         else:
             ev_opt = tf.EmbeddingVariableOption()
 
@@ -679,7 +721,7 @@ def get_arg_parser():
     parser.add_argument('--ev',
                         help='',
                         type=str,
-                        choices=['normal', 'tiered', 'profiled', 'sharded', 'profiled_sharded', 'optimal'],
+                        choices=['normal', 'tiered', 'profiled', 'sharded', 'profiled_sharded', 'optimal', 'b64lfu', 'profiled_b64lfu', 'b64lfu_optimal', 'b8lfu_optimal', 'b8lfu', 'profiled_b8lfu'],
                         default='normal')
     parser.add_argument('--cache_size',
                         type=int,

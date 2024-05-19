@@ -1,0 +1,280 @@
+Tue Apr 23 10:47:28 CST 2024
+declare -x AMPLXE_DATA_DIR="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi/r000hs/data.0"
+declare -x AMPLXE_HOSTNAME="iZbp1j639gfmc9vv60lp4hZ"
+declare -x AMPLXE_LANG="en_US.UTF-8"
+declare -x CACHE_MIN_SIZE="2097152"
+declare -x CACHE_PROFILER_BUCKET_SIZE="100"
+declare -x CACHE_PROFILER_MAX_REUSE_DIST="100000000"
+declare -x CACHE_PROFILER_SAMPLING_INTERVAL="100"
+declare -x CACHE_PROFLER_CLEAR="true"
+declare -x CACHE_REPORT_INTERVAL="100"
+declare -x CACHE_SHARD_SHIFT="8"
+declare -x CACHE_TOTAL_SIZE="8589934592"
+declare -x CACHE_TUNING_INTERVAL="1000"
+declare -x CACHE_TUNING_STRATEGY="min_mc_dp"
+declare -x CACHE_TUNING_UNIT="262144"
+declare -x CL_CONFIG_USE_VTUNE="True"
+declare -x CORECLR_ENABLE_PROFILING="1"
+declare -x CORECLR_PROFILER="{AA5E4821-E3B1-479c-B7FF-5AD047D22CED}"
+declare -x CORECLR_PROFILER_PATH="/opt/intel/oneapi/vtune/2024.1/lib64/libamplxe_samplingmrte_clrprof_1.0.so"
+declare -x ENABLE_JITPROFILING="1"
+declare -x HOME="/home/rtxux"
+declare -x INTEL_ITTNOTIFY_CONFIG=":update:49275:0:2:0:tsc:frame,task,event,counter,stack-stitching:/home/rtxux/DeepRec/modelzoo/DLRM-tianchi/r000hs/data.0"
+declare -x INTEL_ITTNOTIFY_GROUPS=""
+declare -x INTEL_JIT_PROFILER32="/opt/intel/oneapi/vtune/2024.1/lib32/runtime/libittnotify_collector.so"
+declare -x INTEL_JIT_PROFILER64="/opt/intel/oneapi/vtune/2024.1/lib64/runtime/libittnotify_collector.so"
+declare -x INTEL_LIBITTNOTIFY32="/opt/intel/oneapi/vtune/2024.1/lib32/runtime/libittnotify_collector.so"
+declare -x INTEL_LIBITTNOTIFY64="/opt/intel/oneapi/vtune/2024.1/lib64/runtime/libittnotify_collector.so"
+declare -x INTEL_MRTE_DATA_DIR="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi/r000hs/data.0"
+declare -x INTEL_MRTE_HOST_NAME="iZbp1j639gfmc9vv60lp4hZ"
+declare -x INTEL_MRTE_PROFILER_MODE="mixed"
+declare -x JAVA_TOOL_OPTIONS="-agentlib:amplxe_tpssmrte_javaprof_1.0 -Dsun.boot.library.path=/opt/intel/oneapi/vtune/2024.1/lib32/runtime:/opt/intel/oneapi/vtune/2024.1/lib64/runtime"
+declare -x KMP_FORKJOIN_FRAMES="0"
+declare -x KMP_FORKJOIN_FRAMES_MODE="0"
+declare -x LANG="en_US.UTF-8"
+declare -x LD_LIBRARY_PATH="/opt/intel/oneapi/vtune/2024.1/lib32/runtime:/opt/intel/oneapi/vtune/2024.1/lib64/runtime"
+declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
+declare -x LESSOPEN="| /usr/bin/lesspipe %s"
+declare -x LOGNAME="rtxux"
+declare -x LS_COLORS="rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:"
+declare -x MAIL="/var/mail/rtxux"
+declare -x MRTEHELPERS_DEBUG="1"
+declare -x MRTEHELPERS_LOG_DIR="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi/r000hs/log"
+declare -x MRTEHELPERS_LOG_LEVEL="INFO"
+declare -x OLDPWD="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi/data"
+declare -x PATH="/opt/intel/oneapi/vtune/2024.1/bin64:/home/rtxux/DeepRec/.venv/bin:/home/rtxux/DeepRec/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+declare -x PERFRUN_DEBUG="1"
+declare -x PERFRUN_LOG_DIR="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi/r000hs/log"
+declare -x PERFRUN_LOG_LEVEL="INFO"
+declare -x PIN_APP_LD_LIBRARY_PATH="/opt/intel/oneapi/vtune/2024.1/lib32/runtime:/opt/intel/oneapi/vtune/2024.1/lib64/runtime"
+declare -x PIN_CRT_TZDATA="/opt/intel/oneapi/vtune/2024.1/resource/pindata/tzdata"
+declare -x PIN_INJECTOR32_LD_LIBRARY_PATH="/opt/intel/oneapi/vtune/2024.1/lib32/pinruntime:/opt/intel/oneapi/vtune/2024.1/lib32:/opt/intel/oneapi/vtune/2024.1/lib32/runtime:/opt/intel/oneapi/vtune/2024.1/lib64/runtime"
+declare -x PIN_INJECTOR64_LD_LIBRARY_PATH="/opt/intel/oneapi/vtune/2024.1/lib64/pinruntime:/opt/intel/oneapi/vtune/2024.1/lib64:/opt/intel/oneapi/vtune/2024.1/lib32/runtime:/opt/intel/oneapi/vtune/2024.1/lib64/runtime"
+declare -x PIN_VM32_LD_LIBRARY_PATH="/opt/intel/oneapi/vtune/2024.1/lib32/pinruntime:/opt/intel/oneapi/vtune/2024.1/lib32"
+declare -x PIN_VM64_LD_LIBRARY_PATH="/opt/intel/oneapi/vtune/2024.1/lib64/pinruntime:/opt/intel/oneapi/vtune/2024.1/lib64"
+declare -x PKG_CONFIG_PATH="/opt/intel/oneapi/vtune/2024.1/include/pkgconfig/lib64:"
+declare -x PWD="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi"
+declare -x SHELL="/bin/bash"
+declare -x SHLVL="3"
+declare -x SSH_AUTH_SOCK="/tmp/ssh-EGaEPT6FH3/agent.37534"
+declare -x SSH_CLIENT="114.214.169.31 58767 22"
+declare -x SSH_CONNECTION="114.214.169.31 58767 10.0.0.225 22"
+declare -x SSH_TTY="/dev/pts/0"
+declare -x S_COLORS="auto"
+declare -x TERM="screen-256color"
+declare -x TF_SSDHASH_ASYNC_COMPACTION="false"
+declare -x TMUX="/tmp/tmux-1000/default,43633,0"
+declare -x TMUX_PANE="%14"
+declare -x USER="rtxux"
+declare -x USERAPICOLLECTOR_LOG_DIR="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi/r000hs/data.0"
+declare -x VIRTUAL_ENV="/home/rtxux/DeepRec/.venv"
+declare -x VTUNE_LANG="en_US.UTF-8"
+declare -x VTUNE_PROFILER_2024_DIR="/opt/intel/oneapi/vtune/2024.1"
+declare -x VTUNE_PROFILER_DIR="/opt/intel/oneapi/vtune/2024.1"
+declare -x XDG_RUNTIME_DIR="/run/user/1000"
+declare -x XDG_SESSION_ID="1011"
+time -v python3 ./train.py --no_eval --ev=profiled
+Tue Apr 23 11:11:50 CST 2024
+declare -x CACHE_MIN_SIZE="2097152"
+declare -x CACHE_PROFILER_BUCKET_SIZE="100"
+declare -x CACHE_PROFILER_MAX_REUSE_DIST="100000000"
+declare -x CACHE_PROFILER_SAMPLING_INTERVAL="100"
+declare -x CACHE_PROFLER_CLEAR="true"
+declare -x CACHE_REPORT_INTERVAL="100"
+declare -x CACHE_SHARD_SHIFT="8"
+declare -x CACHE_TOTAL_SIZE="8589934592"
+declare -x CACHE_TUNING_INTERVAL="1000"
+declare -x CACHE_TUNING_STRATEGY="min_mc_dp"
+declare -x CACHE_TUNING_UNIT="262144"
+declare -x HOME="/home/rtxux"
+declare -x LANG="en_US.UTF-8"
+declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
+declare -x LESSOPEN="| /usr/bin/lesspipe %s"
+declare -x LOGNAME="rtxux"
+declare -x LS_COLORS="rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:"
+declare -x MAIL="/var/mail/rtxux"
+declare -x OLDPWD="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi/data"
+declare -x PATH="/opt/intel/oneapi/vtune/2024.1/bin64:/home/rtxux/DeepRec/.venv/bin:/home/rtxux/DeepRec/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+declare -x PKG_CONFIG_PATH="/opt/intel/oneapi/vtune/2024.1/include/pkgconfig/lib64:"
+declare -x PWD="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi"
+declare -x SHELL="/bin/bash"
+declare -x SHLVL="3"
+declare -x SSH_AUTH_SOCK="/tmp/ssh-EGaEPT6FH3/agent.37534"
+declare -x SSH_CLIENT="114.214.169.31 58767 22"
+declare -x SSH_CONNECTION="114.214.169.31 58767 10.0.0.225 22"
+declare -x SSH_TTY="/dev/pts/0"
+declare -x S_COLORS="auto"
+declare -x TERM="screen-256color"
+declare -x TF_SSDHASH_ASYNC_COMPACTION="false"
+declare -x TMUX="/tmp/tmux-1000/default,43633,0"
+declare -x TMUX_PANE="%14"
+declare -x USER="rtxux"
+declare -x VIRTUAL_ENV="/home/rtxux/DeepRec/.venv"
+declare -x VTUNE_PROFILER_2024_DIR="/opt/intel/oneapi/vtune/2024.1"
+declare -x VTUNE_PROFILER_DIR="/opt/intel/oneapi/vtune/2024.1"
+declare -x XDG_RUNTIME_DIR="/run/user/1000"
+declare -x XDG_SESSION_ID="1011"
+python3 ./train.py --no_eval --ev=profiled
+vtune: Warning: Microarchitecture performance insights will not be available. Make sure the sampling driver is installed and enabled on your system.
+vtune: Collection started. To stop the collection, either press CTRL-C or enter from another console window: vtune -r /home/rtxux/DeepRec/modelzoo/DLRM-tianchi/r000hs -command stop.
+Traceback (most recent call last):
+  File "./train.py", line 18, in <module>
+    import tensorflow as tf
+  File "/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/tensorflow/__init__.py", line 101, in <module>
+    from tensorflow_core import *
+  File "/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/tensorflow_core/__init__.py", line 28, in <module>
+    from tensorflow.python import pywrap_tensorflow  # pylint: disable=unused-import
+  File "<frozen importlib._bootstrap>", line 1007, in _handle_fromlist
+  File "/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/tensorflow/__init__.py", line 50, in __getattr__
+    module = self._load()
+  File "/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/tensorflow/__init__.py", line 44, in _load
+    module = _importlib.import_module(self.__name__)
+  File "/usr/lib/python3.6/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/tensorflow_core/python/__init__.py", line 84, in <module>
+    from tensorflow.python import keras
+  File "/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/tensorflow_core/python/keras/__init__.py", line 26, in <module>
+    from tensorflow.python.keras import activations
+  File "/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/tensorflow_core/python/keras/__init__.py", line 26, in <module>
+    from tensorflow.python.keras import activations
+  File "/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/tensorflow_core/python/keras/activations.py", line 23, in <module>
+    from tensorflow.python.keras.utils.generic_utils import deserialize_keras_object
+  File "/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/tensorflow_core/python/keras/utils/__init__.py", line 34, in <module>
+    from tensorflow.python.keras.utils.io_utils import HDF5Matrix
+  File "/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/tensorflow_core/python/keras/utils/io_utils.py", line 30, in <module>
+    import h5py
+  File "/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/h5py/__init__.py", line 46, in <module>
+    from ._conv import register_converters as _register_converters
+  File "h5py/h5t.pxd", line 14, in init h5py._conv
+  File "h5py/h5t.pyx", line 49, in init h5py.h5t
+  File "/usr/lib/python3.6/platform.py", line 1128, in machine
+    return uname().machine
+  File "/usr/lib/python3.6/platform.py", line 1057, in uname
+    processor = _syscmd_uname('-p', '')
+  File "/usr/lib/python3.6/platform.py", line 814, in _syscmd_uname
+    output = f.read().strip()
+KeyboardInterrupt
+vtune: Profiling of the target process finished but the following child processes are still being profiled:
+PPID PID STATE NAME
+1 49778 RESUME python3.6
+
+To stop the collection, you may press CTRL-C. The processes listed above will be terminated.
+
+Intel(R) VTune(TM) Profiler 2024.1.0 (build 627630) feedback tool
+Copyright (C) 2009 Intel Corporation. All rights reserved.
+Tue Apr 23 11:14:18 CST 2024
+declare -x CACHE_MIN_SIZE="2097152"
+declare -x CACHE_PROFILER_BUCKET_SIZE="100"
+declare -x CACHE_PROFILER_MAX_REUSE_DIST="100000000"
+declare -x CACHE_PROFILER_SAMPLING_INTERVAL="100"
+declare -x CACHE_PROFLER_CLEAR="true"
+declare -x CACHE_REPORT_INTERVAL="100"
+declare -x CACHE_SHARD_SHIFT="8"
+declare -x CACHE_TOTAL_SIZE="8589934592"
+declare -x CACHE_TUNING_INTERVAL="1000"
+declare -x CACHE_TUNING_STRATEGY="min_mc_dp"
+declare -x CACHE_TUNING_UNIT="262144"
+declare -x HOME="/home/rtxux"
+declare -x LANG="en_US.UTF-8"
+declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
+declare -x LESSOPEN="| /usr/bin/lesspipe %s"
+declare -x LOGNAME="rtxux"
+declare -x LS_COLORS="rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:"
+declare -x MAIL="/var/mail/rtxux"
+declare -x OLDPWD="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi/data"
+declare -x PATH="/opt/intel/oneapi/vtune/2024.1/bin64:/home/rtxux/DeepRec/.venv/bin:/home/rtxux/DeepRec/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+declare -x PKG_CONFIG_PATH="/opt/intel/oneapi/vtune/2024.1/include/pkgconfig/lib64:"
+declare -x PWD="/home/rtxux/DeepRec/modelzoo/DLRM-tianchi"
+declare -x SHELL="/bin/bash"
+declare -x SHLVL="3"
+declare -x SSH_AUTH_SOCK="/tmp/ssh-EGaEPT6FH3/agent.37534"
+declare -x SSH_CLIENT="114.214.169.31 58767 22"
+declare -x SSH_CONNECTION="114.214.169.31 58767 10.0.0.225 22"
+declare -x SSH_TTY="/dev/pts/0"
+declare -x S_COLORS="auto"
+declare -x TERM="screen-256color"
+declare -x TF_SSDHASH_ASYNC_COMPACTION="false"
+declare -x TMUX="/tmp/tmux-1000/default,43633,0"
+declare -x TMUX_PANE="%14"
+declare -x USER="rtxux"
+declare -x VIRTUAL_ENV="/home/rtxux/DeepRec/.venv"
+declare -x VTUNE_PROFILER_2024_DIR="/opt/intel/oneapi/vtune/2024.1"
+declare -x VTUNE_PROFILER_DIR="/opt/intel/oneapi/vtune/2024.1"
+declare -x XDG_RUNTIME_DIR="/run/user/1000"
+declare -x XDG_SESSION_ID="1011"
+python3 ./train.py --no_eval --ev=profiled
+vtune: Warning: Microarchitecture performance insights will not be available. Make sure the sampling driver is installed and enabled on your system.
+vtune: Collection started. To stop the collection, either press CTRL-C or enter from another console window: vtune -r /home/rtxux/DeepRec/modelzoo/DLRM-tianchi/r001hs -command stop.
+vtune: Collection stopped.
+vtune: Using result path `/home/rtxux/DeepRec/modelzoo/DLRM-tianchi/r001hs'
+vtune: Executing actions  0 %                                                  vtune: Executing actions  0 % Finalizing results                               vtune: Executing actions  0 % Finalizing the result                            vtune: Executing actions  0 % Clearing the database                            vtune: Executing actions  7 % Clearing the database                            vtune: Executing actions  7 % Loading raw data to the database                 vtune: Executing actions  7 % Loading 'systemcollector-50109-iZbp1j639gfmc9vv60vtune: Executing actions 12 % Loading 'systemcollector-50109-iZbp1j639gfmc9vv60vtune: Executing actions 12 % Loading '50109-50114.0.trace' file               vtune: Executing actions 12 % Loading '50114-50198.0.trace' file               vtune: Executing actions 12 % Loading 50109-50114.0.pytrace                    vtune: Executing actions 12 % Loading 50109-50114.0.pytrace: processing symbols
+vtune: Error: Cannot load data file `/home/rtxux/DeepRec/modelzoo/DLRM-tianchi/r001hs/data.0/50114-50198.0.trace' (Data file is corrupted).
+vtune: Executing actions 12 % Updating precomputed scalar metrics              vtune: Executing actions 14 % Updating precomputed scalar metrics              vtune: Executing actions 14 % Processing profile metrics and debug information vtune: Executing actions 19 % Processing profile metrics and debug information vtune: Executing actions 19 % Setting data model parameters                    vtune: Executing actions 19 % Resolving module symbols                         
+vtune: Warning: Cannot locate file `<frozen importlib._bootstrap>'.
+vtune: Warning: Cannot locate file `<frozen importlib._bootstrap_external>'.
+vtune: Executing actions 19 % Resolving information for `__init__.py'          vtune: Executing actions 19 % Resolving information for `libc-dynamic.so'      vtune: Executing actions 19 % Resolving information for `_argument_parser.py'  vtune: Executing actions 19 % Resolving information for `__init__.py'          vtune: Executing actions 19 % Resolving information for `_message.cpython-36m-x
+vtune: Warning: Cannot locate debugging information for file `/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/google/protobuf/pyext/_message.cpython-36m-x86_64-linux-gnu.so'.
+vtune: Executing actions 19 % Resolving information for `train.py'             vtune: Executing actions 19 % Resolving information for `case.py'              vtune: Executing actions 19 % Resolving information for `meta_graph_pb2.py'    vtune: Executing actions 19 % Resolving information for `subprocess.py'        vtune: Executing actions 19 % Resolving information for `python3.6'            vtune: Executing actions 19 % Resolving information for `pinbin'               
+vtune: Warning: Cannot locate debugging information for file `/usr/bin/python3.6'.
+vtune: Executing actions 19 % Resolving information for `math_ops.py'          vtune: Executing actions 19 % Resolving information for `errors_impl.py'       vtune: Executing actions 19 % Resolving information for `deprecation.py'       vtune: Executing actions 19 % Resolving information for `tensor_pb2.py'        vtune: Executing actions 19 % Resolving information for `__init__.py'          vtune: Executing actions 19 % Resolving information for `tempfile.py'          vtune: Executing actions 19 % Resolving information for `_internal.py'         vtune: Executing actions 19 % Resolving information for `libpthread.so.0'      
+vtune: Warning: Cannot locate debugging information for file `/lib/x86_64-linux-gnu/libpthread.so.0'.
+vtune: Executing actions 19 % Resolving information for `ops.py'               vtune: Executing actions 19 % Resolving information for `resource_variable_ops.vtune: Executing actions 19 % Resolving information for `sre_parse.py'         vtune: Executing actions 20 % Resolving information for `sre_parse.py'         vtune: Executing actions 20 % Resolving information for `typing.py'            vtune: Executing actions 20 % Resolving information for `descriptor.py'        vtune: Executing actions 20 % Resolving information for `framework_lib.py'     vtune: Executing actions 20 % Resolving information for `graph_pb2.py'         vtune: Executing actions 20 % Resolving information for `utils.py'             vtune: Executing actions 20 % Resolving information for `__init__.py'          vtune: Executing actions 20 % Resolving information for `__init__.py'          vtune: Executing actions 20 % Resolving information for `libc.so.6'            vtune: Executing actions 20 % Resolving information for `file_io.py'           
+vtune: Warning: Cannot locate debugging information for file `/lib/x86_64-linux-gnu/libc.so.6'.
+Cannot match the module with the symbol file `/lib/x86_64-linux-gnu/libc-2.27.so'. Make sure to specify the correct path to the symbol file in the Binary/Symbol Search list of directories.
+vtune: Executing actions 20 % Resolving information for `libpindwarf.so'       vtune: Executing actions 20 % Resolving information for `gen_sparse_ops.py'    vtune: Executing actions 20 % Resolving information for dangling locations     vtune: Executing actions 20 % Resolving information for `errors.py'            vtune: Executing actions 20 % Resolving information for `attr_value_pb2.py'    vtune: Executing actions 20 % Resolving information for `__init__.py'          vtune: Executing actions 20 % Resolving information for `__init__.py'          vtune: Executing actions 20 % Resolving information for `_flagvalues.py'       vtune: Executing actions 20 % Resolving information for `_defines.py'          vtune: Executing actions 20 % Resolving information for `resource_handle_pb2.pyvtune: Executing actions 20 % Resolving information for `abc.py'               vtune: Executing actions 20 % Resolving information for `__init__.py'          vtune: Executing actions 20 % Resolving information for `any_pb2.py'           vtune: Executing actions 20 % Resolving information for `is_in_graph_mode.py'  vtune: Executing actions 20 % Resolving information for `random.py'            vtune: Executing actions 20 % Resolving information for `__init__.py'          vtune: Executing actions 20 % Resolving information for `platform.py'          vtune: Executing actions 20 % Resolving information for `libdl.so.2'           
+vtune: Warning: Cannot locate debugging information for file `/lib/x86_64-linux-gnu/libdl.so.2'.
+Cannot match the module with the symbol file `/lib/x86_64-linux-gnu/libdl-2.27.so'. Make sure to specify the correct path to the symbol file in the Binary/Symbol Search list of directories.
+vtune: Executing actions 20 % Resolving information for `gen_array_ops.py'     vtune: Executing actions 20 % Resolving information for `pywrap_tensorflow_intevtune: Executing actions 20 % Resolving information for `gen_logging_ops.py'   vtune: Executing actions 21 % Resolving information for `gen_logging_ops.py'   vtune: Executing actions 21 % Resolving information for `index_tricks.py'      vtune: Executing actions 21 % Resolving information for `uuid.py'              vtune: Executing actions 21 % Resolving information for `libdwarf.so'          vtune: Executing actions 21 % Resolving information for `variables.py'         vtune: Executing actions 21 % Resolving information for `libtpsstool.so'       vtune: Executing actions 21 % Resolving information for `__init__.py'          
+vtune: Warning: Cannot locate debugging information for file `/opt/intel/oneapi/vtune/2024.1/lib64/libtpsstool.so'.
+vtune: Executing actions 21 % Resolving information for `__init__.py'          vtune: Executing actions 21 % Resolving information for `overrides.py'         vtune: Executing actions 21 % Resolving information for `_weakrefset.py'       vtune: Executing actions 21 % Resolving information for `function_base.py'     vtune: Executing actions 21 % Resolving information for `tf_export.py'         vtune: Executing actions 21 % Resolving information for `argparse.py'          vtune: Executing actions 21 % Resolving information for `imp.py'               vtune: Executing actions 21 % Resolving information for `__init__.py'          vtune: Executing actions 21 % Resolving information for `app.py'               vtune: Executing actions 21 % Resolving information for `importer.py'          vtune: Executing actions 21 % Resolving information for `well_known_types.py'  vtune: Executing actions 21 % Resolving information for `linalg.py'            vtune: Executing actions 21 % Resolving information for `pywrap_tensorflow.py' vtune: Executing actions 21 % Resolving information for `re.py'                vtune: Executing actions 21 % Resolving information for `defmatrix.py'         vtune: Executing actions 21 % Resolving information for `function.py'          vtune: Executing actions 21 % Resolving information for `multiarray.py'        vtune: Executing actions 21 % Resolving information for `numeric.py'           vtune: Executing actions 21 % Resolving information for `<frozen importlib._boovtune: Executing actions 21 % Resolving information for `error_interpolation.pyvtune: Executing actions 21 % Resolving information for `gen_math_ops.py'      vtune: Executing actions 21 % Resolving information for `tf_inspect.py'        vtune: Executing actions 22 % Resolving information for `tf_inspect.py'        vtune: Executing actions 22 % Resolving information for `__init__.py'          vtune: Executing actions 22 % Resolving information for `sre_compile.py'       vtune: Executing actions 22 % Resolving information for `__init__.py'          vtune: Executing actions 22 % Resolving information for `app.py'               vtune: Executing actions 22 % Resolving information for `array_ops.py'         vtune: Executing actions 22 % Resolving information for `graph_debug_info_pb2.pvtune: Executing actions 22 % Resolving information for `libstdc++.so.6'       
+vtune: Warning: Cannot locate debugging information for file `/usr/lib/x86_64-linux-gnu/libstdc++.so.6'.
+vtune: Executing actions 22 % Resolving information for `core.py'              vtune: Executing actions 22 % Resolving information for `node_def_pb2.py'      vtune: Executing actions 22 % Resolving information for `<frozen importlib._boovtune: Executing actions 22 % Resolving information for `gettext.py'           vtune: Executing actions 22 % Resolving information for `gen_data_flow_ops.py' vtune: Executing actions 22 % Resolving information for `libtensorflow_frameworvtune: Executing actions 22 % Resolving information for `inspect.py'           vtune: Executing actions 22 % Resolving information for `threading.py'         
+vtune: Warning: Cannot locate debugging information for file `/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/tensorflow_core/libtensorflow_framework.so.1'.
+vtune: Executing actions 22 % Resolving information for `difflib.py'           vtune: Executing actions 22 % Resolving information for `ld-linux-x86-64.so.2' 
+vtune: Warning: Cannot locate debugging information for file `/lib64/ld-linux-x86-64.so.2'.
+vtune: Executing actions 22 % Resolving information for `libopenblasp-r0-34a18dvtune: Executing actions 22 % Resolving information for `sparse_tensor.py'     vtune: Executing actions 22 % Resolving information for `tensor_shape_pb2.py'  vtune: Executing actions 22 % Resolving information for `hashlib.py'           
+vtune: Warning: Cannot locate debugging information for file `/home/rtxux/DeepRec/.venv/lib/python3.6/site-packages/numpy/.libs/libopenblasp-r0-34a18dc3.3.7.so'.
+vtune: Executing actions 22 % Resolving information for `_add_newdocs.py'      vtune: Executing actions 22 % Resolving information for `gen_nn_ops.py'        vtune: Executing actions 22 % Resolving information for `_pywrap_tensorflow_intvtune: Executing actions 23 % Resolving information for `_pywrap_tensorflow_intvtune: Executing actions 23 % Resolving bottom user stack information          vtune: Executing actions 23 % Resolving thread name information                vtune: Executing actions 24 % Resolving thread name information                vtune: Executing actions 24 % Resolving call target names for dynamic code     vtune: Executing actions 25 % Resolving call target names for dynamic code     vtune: Executing actions 25 % Resolving interrupt name information             vtune: Executing actions 26 % Resolving interrupt name information             vtune: Executing actions 26 % Processing profile metrics and debug information vtune: Executing actions 28 % Processing profile metrics and debug information vtune: Executing actions 29 % Processing profile metrics and debug information vtune: Executing actions 30 % Processing profile metrics and debug information vtune: Executing actions 30 % Setting data model parameters                    vtune: Executing actions 30 % Precomputing frequently used data                vtune: Executing actions 30 % Precomputing frequently used data                vtune: Executing actions 31 % Precomputing frequently used data                vtune: Executing actions 33 % Precomputing frequently used data                vtune: Executing actions 34 % Precomputing frequently used data                vtune: Executing actions 36 % Precomputing frequently used data                vtune: Executing actions 36 % Updating precomputed scalar metrics              vtune: Executing actions 37 % Updating precomputed scalar metrics              vtune: Executing actions 37 % Discarding redundant overtime data               vtune: Executing actions 39 % Discarding redundant overtime data               vtune: Executing actions 39 % Saving the result                                vtune: Executing actions 41 % Saving the result                                vtune: Executing actions 42 % Saving the result                                vtune: Executing actions 49 % Saving the result                                vtune: Executing actions 50 % Saving the result                                vtune: Executing actions 50 % Generating a report                              vtune: Executing actions 50 % Setting data model parameters                    vtune: Executing actions 75 % Setting data model parameters                    vtune: Executing actions 75 % Generating a report                              Elapsed Time: 685.337s
+    CPU Time: 9.370s
+        Effective Time: 4.115s
+        Spin Time: 5.255s
+         | A significant portion of CPU time is spent waiting. Use this metric
+         | to discover which synchronizations are spinning. Consider adjusting
+         | spin wait parameters, changing the lock implementation (for example,
+         | by backing off then descheduling), or adjusting the synchronization
+         | granularity.
+         |
+        Overhead Time: 0s
+    Total Thread Count: 64
+    Paused Time: 0s
+
+Top Hotspots
+Function                Module                CPU Time  % of CPU Time(%)
+----------------------  --------------------  --------  ----------------
+__sched_yield           libc.so.6               4.844s             51.7%
+PyCFunction_Call        python3.6               0.529s              5.6%
+memcmp                  libc-dynamic.so         0.480s              5.1%
+memset                  libc-dynamic.so         0.464s              5.0%
+[ld-linux-x86-64.so.2]  ld-linux-x86-64.so.2    0.406s              4.3%
+[Others]                N/A                     2.647s             28.2%
+Collection and Platform Info
+    Application Command Line: python3 "./train.py" "--no_eval" "--ev=profiled" 
+    Operating System: 4.15.0-213-generic DISTRIB_ID=Ubuntu DISTRIB_RELEASE=18.04 DISTRIB_CODENAME=bionic DISTRIB_DESCRIPTION="Ubuntu 18.04.6 LTS"
+    Computer Name: iZbp1j639gfmc9vv60lp4hZ
+    Result Size: 8.2 MB 
+    Collection start time: 03:14:19 23/04/2024 UTC
+    Collection stop time: 03:25:44 23/04/2024 UTC
+    Collector Type: User-mode sampling and tracing
+    CPU
+        Name: Intel(R) Xeon(R) Processor code named Icelake
+        Frequency: 2.700 GHz
+        Logical CPU Count: 64
+        Cache Allocation Technology
+            Level 2 capability: not detected
+            Level 3 capability: not detected
+
+If you want to skip descriptions of detected performance issues in the report,
+enter: vtune -report summary -report-knob show-issues=false -r <my_result_dir>.
+Alternatively, you may view the report in the csv format: vtune -report
+<report_name> -format=csv.
+vtune: Executing actions 100 % Generating a report                             vtune: Executing actions 100 % done                                            
