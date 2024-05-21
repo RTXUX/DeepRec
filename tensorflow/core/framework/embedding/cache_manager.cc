@@ -43,16 +43,12 @@ void CacheManager::RegisterCache(CacheMRCProfiler& cache) {
     prop->min_size = min_size_;
   }
 
-  std::vector<size_t> parts(registry_.size());
-  // RandomApportion(parts, total_size_);
-  size_t size = total_size_ / registry_.size();
-  for (auto& p : parts) {
-    p = size;
-  }
-  size_t i = 0;
-  for (auto& kv : registry_) {
-    kv.second->profiler->SetCacheSize(parts[i++]);
-  }
+  __sync_fetch_and_add(&total_size_, cache.GetCacheSize());
+  
+  LOG(INFO) << "Registering Cache \"" << cache.GetName() << "\": "
+            << "size=" << (double)cache.GetCacheSize() / (1024*1024) << "MB, entry_size=" << cache.GetCacheEntrySize()
+            << ", total_size=" << (double)total_size_ / (1024*1024) << "MB";
+
   if (num_active_threads_ < 1) {
     StartThread();
   }
@@ -276,11 +272,10 @@ CacheManager::CacheManager()
       profiler_nanos(0),
       sampling_active_(true),
       should_tune_(false),
-      access_size_(0) {
+      access_size_(0),
+      total_size_(0) {
   ReadInt64FromEnvVar("CACHE_TUNING_INTERVAL", 100000,
                       reinterpret_cast<int64*>(&tuning_interval_));
-  ReadInt64FromEnvVar("CACHE_TOTAL_SIZE", 32 * 1024 * 1024,
-                      reinterpret_cast<int64*>(&total_size_));
   if (ReadInt64FromEnvVar("CACHE_MIN_SIZE", 0,
                       reinterpret_cast<int64*>(&min_size_)) == Status::OK() && min_size_ != 0) {
     min_size_specified_ = true;
