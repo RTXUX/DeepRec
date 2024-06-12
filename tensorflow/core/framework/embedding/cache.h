@@ -1,6 +1,7 @@
 #ifndef TENSORFLOW_CORE_FRAMEWORK_EMBEDDING_CACHE_H_
 #define TENSORFLOW_CORE_FRAMEWORK_EMBEDDING_CACHE_H_
 #include <algorithm>
+#include <atomic>
 #include <chrono>
 #include <climits>
 #include <cstddef>
@@ -147,7 +148,7 @@ class PrefetchLFUNode : public PrefetchNode<K> {
 template <class K>
 class LRUCache : public BatchCache<K> {
  public:
-  LRUCache(const std::string& name = "") : name_(name) {
+  LRUCache(const std::string& name = "") : name_(name), access_(0) {
     mp.clear();
     head = new LRUNode(0);
     tail = new LRUNode(0);
@@ -174,6 +175,31 @@ class LRUCache : public BatchCache<K> {
     }
     #endif
     base_time = 0;
+  }
+
+  explicit LRUCache(LRUCache<K>&& rhs):
+            name_(std::move(rhs.name_)),
+            access_(rhs.access_.load(std::memory_order_relaxed)),
+            mp(std::move(rhs.mp)),
+            prefetch_id_table(std::move(rhs.prefetch_id_table)),
+            head(rhs.head),
+            tail(rhs.tail),
+            report_interval_(rhs.report_interval_),
+            base_time(rhs.base_time) {
+    rhs.head = nullptr;
+    rhs.tail = nullptr;
+    #if STRICT_LRU
+    evicted_head = rhs.evicted_head;
+    rhs.evicted_head = nullptr;
+    evicted_tail = rhs.evicted_tail;
+    rhs.evicted_tail = nullptr;
+    pending_evict_count = rhs.pending_evict_count;
+    #endif
+    #if DEBUG_DUMP
+    dump_file = std::move(rhs.dump_file);
+    #endif
+    BatchCache<K>::num_hit = rhs.num_hit;
+    BatchCache<K>::num_miss = rhs.num_miss;
   }
 
   size_t size() {
@@ -300,7 +326,7 @@ class LRUCache : public BatchCache<K> {
     #if DEBUG_DUMP
     dump_file.flush();
     #endif
-    if ((access_.fetch_add(1, std::memory_order_relaxed) + 1) % report_interval_ == 0) {
+    if ((access_.fetch_add(1, std::memory_order_relaxed)) % report_interval_ == 0) {
       LOG(INFO) << "cache \"" << name_ << "\" statistics: " << BatchCache<K>::DebugString()  << ", actual size=" << mp.size() << ", time=" << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::nanoseconds(base_time)).count();
     }
     auto end = Clock::now();
@@ -312,7 +338,7 @@ class LRUCache : public BatchCache<K> {
   void update(const K* batch_ids, size_t batch_size, const int64* batch_version,
               const int64* batch_freqs, bool use_locking = true) override {
     // TODO: add to rank accroding to the version of ids
-    update(batch_ids, batch_size);
+    update(batch_ids, batch_size, use_locking);
   }
 
   void add_to_prefetch_list(const K* batch_ids, const size_t batch_size) {

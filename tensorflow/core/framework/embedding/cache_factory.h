@@ -29,6 +29,9 @@ class CacheFactory {
     static BatchCache<K> *
     Create(CacheStrategy cache_strategy, std::string name, int64 capacity, int num_threads, TunableCache *tunable_cache = nullptr) {
       int64 shard_shift;
+      size_t bucket_size;
+      size_t max_reuse_dist;
+      uint64_t sampling_interval;
       switch (cache_strategy) {
         case CacheStrategy::LRU:
           LOG(INFO) << " Use Storage::LRU in multi-tier EmbeddingVariable "
@@ -39,20 +42,21 @@ class CacheFactory {
                     << name;
           return new LFUCache<K>(name);
         case CacheStrategy::ProfiledLRU:
-          LOG(INFO) << " Use Storage::ProfiledLRU in multi-tier EmbeddingVariable "
-                    << name;
-          size_t bucket_size;
-          size_t max_reuse_dist;
-          uint64_t sampling_interval;
-          ReadInt64FromEnvVar("CACHE_PROFILER_BUCKET_SIZE", 10, reinterpret_cast<int64 *>(&bucket_size));
-          ReadInt64FromEnvVar("CACHE_PROFILER_MAX_REUSE_DIST", 100000, reinterpret_cast<int64 *>(&max_reuse_dist));
-          ReadInt64FromEnvVar("CACHE_PROFILER_SAMPLING_INTERVAL", 1, reinterpret_cast<int64 *>(&sampling_interval));
-          ProfiledLRUCache<K> *cache;
-          cache = new ProfiledLRUCache<K>(name, bucket_size, max_reuse_dist, sampling_interval, tunable_cache);
-          if (tunable_cache != nullptr) {
-            CacheManager::GetInstance().RegisterCache(*cache->GetProfiler());
+          {
+            LOG(INFO) << " Use Storage::ProfiledLRU in multi-tier EmbeddingVariable "
+                      << name;
+            
+            ReadInt64FromEnvVar("CACHE_PROFILER_BUCKET_SIZE", 10, reinterpret_cast<int64 *>(&bucket_size));
+            ReadInt64FromEnvVar("CACHE_PROFILER_MAX_REUSE_DIST", 100000, reinterpret_cast<int64 *>(&max_reuse_dist));
+            ReadInt64FromEnvVar("CACHE_PROFILER_SAMPLING_INTERVAL", 1, reinterpret_cast<int64 *>(&sampling_interval));
+            LRUCache<K> lru(name);
+            ProfiledCacheProxy<K, LRUCache<K>> *proxy_cache = new ProfiledCacheProxy<K, LRUCache<K>>(name, bucket_size, max_reuse_dist, sampling_interval, std::move(lru), tunable_cache);
+            if (tunable_cache != nullptr) {
+              CacheManager::GetInstance().RegisterCache(*proxy_cache->GetProfiler());
+            }
+            return proxy_cache;
           }
-          return cache;
+          
         case CacheStrategy::ShardedLRU:
           LOG(INFO) << " Use Storage::ShardedLRU in multi-tier EmbeddingVariable " << name;
           ReadInt64FromEnvVar("CACHE_SHARD_SHIFT", 0, &shard_shift);
