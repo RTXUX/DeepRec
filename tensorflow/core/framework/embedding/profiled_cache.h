@@ -149,27 +149,27 @@ class ProfiledCacheProxy: public Base {
 
    SamplingLRUAETProfiler<K>* GetProfiler() { return &profiler_; }
 
-   void update(const K* batch_ids, size_t batch_size,
-               bool use_locking) override {
-    auto prev_entry_size = entry_size_;
-    if (entry_size_ >= 0xFFFFFFFFL) {
-      entry_size_ = tunable_cache_->GetCacheEntrySize();
-    }
+  //  void update(const K* batch_ids, size_t batch_size,
+  //              bool use_locking) override {
+  //   auto prev_entry_size = entry_size_;
+  //   if (entry_size_ >= 0xFFFFFFFFL) {
+  //     entry_size_ = tunable_cache_->GetCacheEntrySize();
+  //   }
 
-    Base::update(batch_ids, batch_size, use_locking);
-    if (cm_.SamplingActive()) {
-      profiler_.ReferenceKeyBatch(batch_ids, batch_size);
-    }
-    if (entry_size_ < 0xFFFFFFFFL) {
-      const size_t access_size = batch_size * entry_size_;
-      if (prev_entry_size != entry_size_) {
-        cm_.NotifyBatchSize(&profiler_, access_size);
-      }
-      cm_.Access(access_size);
-    } else {
-      LOG(INFO) << "entry_size_ not ready";
-    }
-  }
+  //   Base::update(batch_ids, batch_size, use_locking);
+  //   if (cm_.SamplingActive()) {
+  //     profiler_.ReferenceKeyBatch(batch_ids, batch_size);
+  //   }
+  //   if (entry_size_ < 0xFFFFFFFFL) {
+  //     const size_t access_size = batch_size * entry_size_;
+  //     if (prev_entry_size != entry_size_) {
+  //       cm_.NotifyBatchSize(&profiler_, access_size);
+  //     }
+  //     cm_.Access(access_size);
+  //   } else {
+  //     LOG(INFO) << "entry_size_ not ready";
+  //   }
+  // }
 
   void update(const K* batch_ids, size_t batch_size, const int64* batch_version,
               const int64* batch_freqs, bool use_locking = true) override {
