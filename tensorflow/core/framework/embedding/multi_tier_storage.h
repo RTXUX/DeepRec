@@ -112,9 +112,9 @@ public:
     return total_dim() * sizeof(V);
   }
 
-  void InitCache(embedding::CacheStrategy cache_strategy, int num_threads) override {
+  void InitCache(embedding::CacheStrategy cache_strategy, ProfilingStrategy profiling_strategy, int num_threads) override {
     if (cache_ == nullptr) {
-      cache_ = CacheFactory::Create<K>(cache_strategy, name_, cache_capacity_, num_threads, this);
+      cache_ = CacheFactory::Create<K>(cache_strategy, profiling_strategy, name_, cache_capacity_, num_threads, this);
       if (cache_capacity_ != -1) {
         cache_->set_capacity(cache_capacity_);
       }

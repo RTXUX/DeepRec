@@ -127,6 +127,7 @@ def _create_slot_var(primary, val, scope, validate_shape, shape, dtype, slot_con
             storage_path=primary._storage_path,
             storage_size=primary._storage_size,
             storage_cache_strategy=primary._storage_cache_strategy,
+            storage_profiling_strategy=primary._storage_profiling_strategy,
             layout=primary._layout,
             l2_weight_threshold=primary._l2_weight_threshold,
             filter_strategy=filter_strategy)

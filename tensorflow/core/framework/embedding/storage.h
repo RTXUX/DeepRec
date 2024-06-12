@@ -133,7 +133,7 @@ class Storage {
     return nullptr;
   }
 
-  virtual void InitCache(embedding::CacheStrategy cache_strategy, int num_threads) = 0;
+  virtual void InitCache(embedding::CacheStrategy cache_strategy, embedding::ProfilingStrategy profiling_strategy, int num_threads) = 0;
   virtual int64 CacheSize() const = 0;
   virtual BatchCache<K>* Cache() = 0;
   virtual bool IsMultiLevel() = 0;
@@ -154,6 +154,8 @@ class Storage {
   inline std::string GetStoragePath() { return storage_config_.path; }
   inline embedding::CacheStrategy
       CacheStrategy() { return storage_config_.cache_strategy; }
+  inline embedding::ProfilingStrategy
+      ProfilingStrategy() { return storage_config_.profiling_strategy; }
 
   inline std::string DebugString() const {
     return strings::StrCat("class type: ", typeid(this).name(),

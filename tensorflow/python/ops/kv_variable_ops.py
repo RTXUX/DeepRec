@@ -293,6 +293,7 @@ class EmbeddingVariable(resource_variable_ops.ResourceVariable):
     self._default_value_dim = evconfig.default_value_dim
     self._default_value_no_permission = evconfig.default_value_no_permission
     self._storage_cache_strategy = evconfig.storage_cache_strategy
+    self._storage_profiling_strategy = evconfig.storage_profiling_strategy
     self._layout = evconfig.layout
 
     if self._primary is None:
@@ -429,6 +430,7 @@ class EmbeddingVariable(resource_variable_ops.ResourceVariable):
                 self._set_cache_strategy_op = gen_kv_variable_ops.kv_resource_init_cache_strategy_op(
                   self._handle,
                   cache_strategy=self._storage_cache_strategy,
+                  profiling_strategy=self._storage_profiling_strategy,
                   Tkeys=self._invalid_key_type,
                   dtype=self._dtype
                 )
@@ -485,6 +487,7 @@ class EmbeddingVariable(resource_variable_ops.ResourceVariable):
             set_cache_op = gen_kv_variable_ops.kv_resource_init_cache_strategy_op(
                 self._handle,
                 cache_strategy=self._storage_cache_strategy,
+                profiling_strategy=self._storage_profiling_strategy,
                 Tkeys=self._invalid_key_type,
                 dtype=self._dtype)
           set_attr_ops.append(set_cache_op)
@@ -613,8 +616,10 @@ class EmbeddingVariable(resource_variable_ops.ResourceVariable):
     self._record_freq = init_op.get_attr("record_freq")
     self._record_version = init_op.get_attr("record_version")
     self._storage_cache_strategy = config_pb2.CacheStrategy.LFU
+    self._storage_profiling_strategy = config_pb2.ProfilingStrategy.NONE
     if cache_op:
       self._storage_cache_strategy = cache_op.get_attr("cache_strategy")
+      self._storage_profiling_strategy = cache_op.get_attr("profiling_strategy")
     if self._slot_index == 0 and self._emb_index == 0:
       self._is_primary = True
     else:

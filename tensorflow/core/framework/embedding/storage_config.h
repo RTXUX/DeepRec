@@ -30,16 +30,19 @@ struct StorageConfig {
                 const std::string& p,
                 const std::vector<int64>& s,
                 const EmbeddingConfig& ec,
-                const CacheStrategy cache_strategy_ = CacheStrategy::LFU)
+                const CacheStrategy cache_strategy_ = CacheStrategy::LFU,
+                const ProfilingStrategy profiling_strategy_ = ProfilingStrategy::NONE)
       : type(t),
         path(p),
         size(s),
         embedding_config(ec),
-        cache_strategy(cache_strategy_) {}
+        cache_strategy(cache_strategy_),
+        profiling_strategy(profiling_strategy_) {}
   StorageType type;
   std::string path;
   std::vector<int64> size;
   CacheStrategy cache_strategy;
+  ProfilingStrategy profiling_strategy;
   EmbeddingConfig embedding_config;
 };
 } // namespace embedding

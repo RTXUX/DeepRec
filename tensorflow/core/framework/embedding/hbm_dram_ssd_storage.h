@@ -134,8 +134,8 @@ class HbmDramSsdStorage : public MultiTierStorage<K, V> {
     LOG(FATAL)<<"Stroage with HBM only suppotrs batch APIs.";
   }
 
-  void InitCache(embedding::CacheStrategy cache_strategy) override {
-    MultiTierStorage<K, V>::InitCache(cache_strategy);
+  void InitCache(embedding::CacheStrategy cache_strategy, embedding::ProfilingStrategy profiling_strategy) override {
+    MultiTierStorage<K, V>::InitCache(cache_strategy, profiling_strategy);
     dram_cache_ = new LRUCache<K>();
   }
 

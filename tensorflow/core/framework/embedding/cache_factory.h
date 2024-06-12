@@ -15,98 +15,99 @@ limitations under the License.
 #ifndef TENSORFLOW_CORE_FRAMEWORK_EMBEDDING_CACHE_FACTORY_H_
 #define TENSORFLOW_CORE_FRAMEWORK_EMBEDDING_CACHE_FACTORY_H_
 
+#include <string>
 #include "cache.h"
 #include "tensorflow/core/framework/embedding/cache_manager.h"
+#include "tensorflow/core/framework/embedding/cache_profiler.h"
 #include "tensorflow/core/framework/embedding/profiled_cache.h"
 #include "tensorflow/core/framework/embedding/config.pb.h"
 #include "tensorflow/core/util/env_var.h"
 
 namespace tensorflow {
 namespace embedding {
+
+template<typename K, typename C>
+class Creator {
+  public:
+    [[noreturn]] static C Create(const std::string& name, int64 capacity, int num_threads, int way) {
+      LOG(FATAL) << "Not implemented: " << typeid(Create).name();
+    }
+};
+
+template<typename K>
+class Creator<K, LRUCache<K>> {
+  public:
+    static LRUCache<K> Create(const std::string& name, int64 capacity, int num_threads, int way) {
+      return { name };
+    }
+};
+
+template<typename K>
+class Creator<K, LFUCache<K>> {
+  public:
+    static LFUCache<K> Create(const std::string& name, int64 capacity, int num_threads, int way) {
+      return { name };
+    }
+};
+
+template<typename K>
+class Creator<K, BlockLockLFUCache<K>> {
+  public:
+    static BlockLockLFUCache<K> Create(const std::string& name, int64 capacity, int num_threads, int way) {
+      return { capacity, way, num_threads };
+    }
+};
 class CacheFactory {
  public:
     template<typename K>
     static BatchCache<K> *
-    Create(CacheStrategy cache_strategy, std::string name, int64 capacity, int num_threads, TunableCache *tunable_cache = nullptr) {
-      int64 shard_shift;
-      size_t bucket_size;
-      size_t max_reuse_dist;
-      uint64_t sampling_interval;
+    Create(CacheStrategy cache_strategy, ProfilingStrategy profiling_strategy, std::string name, int64 capacity, int num_threads, TunableCache *tunable_cache = nullptr) {
       switch (cache_strategy) {
         case CacheStrategy::LRU:
           LOG(INFO) << " Use Storage::LRU in multi-tier EmbeddingVariable "
                     << name;
-          return new LRUCache<K>(name);
+          return CreateCache<K, LRUCache<K>>(profiling_strategy, name, capacity, num_threads, 0, tunable_cache);
         case CacheStrategy::LFU:
           LOG(INFO) << " Use Storage::LFU in multi-tier EmbeddingVariable "
                     << name;
-          return new LFUCache<K>(name);
-        case CacheStrategy::ProfiledLRU:
-          {
-            LOG(INFO) << " Use Storage::ProfiledLRU in multi-tier EmbeddingVariable "
-                      << name;
-            
-            ReadInt64FromEnvVar("CACHE_PROFILER_BUCKET_SIZE", 10, reinterpret_cast<int64 *>(&bucket_size));
-            ReadInt64FromEnvVar("CACHE_PROFILER_MAX_REUSE_DIST", 100000, reinterpret_cast<int64 *>(&max_reuse_dist));
-            ReadInt64FromEnvVar("CACHE_PROFILER_SAMPLING_INTERVAL", 1, reinterpret_cast<int64 *>(&sampling_interval));
-            LRUCache<K> lru(name);
-            ProfiledCacheProxy<K, LRUCache<K>> *proxy_cache = new ProfiledCacheProxy<K, LRUCache<K>>(name, bucket_size, max_reuse_dist, sampling_interval, std::move(lru), tunable_cache);
-            if (tunable_cache != nullptr) {
-              CacheManager::GetInstance().RegisterCache(*proxy_cache->GetProfiler());
-            }
-            return proxy_cache;
-          }
-          
-        case CacheStrategy::ShardedLRU:
-          LOG(INFO) << " Use Storage::ShardedLRU in multi-tier EmbeddingVariable " << name;
-          ReadInt64FromEnvVar("CACHE_SHARD_SHIFT", 0, &shard_shift);
-          return new ShardedLRUCache<K>(name, shard_shift);
-        case CacheStrategy::ProfiledShardedLRU:
-          LOG(INFO) << " Use Storage::ProfiledShardedLRU in multi-tier EmbeddingVariable " << name;
-          ReadInt64FromEnvVar("CACHE_SHARD_SHIFT", 0, &shard_shift);
-          ReadInt64FromEnvVar("CACHE_PROFILER_BUCKET_SIZE", 10, reinterpret_cast<int64 *>(&bucket_size));
-          ReadInt64FromEnvVar("CACHE_PROFILER_MAX_REUSE_DIST", 100000, reinterpret_cast<int64 *>(&max_reuse_dist));
-          ReadInt64FromEnvVar("CACHE_PROFILER_SAMPLING_INTERVAL", 1, reinterpret_cast<int64 *>(&sampling_interval));
-          ProfiledShardedLRUCache<K> *pscache;
-          pscache = new ProfiledShardedLRUCache<K>(name, bucket_size, max_reuse_dist, sampling_interval, shard_shift, tunable_cache);
-          if (tunable_cache != nullptr) {
-            CacheManager::GetInstance().RegisterCache(*pscache->GetProfiler());
-          }
-          return pscache;
+          return CreateCache<K, LFUCache<K>>(profiling_strategy, name, capacity, num_threads, 0, tunable_cache);
         case CacheStrategy::B64LFU:
-          return new BlockLockLFUCache<K>(capacity, 64, num_threads);
-        case CacheStrategy::ProfiledB64LFU: {
-          ReadInt64FromEnvVar("CACHE_PROFILER_BUCKET_SIZE", 10, reinterpret_cast<int64 *>(&bucket_size));
-          ReadInt64FromEnvVar("CACHE_PROFILER_MAX_REUSE_DIST", 100000, reinterpret_cast<int64 *>(&max_reuse_dist));
-          ReadInt64FromEnvVar("CACHE_PROFILER_SAMPLING_INTERVAL", 1, reinterpret_cast<int64 *>(&sampling_interval));
-          BlockLockLFUCache<K> b64lfu_cache(capacity, 64, num_threads);
-          ProfiledCacheProxy<K, BlockLockLFUCache<K>> *pb64lfu_cache = new ProfiledCacheProxy<K, BlockLockLFUCache<K>>(name, bucket_size, max_reuse_dist, sampling_interval, std::move(b64lfu_cache), tunable_cache);
-          if (tunable_cache != nullptr) {
-            CacheManager::GetInstance().RegisterCache(*pb64lfu_cache->GetProfiler());
-          }
-          return pb64lfu_cache;
-        }
+          return CreateCache<K, BlockLockLFUCache<K>>(profiling_strategy, name, capacity, num_threads, 64, tunable_cache);
         case CacheStrategy::B8LFU:
-          return new BlockLockLFUCache<K>(capacity, 8, num_threads);
-        case CacheStrategy::ProfiledB8LFU: {
-          ReadInt64FromEnvVar("CACHE_PROFILER_BUCKET_SIZE", 10, reinterpret_cast<int64 *>(&bucket_size));
-          ReadInt64FromEnvVar("CACHE_PROFILER_MAX_REUSE_DIST", 100000, reinterpret_cast<int64 *>(&max_reuse_dist));
-          ReadInt64FromEnvVar("CACHE_PROFILER_SAMPLING_INTERVAL", 1, reinterpret_cast<int64 *>(&sampling_interval));
-          BlockLockLFUCache<K> b8lfu_cache(capacity, 8, num_threads);
-          ProfiledCacheProxy<K, BlockLockLFUCache<K>> *pb8lfu_cache = new ProfiledCacheProxy<K, BlockLockLFUCache<K>>(name, bucket_size, max_reuse_dist, sampling_interval, std::move(b8lfu_cache), tunable_cache);
-          if (tunable_cache != nullptr) {
-            CacheManager::GetInstance().RegisterCache(*pb8lfu_cache->GetProfiler());
-          }
-          return pb8lfu_cache;
-        }
+          return CreateCache<K, BlockLockLFUCache<K>>(profiling_strategy, name, capacity, num_threads, 8, tunable_cache);
         default:
-          LOG(INFO) << " Invalid Cache strategy, \
-                       use LFU in multi-tier EmbeddingVariable "
-                    << name;
-          return new LFUCache<K>(name);
+          LOG(FATAL) << " Invalid Cache strategy";
+          return nullptr;
       }
   }
+
+  template<typename K, typename Base>
+  static Base*
+  CreateCache(const ProfilingStrategy profiling_strategy, const std::string& name, int64 capacity, int num_threads, int way, TunableCache *tunable_cache = nullptr) {
+    switch (profiling_strategy) {
+      case ProfilingStrategy::NONE:
+        return new Base(std::move(Creator<K, Base>::Create(name, capacity, num_threads, way)));
+      case ProfilingStrategy::AET: {
+        size_t bucket_size;
+        size_t max_reuse_dist;
+        uint64_t sampling_interval;
+        ReadInt64FromEnvVar("CACHE_PROFILER_BUCKET_SIZE", 10, reinterpret_cast<int64 *>(&bucket_size));
+        ReadInt64FromEnvVar("CACHE_PROFILER_MAX_REUSE_DIST", 100000, reinterpret_cast<int64 *>(&max_reuse_dist));
+        ReadInt64FromEnvVar("CACHE_PROFILER_SAMPLING_INTERVAL", 1, reinterpret_cast<int64 *>(&sampling_interval));
+        ProfiledCacheProxy<K, Base> *proxy_cache = new ProfiledCacheProxy<K, Base>(name, bucket_size, max_reuse_dist, sampling_interval, std::move(Creator<K, Base>::Create(name, capacity, num_threads, way)), tunable_cache);
+        if (tunable_cache != nullptr) {
+          CacheManager::GetInstance().RegisterCache(*proxy_cache->GetProfiler());
+        }
+        return proxy_cache;
+      }
+    }
+  }
+
+  
 };
+
+
+
 } // embedding
 } // tensorflow
 

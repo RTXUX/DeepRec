@@ -693,6 +693,7 @@ class LFUCache : public BatchCache<K> {
     BatchCache<K>::num_hit = 0;
     BatchCache<K>::num_miss = 0;
     ReadInt64FromEnvVar("CACHE_REPORT_INTERVAL", 10000, &report_interval_);
+    access_ = 0;
   }
 
   size_t size() {
@@ -785,7 +786,7 @@ class LFUCache : public BatchCache<K> {
         BatchCache<K>::num_hit++;
       }
     }
-    if ((access_.fetch_add(1, std::memory_order_relaxed) + 1) %
+    if ((__sync_fetch_and_add(&access_, 1) + 1) %
             report_interval_ ==
         0) {
       LOG(INFO) << "cache \"" << name_
@@ -847,7 +848,7 @@ class LFUCache : public BatchCache<K> {
         BatchCache<K>::num_hit++;
       }
     }
-    if ((access_.fetch_add(1, std::memory_order_relaxed) + 1) %
+    if ((__sync_fetch_and_add(&access_, 1) + 1) %
             report_interval_ ==
         0) {
       LOG(INFO) << "cache \"" << name_
@@ -959,7 +960,7 @@ class LFUCache : public BatchCache<K> {
   std::unordered_map<K, PrefetchLFUNode<K>*> prefetch_id_table;
   mutex mu_;
 
-  std::atomic<int64> access_;
+  int64 access_;
   int64 report_interval_;
 
   std::string name_;

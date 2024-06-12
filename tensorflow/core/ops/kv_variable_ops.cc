@@ -232,6 +232,7 @@ initialized.
 REGISTER_OP("KvResourceInitCacheStrategyOp")
     .Input("resource: resource")
     .Attr("cache_strategy: int = 1")
+    .Attr("profiling_strategy: int = 0")
     .Attr("Tkeys: {int64, int32}")
     .Attr("dtype: {float32, double}")
     .SetShapeFn([](InferenceContext* c){return Status::OK();});

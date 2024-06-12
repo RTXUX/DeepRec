@@ -523,6 +523,7 @@ class KvResourceInitCacheStrategyOp : public OpKernel {
  public:
   explicit KvResourceInitCacheStrategyOp(OpKernelConstruction* c) : OpKernel(c) {
     OP_REQUIRES_OK(c, c->GetAttr("cache_strategy", &cache_strategy_));
+    OP_REQUIRES_OK(c, c->GetAttr("profiling_strategy", &profiling_strategy_));
   }
 
   void Compute(OpKernelContext* ctx) override {
@@ -530,11 +531,12 @@ class KvResourceInitCacheStrategyOp : public OpKernel {
     OP_REQUIRES_OK(ctx, LookupResource(ctx, HandleFromInput(ctx, 0), &ev));
     core::ScopedUnref unref_me(ev);
     auto worker_threads = *(ctx->device()->tensorflow_cpu_worker_threads());
-    ev->InitCache(static_cast<embedding::CacheStrategy>(cache_strategy_), worker_threads.num_threads);
+    ev->InitCache(static_cast<embedding::CacheStrategy>(cache_strategy_), static_cast<embedding::ProfilingStrategy>(profiling_strategy_), worker_threads.num_threads);
   }
 
  private:
   int cache_strategy_;
+  int profiling_strategy_;
 };
 
 #define REGISTER_KERNELS(dev, ktype, vtype)                        \
