@@ -127,6 +127,12 @@ void CacheManager::DoTune(size_t total_size,
     }
     sampling_active_.store(false, std::memory_order_release);
     LOG(INFO) << "Stopped sampling";
+    // for (auto& kv: items) {
+    //   LOG(INFO) << "Evicting all items from \"" << kv.first->GetName() << "\"";
+    //   kv.first->EvictAll();
+    //   LOG(INFO) << "Evicted all items from \"" << kv.first->GetName() << "\"";
+    // }
+
     return;
   } else {
     notune_counter_++;
@@ -139,6 +145,8 @@ void CacheManager::DoTune(size_t total_size,
     }
     LOG(INFO) << notune_counter_ << "continuous tuning did not succeed, stop sampling!";
   }
+
+  
 
   LOG(INFO) << "Tuning Done";
 }
@@ -186,7 +194,9 @@ void CacheManager::TuneLoop() {
       for (auto &kv : registry2_) {
         CacheStat& stat = kv.second->stat;
         std::pair<uint64, uint64> move_count = kv.first->GetMoveCount();
-        kv.first->ResetMoveCount();
+        if (SamplingActive()) {
+          kv.first->ResetMoveCount();
+        }
         uint64 promotions = move_count.first, demotions = move_count.second;
         LOG(INFO) << "\"" << kv.first->GetName() << "\" promotions: " << promotions << ", demotions:" << demotions;
         uint64 prev_promotions = stat.prev_promotion, prev_demotions = stat.prev_demotion;

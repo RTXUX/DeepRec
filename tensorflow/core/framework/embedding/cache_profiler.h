@@ -38,6 +38,8 @@ class TunableCache {
   virtual std::pair<uint64, uint64> GetMoveCount() const = 0;
 
   virtual void ResetMoveCount() = 0;
+
+  virtual void EvictAll() = 0;
 };
 
 template <typename K>
@@ -93,6 +95,11 @@ class SamplingLRUAETProfiler : public virtual CacheMRCProfilerFeeder<K>,
     #if DEBUG_DUMP
     dumped.store(0, std::memory_order_relaxed);
     #endif
+  }
+
+  void EvictAll() override {
+    if (tunable_cache_)
+      tunable_cache_->EvictAll();
   }
 
   void ReferenceKey(const K& key) override {
